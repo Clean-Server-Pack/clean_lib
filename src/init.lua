@@ -1,13 +1,32 @@
+local debug_getinfo = debug.getinfo
+
 noop = function() 
 
 end 
 
+
+
 lib = setmetatable({
   name = 'dirk_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
+
+  settings = {
+    framework = 'qb-core',
+    inventory = 'ox_inventory',
+    target    = 'ox_target',
+  
+    primaryColor   = 'clean',
+    secondaryColor = 'clean',
+    logo           = 'https://via.placeholder.com/150' 
+  },
+
 }, {
   __newindex = function(self,key,fn)
     rawset(self,key,fn)
+
+    if debug_getinfo(2, 'S').short_src:find('@dirk_lib/src') then
+      exports(key, fn)
+    end
   end,
 
   __index = function(self,key)
@@ -38,3 +57,4 @@ cache = {
   resource = GetCurrentResourceName(), 
   game     = GetGameName(),
 }
+

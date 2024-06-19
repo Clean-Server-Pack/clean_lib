@@ -12,15 +12,18 @@ dependencies {
     '/onesync',
 }
 
+ui_page 'web/build/index.html'
+
 files {
   'init.lua',
-  'src/settings.lua',
   'modules/**/client.lua',
   'modules/**/server.lua',
   'modules/**/shared.lua',
 
 
   --\\ NUI WHEN ADDED \\--
+  'web/build/index.html',
+  'web/build/**/*',
 }
 
 shared_script 'src/init.lua'
@@ -30,8 +33,8 @@ shared_scripts {
 }
 
 client_scripts {
-    'src/**/client.lua',
-    'src/**/client/*.lua'
+  'src/**/client.lua',
+  'src/**/client/*.lua'
 }
 
 server_scripts {

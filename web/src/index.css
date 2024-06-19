@@ -1,0 +1,26 @@
+html {
+  color-scheme: normal !important;
+}
+
+body {
+  margin: 0;
+  background: none !important;
+  overflow: hidden !important;
+  font-family: 'Akshar', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+}
+
+#root {
+  background: none !important;
+  overflow-y: hidden !important;
+  height: 100%
+}
+
+code {
+
+  overflow: hidden;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}

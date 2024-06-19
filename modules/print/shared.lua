@@ -26,6 +26,7 @@ lib.addPrintType = function(_type, prefix, condition)
 end
 
 
+
 local convert_to_string = function(...)
   local args = {...}
   local string = ''
