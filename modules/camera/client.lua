@@ -1,11 +1,11 @@
 camera = {
-  current = false, 
+  current = false,
   new = function(data)
     camera.fade_time = data.fadeTime or 250
     camera.current = CreateCam('DEFAULT_SCRIPTED_CAMERA', true)
     SetCamCoord(camera.current, data.pos.x, data.pos.y, data.pos.z)
     SetCamRot(camera.current, data.rot.x, data.rot.y, data.rot.z)
-  end, 
+  end,
 
   view = function(data)
     if not camera.current then return end
@@ -15,7 +15,7 @@ camera = {
     RenderScriptCams(true, false, 0, true, true)
     DoScreenFadeIn(1000)
     Wait(1000)
-    return true 
+    return true
   end,
 
   exit = function(data)
@@ -28,7 +28,7 @@ camera = {
     camera.current = false
     DoScreenFadeIn(camera.fade_time)
     Wait(camera.fade_time)
-    return true 
+    return true
   end,
 
 
@@ -46,12 +46,11 @@ lib.camera = {
     PointCamAtEntity(camera.current, entity, data.offset.x, data.offset.y, data.offset.z, true)
 
     camera.view(data)
-  end, 
+  end,
 
   focusHead = function(entity, data)
     camera.exit()
     local forward_pos = GetOffsetFromEntityInWorldCoords(entity, 0.0, 1.0, 1.0)
-    local head_bone = GetEntityBoneIndexByName(entity, 'SKEL_Head')
     local head_pos = GetPedBoneCoords(entity, 31086, 0.0, 0.0, 0.0)
     camera.new({
       pos = vector3(forward_pos.x, forward_pos.y, head_pos.z),
@@ -68,7 +67,7 @@ lib.camera = {
     camera.exit()
     camera.new(data)
     camera.view(data)
-  end, 
+  end,
 
   exit = function()
     camera.exit()
