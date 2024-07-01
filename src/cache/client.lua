@@ -43,6 +43,7 @@ CreateThread(function()
     end
 
     local _, weapon = GetCurrentPedWeapon(ped)
+    if not weapon then weapon = false end
     cache:set('weapon', weapon)
 
     Wait(wait_time)
