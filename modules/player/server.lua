@@ -47,19 +47,17 @@ lib.player = {
     end
   end,
 
-  checkOnline = function(identifier, type)
-    if not type then type = 'source'; end
+  checkOnline = function(identifier)
     assert(type(identifier) == 'string' or type(identifier) == 'number', 'Identifier must be a string or number')
-    if type == 'source' then
-      return lib.player.get(identifier) and true or false
-    elseif type == 'identifier' then
-      local plys = GetPlayers()
-      for _, ply in ipairs(plys) do
-        local other_ply = lib.player.get(ply)
-        if other_ply then
-          if identifier == lib.player.identifier(ply) then
-            return true
-          end
+    if type(identifier) == 'number' then
+      return GetPlayerByServerId(identifier) ~= 0
+    end
+    local plys = GetPlayers()
+    for _, ply in ipairs(plys) do
+      local other_ply = lib.player.get(ply)
+      if other_ply then
+        if identifier == lib.player.identifier(ply) then
+          return true
         end
       end
     end
