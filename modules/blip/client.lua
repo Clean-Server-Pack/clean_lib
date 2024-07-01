@@ -43,10 +43,10 @@ end
 function blip:render()
   if self.blip then return end
   if not self:canRender() then return end
-  local blip 
-  if self.area then 
+  local blip
+  if self.area then
     blip = AddBlipForArea(self.pos.x, self.pos.y, self.pos.z, self.area.width, self.area.height)
-  else 
+  else
     blip = AddBlipForCoord(self.pos.x, self.pos.y, self.pos.z)
   end
   SetBlipSprite(blip, self.sprite or 1)
@@ -58,16 +58,16 @@ function blip:render()
   SetBlipAlpha(blip, self.alpha or 255)
   SetBlipRotation(blip, self.rotation or 0)
 
-  if self.route then 
+  if self.route then
     SetBlipRoute(blip, self.route or true)
   end
 
   BeginTextCommandSetBlipName("STRING")
   AddTextComponentString(self.name or 'Blip')
   EndTextCommandSetBlipName(blip)
-  
+
   self.blip = blip
-end 
+end
 
 function blip:hide()
   if not self.blip then return end
@@ -77,20 +77,20 @@ end
 
 
 CreateThread(function()
-  while true do 
+  while true do
     local wait_time = 1000
-    for k,v in pairs(blip) do 
-      if type(v) == 'table' and v.id then 
-        if v.canSee then 
-          if v:canRender() then 
+    for k,v in pairs(blip) do
+      if type(v) == 'table' and v.id then
+        if v.canSee then
+          if v:canRender() then
             v:render()
-          else 
+          else
             v:hide()
-          end 
+          end
         end
       end
     end
-    
+
 
     Wait(wait_time)
   end
@@ -104,7 +104,7 @@ lib.blip = {
     return blip.new(id, data)
   end,
 
-  delete = function(id)
+  destroy = function(id)
     return blip.delete(id)
   end,
 
