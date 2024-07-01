@@ -21,6 +21,17 @@ blip.delete = function(id)
   blip[id] = nil
 end
 
+blip.update = function(id, data)
+  local blip = blip[id]
+  if blip then
+    for k,v in pairs(data) do 
+      blip[k] = v
+    end
+    blip:hide()
+    blip:render()
+  end
+end
+
 
 function blip:__init()
   assert(self.pos, 'blip must have a position')
@@ -111,6 +122,10 @@ lib.blip = {
   get = function(id)
     return blip.get(id)
   end,
+
+  update = function(id, data)
+    return blip.update(id, data)
+  end
 }
 
 return lib.blip

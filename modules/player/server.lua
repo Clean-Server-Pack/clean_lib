@@ -10,6 +10,8 @@ lib.player = {
 
   identifier = function(src)
     local player = lib.player.get(src)
+    assert(player, 'Player does not exist')
+
     if settings.framework == 'qb-core' then 
       return ply.PlayerData.citizenid
     elseif settings.framework == 'es_extended' then 

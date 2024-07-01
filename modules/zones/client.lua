@@ -36,7 +36,8 @@ function zone:__init()
 
   if self.type == 'poly' then 
     assert(self.points, 'poly zone must have points')
-    self.polygon =  true--' glm ' 
+    self.polygon = glm.polygon.new(self.points)
+    self.height = self.height or 5.0
     self.center_pos = lib.zones.getCenter(self.points)
   end
 
@@ -68,7 +69,7 @@ function zone:is_inside(data)
   elseif self.type == 'circle' then
     return dist <= self.radius
   elseif self.type == 'poly' then
-    return self.polygon:is_inside(pos)
+    return self.polygon:contains(current_pos.xyz, self.height)
   elseif self.type == 'game_zone' then 
     return self.game_zone == GetNameOfZone(pos.x, pos.y, pos.z)
   elseif self.type == 'box' then 

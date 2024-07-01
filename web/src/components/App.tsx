@@ -4,6 +4,7 @@ import "./App.css";
 import Menu from './Menu/main';
 import { BackgroundImage } from '@mantine/core';
 import Quiz from './Quiz/main';
+import Notification from './Notify/main';
 
 const App: React.FC = () => {
   return (
@@ -12,6 +13,7 @@ const App: React.FC = () => {
     //   src="https://i.ytimg.com/vi/TOxuNbXrO28/maxresdefault.jpg"
     // > 
     <>
+      <Notification />
       <Menu />
       <Quiz />
     </>

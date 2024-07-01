@@ -24,7 +24,7 @@ function object:__init()
   assert(self.type, 'object must have a specified type : ped, vehicle, object')
   assert(self.model, 'object must have a model')
   assert(self.pos, 'object must have a position')
-  assert(self.renderDist, 'object must have a render distance')
+  self.renderDist = self.renderDist or 50.0
 
   local stock_funcs = {
     onEnter = function()
@@ -131,7 +131,12 @@ lib.objects = {
   delete = function(id)
     return object.delete(id)
   end
+
+  destroy = function(id)
+    return object.delete(id)
+  end
 }
 
 
 return lib.objects
+
