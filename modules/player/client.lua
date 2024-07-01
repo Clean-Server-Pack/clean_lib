@@ -2,11 +2,17 @@
 local settings = lib.settings
 
 local job = {}
+local isLoaded = false
 
-
-if settings.framework == 'qb-core' then 
+if settings.framework == 'qb-core' then
   AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+    isLoaded = true
     lib.player.emit('playerLoaded')
+  end)
+
+  AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+    isLoaded = false
+    lib.player.emit('playerLogout')
   end)
 
   AddEventHandler('QBCore:Client:JobUpdate', function(job)
@@ -14,19 +20,25 @@ if settings.framework == 'qb-core' then
     job.name = job.name
   end)
 
-elseif settings.framework == 'es_extended' then 
+elseif settings.framework == 'es_extended' then
 
 end
 
-
-
+local onEventCallbacks = {
+  ["playerLoaded"] = function(func)
+    func(isLoaded)
+  end,
+  ["playerLogout"] = function(func)
+    func(isLoaded)
+  end,
+}
 
 lib.player = {
 
-  job    = job, 
+  job    = job,
 
   loaded = function()
-    return true  
+    return isLoaded
   end,
 
   emit = function(_type, data)
@@ -36,13 +48,15 @@ lib.player = {
 
   on = function(_type, func)
     assert(_type, 'type must be a string')
-    assert(type(func) == 'function', 'function must be a function') 
+    assert(type(func) == 'function', 'function must be a function')
     AddEventHandler(('dirk_lib:player:%s'):format(_type), func)
 
-    if _type == 'playerLoaded' then 
-      if lib.player.loaded() then 
-        func()
-      end
+    local callback = onEventCallbacks[_type]
+
+    if callback then
+      callback(func)
+    else
+      lib.print("debug", string.format('No callback for : %s', _type))
     end
   end,
 }
