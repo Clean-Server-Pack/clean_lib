@@ -1,15 +1,15 @@
 local interact = {}
 interact.__index = interact
 
-local supported_zoneTypes = {
-  poly = true,
+local supported_zone_types = {
+  poly = true, 
   circle = true,
   circle2D = true,
-  box    = true,
+  box    = true, 
 }
 
 local support_types = {
-  marker = true,
+  marker = true, 
   text   = true
 }
 
@@ -32,19 +32,19 @@ end
 
 function interact:init()
   assert(self.type, 'interact must have a specified type : marker, text')
-  assert(self.zoneType, 'interact must have a specified type : circle, circle2D, poly, box')
-  assert(supported_zoneTypes[self.zoneType], 'unsupported interact type')
+  assert(self.zone_type, 'interact must have a specified type : circle, circle2D, poly, box')
+  assert(supported_zone_types[self.zone_type], 'unsupported interact type')
 
   lib.zones.register(self.id, {
-    type    = self.zoneType,
-    pos     = self.pos,
+    type    = self.zone_type,
+    pos     = self.pos, 
     radius  = self.radius,
     polygon = self.polygon,
-    size    = self.size,
+    size    = self.size,  
 
     onEnter = function(data)
       self.displaying = true
-      if self.onShow then
+      if self.onShow then 
         self.onShow(data)
       end
     end,
@@ -52,7 +52,7 @@ function interact:init()
     onExit = function(data)
       self.displaying = false
 
-      if self.onHide then
+      if self.onHide then 
         self.onHide(data)
       end
     end
@@ -62,28 +62,28 @@ end
 function interact:draw()
   if not self.displaying then return end
 
-  if self.type == 'marker' then
+  if self.type == 'marker' then 
 
 
 
-  elseif self.type == 'text' then
+  elseif self.type == 'text' then 
     print('draw text')
-
+  
   end
 
 
-  return true
+  return true 
 end
 
-local type = type
+local type = type 
 CreateThread(function()
-  while true do
-    local wait_time = 1000
-    for k,v in pairs(interact) do
-      if type(v) == 'table' and v.id and v.displaying then
-        if v.whileDisplay then
+  while true do 
+    local wait_time = 1000 
+    for k,v in pairs(interact) do 
+      if type(v) == 'table' and v.id and v.displaying then 
+        if v.whileDisplay then 
           v.whileDisplay()
-          wait_time = 0
+          wait_time = 0 
         end
 
         local drawing = v:draw()
@@ -112,23 +112,23 @@ return lib.interact
 
 
 --[[
-  Usage
+  Usage 
 
 
   lib.interact.register('test', {
 
 
-    -- zoneType = 'circle',
+    -- zone_type = 'circle',
     pos       = vector4(0,0,0,0),
     radius    = 10,
 
-    -- zoneType = 'poly',
+    -- zone_type = 'poly',
     -- polygon = {
       vector3(0,0,0),
       vector3(0,0,0),
     },
 
-    -- zoneType = 'box',
+    -- zone_type = 'box',
     -- size = vector3(1,1,1),
 
     -- type = 'marker',
@@ -150,3 +150,5 @@ return lib.interact
   })
 
 ]]
+
+
