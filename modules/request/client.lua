@@ -1,30 +1,38 @@
+local defaultTimeout = 20000
+
 lib.request = {
   model = function(model, timeout)
-    if type(model) == 'table' then 
-      for i, v in ipairs(model) do 
-        if not lib.request.model(v, timeout) then 
+    assert(model, 'a model is required')
+    assert(type(model) == 'string' or type(model) == 'number' or type(model) == 'table', 'model must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(model) == 'table' then
+      for i, v in ipairs(model) do
+        if not lib.request.model(v, timeout) then
           return false
         end
       end
       return true
     end
-  
+
     local model = joaat(model)
     local start_time = GetGameTimer()
     while not HasModelLoaded(model) do
       RequestModel(model)
       if GetGameTimer() - start_time > timeout then
         return false
-      end 
+      end
       Wait(0)
     end
     return true
   end,
 
   streamedTextureDict = function(txd, timeout)
-    if type(txd) == 'table' then 
-      for i, v in ipairs(txd) do 
-        if not lib.request.streamedTextureDict(v, timeout) then 
+    assert(txd, 'a streamed texture dict is required')
+    assert(type(txd) == 'string' or type(txd) == 'table', 'txd must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(txd) == 'table' then
+      for i, v in ipairs(txd) do
+        if not lib.request.streamedTextureDict(v, timeout) then
           return false
         end
       end
@@ -36,7 +44,7 @@ lib.request = {
       RequestStreamedTextureDict(txd)
       if GetGameTimer() - start_time > timeout then
         return false
-      end 
+      end
       Wait(0)
     end
 
@@ -49,7 +57,7 @@ return lib.request
 
 
 
---\\ Useage 
+--\\ Useage
 
 
 -- lib.requestModel('a', 1000) -- returns true or false

@@ -3,13 +3,13 @@ cache.playerId = PlayerId()
 cache.serverId = GetPlayerServerId(cache.playerId)
 
 function cache:set(key,value)
-  if value ~= self[key] then 
+  if value ~= self[key] then
     print('Setting ', key, value, self[key])
     TriggerEvent(('dirk_lib:cache:%s'):format(key), value, self[key])
     self[key] = value
     return true
   end
-  return false 
+  return false
 end
 
 local GetVehiclePedIsIn = GetVehiclePedIsIn
@@ -19,27 +19,32 @@ local GetCurrentPedWeapon = GetCurrentPedWeapon
 
 
 CreateThread(function()
-  while true do 
-    local wait_time = 100 
+  while true do
+    local wait_time = 100
     local ped = PlayerPedId()
     cache:set('ped', ped)
 
     local vehicle = GetVehiclePedIsIn(ped, false)
-    if vehicle > 0 then 
+    if vehicle > 0 then
       cache:set('vehicle', vehicle)
-      if not cache.seat or GetPedInVehicleSeat(vehicle, cache.seat) ~= ped then 
+      if not cache.seat or GetPedInVehicleSeat(vehicle, cache.seat) ~= ped then
         local max_seats = GetVehicleMaxNumberOfPassengers(vehicle)
-        for i = -1, max_seats do 
-          if GetPedInVehicleSeat(vehicle, i) == ped then 
+        for i = -1, max_seats do
+          if GetPedInVehicleSeat(vehicle, i) == ped then
             cache:set('seat', i)
+            cache:set('driver', i == -1)
             break
           end
         end
       end
-    else 
+    else
       cache:set('vehicle', false)
       cache:set('seat', false)
     end
+
+    local _, weapon = GetCurrentPedWeapon(ped)
+    if not weapon then weapon = false end
+    cache:set('weapon', weapon)
 
     Wait(wait_time)
   end
