@@ -5,20 +5,11 @@ noop = function()
 end 
 
 
-
 lib = setmetatable({
   name = 'dirk_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
 
-  settings = {
-    framework = 'qb-core',
-    inventory = 'ox_inventory',
-    target    = 'ox_target',
-  
-    primaryColor   = 'clean',
-    secondaryColor = 'clean',
-    logo           = 'https://via.placeholder.com/150' 
-  },
+  settings = get_server_settings()
 
 }, {
   __newindex = function(self,key,fn)
@@ -53,7 +44,6 @@ lib = setmetatable({
 })
 
 if lib.settings.framework == 'qb-core' then 
-  print('qb-core')
   QBCore = exports['qb-core']:GetCoreObject()
 elseif lib.settings.framework == 'es_extended' then
   ESX = exports['es_extended']:getSharedObject()

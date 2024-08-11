@@ -73,15 +73,7 @@ local lib = setmetatable({
     AddEventHandler(('dirk_lib:cache:%s'):format(key), cb)
   end,
 
-  settings = {
-    framework = 'qb-core',
-    inventory = 'ox_inventory',
-    target    = 'ox_target',
-  
-    primaryColor   = 'clean',
-    secondaryColor = 'clean',
-    logo           = 'https://via.placeholder.com/150' 
-  },
+  settings = get_server_settings()
 }, {
   __index = call, 
   __call  = call
