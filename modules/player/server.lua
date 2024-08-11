@@ -1,15 +1,21 @@
+local settings = lib.settings
 lib.player = {
   get = function(src)
     assert(type(src) == 'number', 'src must be a number')
+    print('Framework is ', settings.framework)
     if settings.framework == 'qb-core' then 
+
+      print(QBCore, server_scripts)
       return QBCore.Functions.GetPlayer(src)
-    elsif settings.framework == 'es_extended' then 
+    elseif settings.framework == 'es_extended' then 
       return ESX.GetPlayerFromId(src)
     end
   end,
 
   identifier = function(src)
-    local player = lib.player.get(src)
+
+    print('Getting Identifier for player', src)
+    local ply = lib.player.get(src)
     assert(player, 'Player does not exist')
 
     if settings.framework == 'qb-core' then 
@@ -71,7 +77,7 @@ lib.player = {
     elseif settings.jail__system == 'qb-prison' then 
 
     end 
-  end
+  end,
 
   addMoney = function(src, acc, amount, reason)
     local ply = lib.player.get(src)
@@ -156,5 +162,4 @@ lib.player = {
   end,
 }
 
-
-
+return lib.player

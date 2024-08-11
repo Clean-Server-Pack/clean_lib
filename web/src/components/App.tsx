@@ -2,6 +2,7 @@ import '@mantine/dates/styles.css';
 import React from "react";
 import "./App.css";
 import Menu from './Menu/main';
+import Clipboard from './Main/Clipboard';
 import { BackgroundImage } from '@mantine/core';
 import Quiz from './Quiz/main';
 import Notification from './Notify/main';
@@ -16,6 +17,7 @@ const App: React.FC = () => {
       <Notification />
       <Menu />
       <Quiz />
+      <Clipboard />
     </>
     // </BackgroundImage>
   );

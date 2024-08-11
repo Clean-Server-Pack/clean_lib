@@ -52,6 +52,12 @@ lib = setmetatable({
   end
 })
 
+if lib.settings.framework == 'qb-core' then 
+  print('qb-core')
+  QBCore = exports['qb-core']:GetCoreObject()
+elseif lib.settings.framework == 'es_extended' then
+  ESX = exports['es_extended']:getSharedObject()
+end
 
 cache = {
   resource = GetCurrentResourceName(), 

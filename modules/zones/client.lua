@@ -18,7 +18,7 @@ zone.delete = function(id)
 end
 
 function zone:__init()
-  assert(self.type, 'zone must have a specified type : circle, circle2D, poly, box, game_zone')
+  assert(self.type, 'zone must have a specified type : circle, circle2D, poly, box, game_zone, all_game_zone')
 
 
   if self.type == 'circle' then 
@@ -38,7 +38,6 @@ function zone:__init()
     assert(self.points, 'poly zone must have points')
     self.polygon = glm.polygon.new(self.points)
     self.height = self.height or 5.0
->>>>>>>>> Temporary merge branch 2
     self.center_pos = lib.zones.getCenter(self.points)
   end
 
@@ -52,9 +51,13 @@ function zone:__init()
     assert(self.game_zone, 'game_zone must have a game_zone')
   end
 
+  if self.type == 'all_game_zone' then 
+    assert(self.onChange, 'all_game_zone must have some sort of onChange function or its useless you squirt')
+  end
 
-
-  self.chunk_zone = GetNameOfZone(self.center_pos.x, self.center_pos.y, self.center_pos.z)
+  if self.center_pos then 
+    self.chunk_zone = GetNameOfZone(self.center_pos.x, self.center_pos.y, self.center_pos.z)
+  end
 end
 
 
@@ -74,7 +77,6 @@ function zone:is_inside(data)
   elseif self.type == 'game_zone' then 
     return self.game_zone == GetNameOfZone(pos.x, pos.y, pos.z)
   elseif self.type == 'box' then 
->>>>>>>>> Temporary merge branch 2
     return current_pos.x >= self.pos.x and current_pos.x <= self.pos.x + self.size.x and current_pos.y >= self.pos.y and current_pos.y <= self.pos.y + self.size.y and current_pos.z >= self.pos.z and current_pos.z <= self.pos.z + self.size.z
   end
   return false
@@ -95,6 +97,12 @@ function zone:exit(data)
     self.onExit(data)
   end
   self.inside = false
+end
+
+function zone:handleGameZone(current_zone)
+  if self.last_zone and self.last_zone == current_zone then return; end 
+  self.last_zone = current_zone
+  self.onChange(current_zone)
 end
 
 function zone:draw(data)
@@ -145,6 +153,10 @@ CreateThread(function()
 
     for name, data in pairs(zone) do
       if type(data) == 'table' and data.id then 
+        if data.type == 'all_game_zone' then 
+          data:handleGameZone(current_state.game_zone)
+        end
+
         if data.chunk_zone then 
           if data.chunk_zone == gta_zone then 
             

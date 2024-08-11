@@ -118,6 +118,12 @@ local cache = setmetatable({
 
 })
 
+if lib.settings.framework == 'qb-core' then 
+  QBCore = exports['qb-core']:GetCoreObject()
+elseif lib.settings.framework == 'es_extended' then
+  ESX = exports['es_extended']:getSharedObject()
+end
+
 _ENV.cache = cache
 
 SetInterval = function(cb, ms, reps)

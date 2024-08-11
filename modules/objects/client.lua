@@ -130,7 +130,7 @@ lib.objects = {
 
   delete = function(id)
     return object.delete(id)
-  end
+  end,
 
   destroy = function(id)
     return object.delete(id)

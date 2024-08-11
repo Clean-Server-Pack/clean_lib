@@ -2,16 +2,16 @@
 local settings = lib.settings
 
 local job = {}
-local isLoaded = false
+local isLoggedIn = false
 
 if settings.framework == 'qb-core' then
   AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
-    isLoaded = true
+    isLoggedIn = true
     lib.player.emit('playerLoaded')
   end)
 
   AddEventHandler('QBCore:Client:OnPlayerUnload', function()
-    isLoaded = false
+    isLoggedIn = false
     lib.player.emit('playerLogout')
   end)
 
@@ -26,10 +26,10 @@ end
 
 local onEventCallbacks = {
   ["playerLoaded"] = function(func)
-    func(isLoaded)
+    func(isLoggedIn)
   end,
   ["playerLogout"] = function(func)
-    func(isLoaded)
+    func(isLoggedIn)
   end,
 }
 
@@ -38,7 +38,7 @@ lib.player = {
   job    = job,
 
   loaded = function()
-    return isLoaded
+    return isLoggedIn
   end,
 
   emit = function(_type, data)
@@ -59,6 +59,7 @@ lib.player = {
       lib.print("debug", string.format('No callback for : %s', _type))
     end
   end,
+
 }
 
 return lib.player
