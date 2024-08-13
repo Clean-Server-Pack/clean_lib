@@ -16,7 +16,6 @@ ui_page 'web/build/index.html'
 
 files {
   'init.lua',
-  'settings.lua',
   'modules/**/client.lua',
   'modules/**/server.lua',
   'modules/**/shared.lua',
@@ -28,7 +27,6 @@ files {
 }
 
 
-shared_script 'settings.lua'
 shared_script 'src/init.lua'
 
 shared_scripts {

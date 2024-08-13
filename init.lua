@@ -73,7 +73,25 @@ local lib = setmetatable({
     AddEventHandler(('dirk_lib:cache:%s'):format(key), cb)
   end,
 
-  settings = get_server_settings()
+  settings = {
+    server_name     = 'CleanRP',
+    framework       = 'qb-core',
+    inventory       = 'ox_inventory',
+    target          = 'ox_target',
+    
+    
+    keys            = 'ox_keys',
+    jail            = 'ox_jail',
+    time            = 'clean_weather', 
+    progress        = 'dirk_lib',
+    phone           = 'lb-phone', 
+    fuel            = 'ox_fuel',
+    dispatch        = 'ox_dispatch',
+
+    primaryColor    = 'clean',
+    secondaryColor  = 'clean',
+    logo            = 'https://via.placeholder.com/150' 
+  }
 }, {
   __index = call, 
   __call  = call

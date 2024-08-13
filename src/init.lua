@@ -1,3 +1,5 @@
+
+
 local debug_getinfo = debug.getinfo
 
 noop = function() 
@@ -9,7 +11,25 @@ lib = setmetatable({
   name = 'dirk_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
 
-  settings = get_server_settings()
+  settings = {
+    server_name     = 'CleanRP',
+    framework       = 'qb-core',
+    inventory       = 'ox_inventory',
+    target          = 'ox_target',
+    
+    
+    keys            = 'ox_keys',
+    jail            = 'ox_jail',
+    time            = 'clean_weather', 
+    progress        = 'dirk_lib',
+    phone           = 'lb-phone', 
+    fuel            = 'ox_fuel',
+    dispatch        = 'ox_dispatch',
+
+    primaryColor    = 'clean',
+    secondaryColor  = 'clean',
+    logo            = 'https://via.placeholder.com/150' 
+  }
 
 }, {
   __newindex = function(self,key,fn)
