@@ -4,7 +4,7 @@ games { 'rdr3', 'gta5' }
 
 name         'dirk_lib'
 author       'DirkScripts'
-version      '1.0.4'
+version      '1.0.5'
 description  'A library for FiveM developers to use in their projects, accepting of new features and contributions.'
 
 dependencies {
