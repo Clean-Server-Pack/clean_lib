@@ -80,7 +80,6 @@ jobs:
           cp -r ./modules ./temp/clean_lib
           cp -r ./web/build ./temp/clean_lib/web/
           cd ./temp && zip -r ../clean_lib.zip ./clean_lib
-
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         id: auto_release
@@ -88,7 +87,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Use the GitHub token from the repository secrets
           title: "Release ${{ env.VERSION }}" # Use the version extracted from the workflow
           prerelease: false
-          files: clean_multichar.zip # Specify the file to attach to the release
+          files: clean_lib.zip # Specify the file to attach to the release
           automatic_release_tag: 'latest_production' # Tag name for the release
         env:
           CI: false
