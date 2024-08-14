@@ -54,6 +54,22 @@ lib.player = {
     end 
   end, 
 
+  deleteCharacter = function(src, citizenId)
+    if settings.framework == 'qb-core' then 
+      return QBCore.Player.DeleteCharacter(src, citizenId)
+    elseif settings.framework == 'es_extended' then 
+
+    end
+  end, 
+
+  loginCharacter = function(src, citizenId, newData)
+    if settings.framework == 'qb-core' then 
+      return QBCore.Player.Login(src, citizenId, newData)
+    elseif settings.framework == 'es_extended' then 
+
+    end
+  end,
+
   checkOnline = function(identifier)
     assert(type(identifier) == 'string' or type(identifier) == 'number', 'Identifier must be a string or number')
     if type(identifier) == 'number' then 
