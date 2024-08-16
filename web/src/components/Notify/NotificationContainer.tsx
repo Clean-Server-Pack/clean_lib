@@ -1,7 +1,6 @@
 import { Flex } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { internalEvent } from "../../utils/internalEvent";
 import Notification, { NotificationProps } from "./Notification";
 
 
@@ -16,7 +15,7 @@ function NotificationContainer(props: NotificationContainerProps) {
   useNuiEvent('ADD_NOTIFICATION', (notification: NotificationProps) => {
     if (notification.position !== props.position) return
     // if everything in the notification is the same as another then update the count
-    const existingNotification = notifications.find((n) => n.title === notification.title && n.message === notification.message && props.position === notification.position && n.icon === notification.icon)
+    const existingNotification = notifications.find((n) => n.title === notification.title && n.description === notification.description && props.position === notification.position && n.icon === notification.icon)
     if (existingNotification) {
       existingNotification.count = (existingNotification.count || 1) + 1
       setNotifications([...notifications])
