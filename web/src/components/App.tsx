@@ -23,16 +23,16 @@ const App: React.FC = () => {
 
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
-      <BackgroundImage w='100vw' h='100vh' style={{overflow:'hidden'}}
+      {/* <BackgroundImage w='100vw' h='100vh' style={{overflow:'hidden'}}
         src="https://i.ytimg.com/vi/TOxuNbXrO28/maxresdefault.jpg"
-      > 
+      >  */}
       <>
         <Notifications />
         <Menu />
         <Quiz />
         <Dialog />
       </>
-      </BackgroundImage>
+      {/* </BackgroundImage> */}
     </MantineProvider>
   );
 };
