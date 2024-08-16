@@ -5,7 +5,7 @@ cache.serverId = GetPlayerServerId(cache.playerId)
 function cache:set(key,value)
   if value ~= self[key] then
     print('Setting ', key, value, self[key])
-    TriggerEvent(('dirk_lib:cache:%s'):format(key), value, self[key])
+    TriggerEvent(('clean_lib:cache:%s'):format(key), value, self[key])
     self[key] = value
     return true
   end

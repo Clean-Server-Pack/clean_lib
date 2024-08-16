@@ -1,11 +1,12 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Flex, Progress, Text } from "@mantine/core";
+import { Flex, Progress, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { useEffect, useMemo, useState } from "react";
 import hoverSound from './soundfx.mp3';
 import clickSound from './click_sound.mp3';
 import { fetchNui } from "../../utils/fetchNui";
+import colorWithAlpha from "../../utils/colorWithAlpha";
 
 
 
@@ -34,6 +35,7 @@ export type MenuItemProps = {
 };
 export function MenuItem(props: MenuItemProps) {
   const { hovered, ref } = useHover();
+  const theme = useMantineTheme();
   const [sound] = useState(new Audio(hoverSound));
   const [sound_click] = useState(new Audio(clickSound));
   // adjust volume 
@@ -41,6 +43,10 @@ export function MenuItem(props: MenuItemProps) {
   sound_click.volume = 0.1;
 
   const handleClick = () => {
+
+    if (props.readOnly || props.disabled) {
+      return;
+    }
 
     if (props.onSelect) {
       fetchNui('contextClicked', props.id) 
@@ -57,10 +63,6 @@ export function MenuItem(props: MenuItemProps) {
       fetchNui('openDialog', {
         id: props.dialog,
       })
-    }
-
-    if (props.readOnly || props.disabled) {
-      return;
     }
 
     if (props.willClose == null || props.willClose && !props.disabled && !props.readOnly) {
@@ -96,7 +98,7 @@ export function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={props.disabled ? 'rgba(45,45,45,0.5)' : 'rgba(0,0,0,0.5)'}
+      bg={!props.disabled && hovered ? 'rgba(77,77,77,0.8)' : 'rgba(77,77,77,0.6)'}
       w='90%'
       p='sm'
       gap='xs'
@@ -106,9 +108,9 @@ export function MenuItem(props: MenuItemProps) {
         backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        borderRadius: 'var(--mantine-radius-sm)',
+        borderRadius: theme.radius.xs,
         cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
-        border: (!props.readOnly && !props.disabled && hovered) ? '1px solid var(--mantine-primary-color-9)' : '1px solid transparent',
+        outline:  (!props.readOnly && !props.disabled && hovered) ? `2px solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '2px solid rgba(0,0,0,0.2)',
         justifyContent: 'center',
         transition: 'all ease-in-out 0.1s',
         // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.025)' : 'scale(1)',
@@ -124,14 +126,14 @@ export function MenuItem(props: MenuItemProps) {
 
       >
         {props.icon && is_icon ? (
-          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ color: 'white' }} size='lg' />  
+          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ color: 'white' }} size='sm' />  
         ) : (
           <img src={props.icon} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
         )}
 
-        <Text fw='bold' size='lg' style={{ color: 'white' }}>{props.title}</Text>
+        <Text fw='bold' size='sm' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
       </Flex>
-      {props.description && <Text size='sm' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
+      {props.description && <Text size='xs' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
         {props.description}
       </Text>}
       {props.progress && 

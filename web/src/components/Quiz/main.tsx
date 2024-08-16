@@ -8,6 +8,7 @@ import { QuizInfoProps } from './types'
 import { useNuiEvent } from '../../hooks/useNuiEvent'
 import Questions from './Questions'
 import { fetchNui } from '../../utils/fetchNui'
+import { internalEvent } from '../../utils/internalEvent'
 
 function QuizTitle(props: {title: string, icon: string}){
   return ( 
@@ -230,3 +231,15 @@ function Quiz(){
 }
 
 export default Quiz
+
+// internalEvent([
+//   {
+//     action: 'QUIZ_STATE',
+//     data: {
+//       action: 'OPEN',
+      
+
+
+//     }
+//   }
+// ])

@@ -43,13 +43,13 @@ lib.player = {
 
   emit = function(_type, data)
     assert(_type, 'type must be a string')
-    TriggerEvent(('dirk_lib:player:%s'):format(_type), data)
+    TriggerEvent(('clean_lib:player:%s'):format(_type), data)
   end,
 
   on = function(_type, func)
     assert(_type, 'type must be a string')
     assert(type(func) == 'function', 'function must be a function')
-    AddEventHandler(('dirk_lib:player:%s'):format(_type), func)
+    AddEventHandler(('clean_lib:player:%s'):format(_type), func)
 
     local callback = onEventCallbacks[_type]
 

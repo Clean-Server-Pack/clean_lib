@@ -3,7 +3,6 @@ import { isEnvBrowser } from "./misc";
 export interface InternalEvent<T = unknown> {
   action: string;
   data?: T;
-  module?: string;
 }
 
 /**
@@ -22,7 +21,6 @@ export const internalEvent = <P>(events: InternalEvent<P>[], timer = 1000): void
             data: {
               action: event.action,
               data: event.data,
-              module: event.module,
             },
           }),
         );

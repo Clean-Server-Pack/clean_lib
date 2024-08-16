@@ -70,7 +70,7 @@ function object:__init()
   end
 
   AddEventHandler('onResourceStop', function(resource)
-    if self.resource == resource or resource == 'dirk_lib' then 
+    if self.resource == resource or resource == 'clean_lib' then 
       self:despawn()
     end
   end)
@@ -139,3 +139,15 @@ lib.objects = {
 
 
 return lib.objects
+
+
+lib.objects.register('my_object', {
+  type       = 'object',
+  model      = 'prop_cs_burger_01',
+  renderDist = 10.0,
+
+  canSpawn = function()
+    return true 
+  end
+  
+})

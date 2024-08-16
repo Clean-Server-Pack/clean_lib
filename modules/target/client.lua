@@ -47,7 +47,37 @@ lib.target = {
 
 
   polyzone = function(id,data)
+    assert(data.polygon, 'Missing polygon')
+    assert(data.height, 'Missing height')
+    assert(data.options, 'Missing options')
+    
 
+    local temp_target_system = nil
+    if settings.target == "qb-target" or settings.target == "qtarget" or settings.target == "ox_target" then
+      if settings.target == "ox_target" then temp_target_system = "qb-target" else temp_target_system = settings.target;  end
+      local minZ = 999999999
+      for k,v in pairs(data.polygon) do 
+        data.polygon[k] = vector2(v.x, v.y)
+        if v.z <= minZ then minZ = v.z; end
+      end
+
+      for k,v in pairs(data.options) do 
+        if not v.distance then v.distance = (data.distance or 1.5); end
+      end
+      
+      local zone = exports[tempTargetSystem]:AddPolyZone(name, data.polygon, {
+        name = name, -- This is the name of the zone recognized by PolyZone, this has to be unique so it doesn't mess up with other zones
+        debugPoly = data.debug, -- This is for enabling/disabling the drawing of the box, it accepts only a boolean value (true or false), when true it will draw the polyzone in green
+        minZ = minZ, -- This is the bottom of the polyzone, this can be different from the Z value in the coords, this has to be a float value
+        maxZ = minZ + data.height, -- This is the top of the polyzone, this can be different from the Z value in the coords, this has to be a float value
+      }, {
+        options = data.options,
+        distance = data.distance or 1.5, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
+      })
+
+      created_zones[name] = zone
+      return name
+    end
   end, 
 
 

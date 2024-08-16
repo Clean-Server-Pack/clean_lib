@@ -7,6 +7,7 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
     return (
       <Flex
         w='100%'
+        h='100%'
         direction={'column'}
         align='center'
         gap='xs'
@@ -41,7 +42,8 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
   if (filtered.length === 0) {
     return (
       <Flex
-      w='95%'
+        w='95%'
+        h='100%'
         direction={'column'}
         align='center'
         style={{
@@ -58,6 +60,7 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
   return (
     <Flex
       w='100%'
+      h='100%'
       direction={'column'}
       gap = '1rem'
       align='center'

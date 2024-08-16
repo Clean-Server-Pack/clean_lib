@@ -1,0 +1,10 @@
+.dialogButton {
+  background-color: var(--mantine-color-dark-9);
+  color: var(--mantine-color-dark-1);
+  border: 2px solid var(--mantine-color-dark-9);
+  cursor: pointer;
+}
+
+.dialogButton:hover {
+  border: 2px solid var(--mantine-primary-color-6) !important;
+}

@@ -1,6 +1,6 @@
 lib.file = {
   load = function(path, from_central)
-    local raw_data = LoadResourceFile(not from_central and GetCurrentResourceName() or 'dirk_lib/saved_data', path)
+    local raw_data = LoadResourceFile(not from_central and GetCurrentResourceName() or 'clean_lib/saved_data', path)
     if not raw_data then 
       return false 
     end 
@@ -9,7 +9,7 @@ lib.file = {
   
   save = function(path, data, from_central)
     local raw_data = json.encode(data, {indent = true})
-    return SaveResourceFile(not from_central and GetCurrentResourceName() or 'dirk_lib/saved_data', path, raw_data)
+    return SaveResourceFile(not from_central and GetCurrentResourceName() or 'clean_lib/saved_data', path, raw_data)
   end,
 }
 

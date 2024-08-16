@@ -26,6 +26,30 @@ lib.request = {
     return true
   end,
 
+  ptfxAsset = function(asset, timeout)
+    assert(asset, 'a ptfx asset is required')
+    assert(type(asset) == 'string' or type(asset) == 'table', 'asset must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(asset) == 'table' then
+      for i, v in ipairs(asset) do
+        if not lib.request.ptfxAsset(v, timeout) then
+          return false
+        end
+      end
+      return true
+    end
+
+    local start_time = GetGameTimer()
+    while not HasNamedPtfxAssetLoaded(asset) do
+      RequestNamedPtfxAsset(asset)
+      if GetGameTimer() - start_time > timeout then
+        return false
+      end
+      Wait(0)
+    end
+    return true
+  end,
+
   streamedTextureDict = function(txd, timeout)
     assert(txd, 'a streamed texture dict is required')
     assert(type(txd) == 'string' or type(txd) == 'table', 'txd must be a string or table')
@@ -54,6 +78,8 @@ lib.request = {
 
 
 return lib.request
+
+
 
 
 

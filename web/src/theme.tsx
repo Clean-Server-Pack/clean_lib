@@ -1,7 +1,7 @@
 import { createTheme, alpha } from "@mantine/core";
 
 const theme = createTheme({
-  primaryColor: "teal",
+  primaryColor: "clean",
   primaryShade: 7,
   defaultRadius: "sm",
   fontFamily: "Akshar, sans-serif",

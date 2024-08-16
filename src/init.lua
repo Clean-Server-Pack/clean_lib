@@ -8,7 +8,7 @@ end
 
 
 lib = setmetatable({
-  name = 'dirk_lib',
+  name = 'clean_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
 
   settings = {
@@ -21,7 +21,7 @@ lib = setmetatable({
     keys            = 'ox_keys',
     jail            = 'ox_jail',
     time            = 'clean_weather', 
-    progress        = 'dirk_lib',
+    progress        = 'clean_lib',
     phone           = 'lb-phone', 
     fuel            = 'ox_fuel',
     dispatch        = 'ox_dispatch',
@@ -35,7 +35,7 @@ lib = setmetatable({
   __newindex = function(self,key,fn)
     rawset(self,key,fn)
 
-    if debug_getinfo(2, 'S').short_src:find('@dirk_lib/src') then
+    if debug_getinfo(2, 'S').short_src:find('@clean_lib/src') then
       exports(key, fn)
     end
   end,
@@ -50,7 +50,7 @@ lib = setmetatable({
     end
 
     if chunk then 
-      local fn, err = load(chunk, ('@@dirk_lib/modules/%s/%s.lua'):format(key, self.context))
+      local fn, err = load(chunk, ('@@clean_lib/modules/%s/%s.lua'):format(key, self.context))
 
       if not fn or err then 
         return error(('Error loading module %s: %s'):format(key, err or 'unknown error'))

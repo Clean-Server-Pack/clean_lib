@@ -1,14 +1,14 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { Box, Image, Input } from "@mantine/core";
+import { Image, Input, useMantineTheme } from "@mantine/core";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { internalEvent } from "../../utils/internalEvent";
+import { fetchNui } from "../../utils/fetchNui";
+import { Title } from "../Generic/Title";
+import SideBar from "../Main/SideBar";
 import './Menu.module.css';
 import { MenuItem, MenuItemProps } from "./MenuItem";
-import { MenuTitle } from "./MenuTitle";
 import SearchableContent from "./Searchable";
-import { fetchNui } from "../../utils/fetchNui";
-import SideBar from "../Main/SideBar";
+import { internalEvent } from "../../utils/internalEvent";
 
 type MenuEventProps = {
   action: string
@@ -17,7 +17,8 @@ type MenuEventProps = {
 
 export type MenuProps = {
   title: string
-  icon: IconName | string
+  description?: string
+  icon?: IconName | string
   canClose: boolean; 
   dialog?: string
   searchBar?: boolean
@@ -31,6 +32,7 @@ export type MenuProps = {
 export default function Menu(){
     const [menuOpen, setMenuOpen] = useState<MenuProps | false>(false)
     const [search, setSearch] = useState<string>('')
+    const theme = useMantineTheme();
     
     useNuiEvent('CONTEXT_MENU_STATE', function(data : MenuEventProps){
       if (data.action == 'OPEN'){
@@ -58,7 +60,7 @@ export default function Menu(){
           onClose={() => {
             fetchNui('closeContext')
           }}
-          w='23vw' 
+          w='28vw' 
           h='100vh' 
           style={{
             // backdropFilter: 'blur(2px)',
@@ -73,14 +75,45 @@ export default function Menu(){
         >
           {menuOpen && 
             <>
-              <MenuTitle title={menuOpen.title} icon={menuOpen.icon} menu={menuOpen.menu} canClose={menuOpen.canClose} setMenuOpen={setMenuOpen} dialog={menuOpen.dialog}/>
+              <Title 
+                title={menuOpen.title} 
+                description={menuOpen.description || ''} 
+                icon={menuOpen.icon as IconName} 
+                
+                backButton={menuOpen.menu != null || menuOpen.menu != false}
+                onBack={() => {
+                  if (menuOpen.menu) {
+                    fetchNui('openContext', {
+                      back:true, 
+                      id: menuOpen.menu
+                    })
+                  }
+              
+                  if (menuOpen.dialog) {
+                    fetchNui('openDialog', {
+                      id: menuOpen.dialog,
+                      back:true,
+                    })
+                  }
+                }}
+              
+                closeButton={menuOpen.canClose}
+                onClose={() => {
+                  setMenuOpen(false)
+                  fetchNui('closeContext')
+                }}
+              />
+            
               {menuOpen.searchBar &&
                   <Input 
                     w='65%'
-                    bg='rgba(0,0,0,0.5)'
+                    size='xs'
+                    radius={theme.radius.xs}
+                    bg='rgba(77,77,77,0.6)'
                     styles={{
                       input:{
-                        background:'rgba(0,0,0,0.5)',
+                        border:'1px solid var(--mantine-primary-color-9)',
+                        background:'rgba(77,77,77,0.5)',
                       }
                     }}
                     placeholder='Search...'
@@ -131,11 +164,12 @@ style={{
 
 const test_menu = {
   title:'CALL OF HAGLER',
+  description:'This is a test menu',
   icon:'gun',
   canClose:true,
   searchBar:true,
   clickSounds:true, 
-  hoverSounds:false,
+  hoverSounds:true,
   menu:'main',
 
   // watermark:'https://via.placeholder.com/150x150',
@@ -228,12 +262,12 @@ const test_menu = {
   ]
 }
 
-// internalEvent([
-//   {
-//     action:'CONTEXT_MENU_STATE',
-//     data:{
-//       action:'OPEN',
-//       menu:test_menu
-//     }
-//   }
-// ])
+internalEvent([
+  {
+    action:'CONTEXT_MENU_STATE',
+    data:{
+      action:'OPEN',
+      menu:test_menu
+    }
+  }
+])

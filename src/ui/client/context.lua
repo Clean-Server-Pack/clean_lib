@@ -80,6 +80,10 @@ lib.openContext = function(id)
   }))
 end
 
+
+-- OX COMPATIBILITY
+lib.showContext = lib.openContext
+
 RegisterNuiCallback('openContext', function(data,cb)
   if data.back and contextMenus[currentContext].onBack then contextMenus[currentContext].onBack(); end 
   lib.openContext(data.id)
@@ -98,15 +102,13 @@ lib.closeContext = function()
   }))
 end
 
+lib.hideContext = lib.closeContext
+
 RegisterNuiCallback('closeContext', lib.closeContext)
 
 
 RegisterNuiCallback('openDialog', function(data,cb)
-  print('open dialog')
   if data.back and contextMenus[currentContext].onBack then contextMenus[currentContext].onBack(); end 
-  print('open dialog 1')
   lib.closeContext()
-  print('open dialog 2')
-  exports['clean_ui']:openDialog(data.id)
-  print('open dialog 3')
+  exports['clean_dialog']:openDialog(data.id)
 end)

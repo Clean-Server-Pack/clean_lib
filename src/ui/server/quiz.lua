@@ -88,7 +88,7 @@ function quiz:check_answer(question, answer)
   end
 end
 
-lib.callback.register('dirk_lib:quiz:check_answer', function(player_id, quiz_id, question_id, answer)
+lib.callback.register('clean_lib:quiz:check_answer', function(player_id, quiz_id, question_id, answer)
   local quiz = lib.getQuiz(quiz_id)
   if not quiz then return end
   local question = quiz.questions[question_id]
@@ -106,7 +106,7 @@ function quiz:check_answers(answers)
   return score
 end
 
-lib.callback.register('dirk_lib:quiz:check_answers', function(player_id, quiz_id, answers)
+lib.callback.register('clean_lib:quiz:check_answers', function(player_id, quiz_id, answers)
   local quiz = lib.getQuiz(quiz_id)
   if not quiz then return end
   return quiz:check_answers(answers)
@@ -148,13 +148,13 @@ function quiz:submit(player_id, answers)
   return true, score
 end 
 
-lib.callback.register('dirk_lib:quiz:submit', function(player_id, quiz_id, answers)
+lib.callback.register('clean_lib:quiz:submit', function(player_id, quiz_id, answers)
   local quiz = lib.getQuiz(quiz_id)
   if not quiz then return end
   return quiz:submit(player_id, answers)
 end)
 
-lib.callback.register('dirk_lib:quiz:start', function(player_id, quiz_id)
+lib.callback.register('clean_lib:quiz:start', function(player_id, quiz_id)
   local quiz = lib.getQuiz(quiz_id)
   if not quiz then return false, 'quiz_not_found' end
   if not quiz:can_start(player_id) then return false, 'cant_start' end
