@@ -7,51 +7,10 @@ local valid_conversions = {
 }
 
 
-lib.table = {
-  deepClone = deepClone,
-  findKeyInTable = findKeyInTable,
 
-  includes = function(table, value, recursive)
-    for k,v in pairs(table) do
-      if v == value then return true; end
-      if type(v) == 'table' and recursive then
-        if lib.table.includes(v, value, recursive) then return true; end
-      end
-    end
-    return false
-  end,
-
-  convert = function(_type, data)
-    assert(_type, "Type is required for table conversion")
-    assert(data, "Data is required for table conversion")
-    assert(lib.table.includes(valid_conversions, _type), "Invalid conversion type")
-
-    if _type == "vectors" then
-      return convert_to_vectors(data)
-    elseif _type == 'items_sql' then 
-      return convert_to_sql(data)
-    elseif _type == 'string' then 
-      return convert_to_string(data)
-    elseif _type == 'item_ox' then 
-      return convert_to_ox(data)
-    elseif _type == 'convert_indexes' then
-      return convert_indexes(data)
-    end
-  end, 
-
-  count = function(table)
-    local string_indexes = table[1] and true or false
-    if not string_indexes then 
-      return #table
-    else 
-      local count = 0
-      for k,v in pairs(table) do
-        count = count + 1
-      end
-      return count
-    end 
-  end,
-}
+frozenNewIndex = function()
+  error('Table is frozen and cannot be modified')
+end
 
 convert_indexes = function(tbl, new_indexing)
   for k,v in pairs(tbl) do
@@ -64,6 +23,11 @@ convert_indexes = function(tbl, new_indexing)
   return tbl
 end
 
+getCount = function(tbl)
+  local count = 0
+  for _ in pairs(tbl) do count += 1 end
+  return count
+end
 
 
 findKeyInTable = function(tbls, key)
@@ -94,7 +58,7 @@ end
 
 deepClone = function(table)
   local cloned = {}
-  for key, value in pairs(original) do
+  for key, value in pairs(table) do
     if type(value) == "table" then
       cloned[key] = deepClone(value)  -- Recursive call for nested tables
     else
@@ -104,7 +68,7 @@ deepClone = function(table)
   return cloned
 end
 
-convert_to_ox = function(table)
+local convert_to_ox = function(table)
   local ret = {}
   for item,data in pairs(table) do
     ret[item] = {} 
@@ -130,7 +94,7 @@ convert_to_ox = function(table)
   return ret
 end
 
-convert_to_string = function(table)
+local convert_to_string = function(table)
   local output = ""
   for k,v in pairs(table) do
     output = output.."['"..k.."']".." = {\n"
@@ -161,7 +125,7 @@ convert_to_string = function(table)
   return output
 end
 
-convert_to_vectors = function(table)
+local convert_to_vectors = function(table)
   local formattedTable = {}
   for key, value in pairs(table) do
     if type(value) == "table" and not value.x then
@@ -181,20 +145,92 @@ convert_to_vectors = function(table)
   return formattedTable
 end
 
-convert_to_sql = function(table)
-  local tableCount = lib.table.count(table)
+local convert_to_sql = function(table)
+  local tableCount = tableCount(table)
   local output = "INSERT INTO `"..Config.ItemsDatabaseName.."` (`name`, `label`) VALUES"
   local currentNumber = 0
   for k,v in pairs(t) do
     assert(v.label, "Label is required for item "..k)
-    assert(v.name, "Name is required for item "..k
+    assert(v.name, "Name is required for item "..k)
     assert(v.name == k, "Name and key must be the same for item "..k)
-    assert(type(v.label) == "string", "Label must be a string for item "..k))
+    assert(type(v.label) == "string", "Label must be a string for item "..k)
     currentNumber = currentNumber + 1
     output = output..string.format("\n ('%s', '%s')%s", k, v.label, currentNumber == tableCount and "" or ",")
   end
   output = output..";"
   return output
 end
+
+lib.table = {
+  deepClone = deepClone,
+  findKeyInTable = findKeyInTable,
+
+  merge = function(t1, t2, addDuplicateNumbers)
+    if addDuplicateNumbers == nil then addDuplicateNumbers = true end
+    for k, v in pairs(t2) do
+        local type1 = type(t1[k])
+        local type2 = type(v)
+
+		if type1 == 'table' and type2 == 'table' then
+            table_merge(t1[k], v, addDuplicateNumbers)
+        elseif addDuplicateNumbers and (type1 == 'number' and type2 == 'number') then
+            t1[k] += v
+		else
+			t1[k] = v
+        end
+    end
+
+    return t1
+  end,
+
+  includes = function(table, value, recursive)
+    for k,v in pairs(table) do
+      if v == value then return true; end
+      if type(v) == 'table' and recursive then
+        if lib.table.includes(v, value, recursive) then return true; end
+      end
+    end
+    return false
+  end,
+
+  convert = function(_type, data)
+    assert(_type, "Type is required for table conversion")
+    assert(data, "Data is required for table conversion")
+    assert(lib.table.includes(valid_conversions, _type), "Invalid conversion type")
+
+    if _type == "vectors" then
+      return convert_to_vectors(data)
+    elseif _type == 'items_sql' then 
+      return convert_to_sql(data)
+    elseif _type == 'string' then 
+      return convert_to_string(data)
+    elseif _type == 'item_ox' then 
+      return convert_to_ox(data)
+    elseif _type == 'convert_indexes' then
+      return convert_indexes(data)
+    end
+  end, 
+
+  count = function(table)
+    return getCount(table)
+  end,
+
+  freeze = function(tbl)
+    local copy = deepClone(tbl)
+    local metatable = getmetatable(tbl)
+
+    table.wipe(tbl)
+    setmetatable({}, {
+      __index = metatable and setmetatable(copy, metatable) or copy,
+      __metatable = 'readonly',
+      __newindex = frozenNewIndex,
+      __len = function() return #copy end,
+      __pairs = function() return next, copy end,
+    })
+
+    return tbl
+  end
+}
+
 
 return lib.table

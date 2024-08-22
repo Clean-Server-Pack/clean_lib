@@ -137,9 +137,9 @@ lib.player = {
       -- QB-INVENTORY
       -- LJ-INVENTORY
       -- ESX-INVENTORY
-      if Config.Framework == "es_extended" then
+      if settings.framework == "es_extended" then
         ply.addInventoryItem(i,a, md or nil)
-      elseif Config.Framework == "qb-core" then
+      elseif settings.framework == "qb-core" then
         local item = ply.Functions.GetItemBySlot(slot)
         if item then 
           if ply.Functions.RemoveItem(item.name,item.amount,slot) then 

@@ -27,6 +27,7 @@ files {
 }
 
 
+shared_script 'src/settings.lua'
 shared_script 'src/init.lua'
 
 shared_scripts {

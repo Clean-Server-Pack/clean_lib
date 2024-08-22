@@ -1,4 +1,3 @@
-
 if not _VERSION:find('5.4') then 
   error("This library is only compatible with Lua 5.4")
 end
@@ -99,6 +98,9 @@ local lib = setmetatable({
 
 _ENV.lib = lib
 
+--## Override require with ox's lovely require module
+require = lib.require
+
 local cache = setmetatable({
   resource = resource_name,
   game     = GetGameName(),
@@ -128,11 +130,31 @@ local cache = setmetatable({
 
 })
 
-if lib.settings.framework == 'qb-core' then 
-  QBCore = exports['qb-core']:GetCoreObject()
-elseif lib.settings.framework == 'es_extended' then
-  ESX = exports['es_extended']:getSharedObject()
+--## FRAMEWORK/SETTINGS
+
+local settings = require 'src.settings'
+lib.settings = settings
+
+local getFrameworkObject = function()
+  if settings.framework == 'qb-core' or setings.framework == 'qbx_core' then 
+    return exports['qb-core']:GetCoreObject()
+  elseif settings.framework == 'es_extended' then
+    return exports['es_extended']:getSharedObject()
+  end
 end
+
+lib.FW = setmetatable({}, {
+	__index = function(self, index)
+		local fw_obj = getFrameworkObject()
+		return fw_obj[index]
+	end
+})
+
+
+
+
+
+
 
 _ENV.cache = cache
 
@@ -154,3 +176,10 @@ ClearInterval = function(id)
 end
 
 
+for i = 1, GetNumResourceMetadata(cache.resource, 'clean_lib') do
+  local name = GetResourceMetadata(cache.resource, 'clean_lib', i - 1)
+  if not rawget(lib, name) then
+    local module = load_module(lib, name)
+    if type(module) == 'function' then pcall(module) end
+  end
+end

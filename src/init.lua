@@ -7,29 +7,12 @@ noop = function()
 end 
 
 
+
+
 lib = setmetatable({
   name = 'clean_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
-
-  settings = {
-    server_name     = 'CleanRP',
-    framework       = 'qb-core',
-    inventory       = 'ox_inventory',
-    target          = 'ox_target',
-    
-    
-    keys            = 'ox_keys',
-    jail            = 'ox_jail',
-    time            = 'clean_weather', 
-    progress        = 'clean_lib',
-    phone           = 'lb-phone', 
-    fuel            = 'ox_fuel',
-    dispatch        = 'ox_dispatch',
-
-    primaryColor    = 'clean',
-    secondaryColor  = 'clean',
-    logo            = 'https://via.placeholder.com/150' 
-  }
+  settings = settings,
 
 }, {
   __newindex = function(self,key,fn)
@@ -63,12 +46,32 @@ lib = setmetatable({
   end
 })
 
-if lib.settings.framework == 'qb-core' then 
-  QBCore = exports['qb-core']:GetCoreObject()
-elseif lib.settings.framework == 'es_extended' then
-  ESX = exports['es_extended']:getSharedObject()
+--## Override require with ox's lovely require module
+require = lib.require
+
+--## FRAMEWORK/SETTINGS
+local settings = require 'src.settings'
+lib.settings = settings
+
+local getFrameworkObject = function()
+  if settings.framework == 'qb-core' or setings.framework == 'qbx_core' then 
+    print('GETTING QB CORE')
+    return exports[settings.framework]:GetCoreObject()
+  elseif settings.framework == 'es_extended' then
+    return exports['es_extended']:getSharedObject()
+  end
 end
 
+print('TESTING', settings.framework)
+lib.print.error('TESTING', settings.framework)
+
+
+lib.FW = setmetatable({}, {
+	__index = function(self, index)
+		local fw_obj = getFrameworkObject()
+		return fw_obj[index]
+	end
+})
 cache = {
   resource = GetCurrentResourceName(), 
   game     = GetGameName(),
