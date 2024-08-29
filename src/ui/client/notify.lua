@@ -19,6 +19,7 @@ local types = {
 
 
 lib.notify = function(data)
+  local settings = lib.settings
   if not settings.notify or settings.notify == 'clean_lib' then
     local sound = settings.notify_audio and data.sound
     data.position = settings.notify_position or 'top-right'
@@ -31,7 +32,7 @@ lib.notify = function(data)
     }))
 
     if not sound then return end
-    if sound.bank then lib.requestAudioBank(sound.bank) end
+    if sound.bank then lib.request.audioBank(sound.bank) end
     local soundId = GetSoundId()
     PlaySoundFrontend(soundId, sound.name, sound.set, true)
     ReleaseSoundId(soundId)

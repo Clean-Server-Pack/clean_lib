@@ -14,6 +14,8 @@ return {
 
   primaryColor    = GetConvar('primaryColor', 'clean'),
   primaryShade    = GetConvarInt('primaryShade', 9),
-  logo            = GetConvar('logo', 'https://via.placeholder.com/150')
+  logo            = GetConvar('logo', 'https://via.placeholder.com/150'),
+  -- notify_audio    = GetConvar('notify_audio', true),
+  -- notify_position = GetConvar('notify_position', 'top-right'),
 }
 

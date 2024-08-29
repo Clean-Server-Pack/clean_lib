@@ -141,13 +141,14 @@ lib.objects = {
 return lib.objects
 
 
-lib.objects.register('my_object', {
-  type       = 'object',
-  model      = 'prop_cs_burger_01',
-  renderDist = 10.0,
+-- lib.objects.register('my_object', {
+--   type       = 'object',
+--   model      = 'prop_cs_burger_01',
+--   renderDist = 10.0,
 
-  canSpawn = function()
-    return true 
-  end
+--   canSpawn = function()
+--     return true 
+--   end
   
-})
+-- })
+

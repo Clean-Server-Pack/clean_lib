@@ -12,17 +12,17 @@ export type NotificationContainerProps = {
 function NotificationContainer(props: NotificationContainerProps) {
   const [notifications, setNotifications] = useState<NotificationProps[]>([])
 
-  useNuiEvent('ADD_NOTIFICATION', (notification: NotificationProps) => {
-    if (notification.position !== props.position) return
+  useNuiEvent('ADD_NOTIFICATION', (data: NotificationProps) => {
+    if (data.position !== props.position) return
     // if everything in the notification is the same as another then update the count
-    const existingNotification = notifications.find((n) => n.title === notification.title && n.description === notification.description && props.position === notification.position && n.icon === notification.icon)
+    const existingNotification = notifications.find((n) => n.title === data.title && n.description === data.description && props.position === data.position && n.icon === data.icon)
     if (existingNotification) {
       existingNotification.count = (existingNotification.count || 1) + 1
       setNotifications([...notifications])
       return
     } 
 
-    setNotifications([...notifications, notification])
+    setNotifications([...notifications, data])
   })
 
   useNuiEvent('CLEAR_NOTIFICATIONS', () => {

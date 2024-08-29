@@ -5,19 +5,19 @@ import colorWithAlpha from "../../utils/colorWithAlpha"
 import { useEffect, useMemo, useState } from "react"
 
 export type NotificationProps = {
-  hide?: boolean
   title?: string
-  icon?: string
-  iconColor?: string
-  iconAnimation?: string
   description?: string
   duration?: number
   showDuration?: boolean
-  
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
   type?: 'info' | 'success' | 'warning' | 'error'
-
+  icon?: string
+  iconColor?: string
+  iconAnimation?: string
+  
+  
   // FOR UI 
+  hide?: boolean
   count?: number
 }
 

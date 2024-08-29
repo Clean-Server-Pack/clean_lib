@@ -229,6 +229,12 @@ lib.table = {
     })
 
     return tbl
+  end,
+
+  wipe = function(tbl)
+    for k in pairs(tbl) do
+      tbl[k] = nil
+    end
   end
 }
 

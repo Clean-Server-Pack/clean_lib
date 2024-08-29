@@ -74,6 +74,30 @@ lib.request = {
 
     return true
   end,
+
+  audioBank = function(bank, timeout)
+    assert(bank, 'an audio bank is required')
+    assert(type(bank) == 'string' or type(bank) == 'table', 'bank must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(bank) == 'table' then
+      for i, v in ipairs(bank) do
+        if not lib.request.audioBank(v, timeout) then
+          return false
+        end
+      end
+      return true
+    end
+
+    local start_time = GetGameTimer()
+    while not RequestScriptAudioBank(bank, false) do
+      if GetGameTimer() - start_time > timeout then
+        return false
+      end
+      Wait(0)
+    end
+
+    return true
+  end,
 }
 
 
