@@ -27,9 +27,7 @@ export function MenuTitle(props: MenuTitleProps) {
   //   }
   //   return true;
   // }, [props.icon]);
-  const [sound] = useState(new Audio(hoverSound));
-  const [sound_click] = useState(new Audio(clickSound));
-
+  console.log('props', props.menu)
   const onBack = function(){
     if (props.menu) {
       fetchNui('openContext', {
@@ -58,7 +56,7 @@ export function MenuTitle(props: MenuTitleProps) {
         description={props.description || ''} 
         icon={props.icon as IconName} 
         
-        backButton={props.menu != null || props.menu != false} 
+        backButton={props.menu ? true : false} 
         onBack={onBack}
       
         closeButton={props.canClose}

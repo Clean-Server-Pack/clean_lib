@@ -98,7 +98,7 @@ export function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(77,77,77,0.8)' : 'rgba(77,77,77,0.6)'}
+      bg={!props.disabled && hovered ? 'rgba(77,77,77,0.8)' : !props.disabled ? 'rgba(77,77,77,0.6)' : 'rgba(77,77,77,0.4)'}
       w='90%'
       p='sm'
       gap='xs'
@@ -131,9 +131,9 @@ export function MenuItem(props: MenuItemProps) {
           <img src={props.icon} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
         )}
 
-        <Text fw='bold' size='sm' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
+        <Text fw='bold' size='md' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
       </Flex>
-      {props.description && <Text size='xs' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
+      {props.description && <Text size='sm' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
         {props.description}
       </Text>}
       {props.progress && 

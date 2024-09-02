@@ -107,7 +107,7 @@ export default function Menu(){
               {menuOpen.searchBar &&
                   <Input 
                     w='65%'
-                    size='xs'
+                    size='md'
                     radius={theme.radius.xs}
                     bg='rgba(77,77,77,0.6)'
                     styles={{
@@ -170,7 +170,7 @@ const test_menu = {
   searchBar:true,
   clickSounds:true, 
   hoverSounds:true,
-  menu:'main',
+  // menu:'main',
 
   // watermark:'https://via.placeholder.com/150x150',
 
@@ -188,7 +188,8 @@ const test_menu = {
     {
       title:'Edit Classes',
       icon:'edit',
-      description:'Allows you edit the classes for this player'
+      description:'Allows you edit the classes for this player',
+      disabled:true,
     },
     {
       title:'Edit Classes',

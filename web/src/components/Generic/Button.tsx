@@ -76,7 +76,7 @@ export default function Button(props: ButtonProps) {
       onClick={props.onClick}
     >
       {props.icon && (
-        <FontAwesomeIcon icon={props.icon as IconName || 'fa-play'} style={{ color: hovered && !props.disabled ? colors.iconColor.hovered : colors.iconColor.normal }} size={props.iconSize as SizeProp || 'sm'}/>
+        <FontAwesomeIcon icon={props.icon as IconName || 'fa-play'} style={{ color: hovered && !props.disabled ? colors.iconColor.hovered : colors.iconColor.normal }} size={props.iconSize as SizeProp || 'md'}/>
       )}
 
       {props.text && (

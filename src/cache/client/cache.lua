@@ -2,15 +2,17 @@ local cache = _ENV.cache
 cache.playerId = PlayerId()
 cache.serverId = GetPlayerServerId(cache.playerId)
 
+
 function cache:set(key,value)
   if value ~= self[key] then
-    print('Setting ', key, value, self[key])
     TriggerEvent(('clean_lib:cache:%s'):format(key), value, self[key])
     self[key] = value
     return true
   end
   return false
 end
+
+
 
 local GetVehiclePedIsIn = GetVehiclePedIsIn
 local GetPedInVehicleSeat = GetPedInVehicleSeat

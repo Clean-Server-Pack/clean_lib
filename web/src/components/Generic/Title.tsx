@@ -41,16 +41,17 @@ export function Title(props: TitleProps) {
             padding: theme.spacing.xs,
             borderRadius: theme.radius.xs,
             border: `1px solid var(--mantine-primary-color-9)`,
+            fontSize: '2vh'
           }} 
         />
         <Flex
           direction='column'
         >
-          <Text p='0' size='md' style={{
+          <Text p='0' size='lg' style={{
             fontFamily: 'Akrobat Bold'
           }}>{props.title}</Text>
           <Text 
-            size='sm'
+            size='md'
             c='grey'
           >{props.description}</Text>
         </Flex>

@@ -1,24 +1,22 @@
 local settings = lib.settings
+local FW = lib.FW
 lib.player = {
   get = function(src)
     assert(type(src) == 'number', 'src must be a number')
-    print('Framework is ', settings.framework)
     if settings.framework == 'qb-core' then 
-
-      print(QBCore, server_scripts)
-      return QBCore.Functions.GetPlayer(src)
+      return FW.Functions.GetPlayer(src)
+    elseif settings.framework == 'qbx_core' then 
+      local ply =  exports.qbx_core:GetPlayer(src)
+      return ply
     elseif settings.framework == 'es_extended' then 
-      return ESX.GetPlayerFromId(src)
+      return FW.GetPlayerFromId(src)
     end
   end,
 
   identifier = function(src)
-
-    print('Getting Identifier for player', src)
     local ply = lib.player.get(src)
-    assert(player, 'Player does not exist')
-
-    if settings.framework == 'qb-core' then 
+    assert(ply, 'Player does not exist')
+    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
       return ply.PlayerData.citizenid
     elseif settings.framework == 'es_extended' then 
       return ply.identifier
@@ -27,7 +25,7 @@ lib.player = {
   
   name  = function(src)
     local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' then 
+    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
       return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
     elseif settings.framework == 'es_extended' then 
       local raw = ply.getName()
@@ -37,7 +35,7 @@ lib.player = {
   end,
 
   phone_number = function(src)
-    if settings.framework == 'qb-core' then 
+    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
       return ply.PlayerData.charinfo.phone
     elseif settings.framework == 'es_extended' then 
       local result = MySQL.Sync.fetchAll("SELECT phone_number FROM users WHERE identifier = @identifier", {['@identifier'] = ply.identifier})
@@ -47,7 +45,7 @@ lib.player = {
 
   gender       = function(src)
     local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' then 
+    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
       return ply.PlayerData.charinfo.gender or 'unknown'
     elseif settings.framework == 'es_extended' then
       return 'unknown'
@@ -56,7 +54,12 @@ lib.player = {
 
   deleteCharacter = function(src, citizenId)
     if settings.framework == 'qb-core' then 
-      return QBCore.Player.DeleteCharacter(src, citizenId)
+      return FW.Player.DeleteCharacter(src, citizenId)
+    elseif settings.framework == 'qbx_core' then
+      print('deleting character')
+      local deleted = exports.qbx_core:DeleteCharacter(citizenId)
+      print('deleted', deleted)
+      return deleted
     elseif settings.framework == 'es_extended' then 
 
     end
@@ -64,7 +67,21 @@ lib.player = {
 
   loginCharacter = function(src, citizenId, newData)
     if settings.framework == 'qb-core' then 
-      return QBCore.Player.Login(src, citizenId, newData)
+      return FW.Player.Login(src, citizenId, newData)
+    elseif settings.framework == 'qbx_core' then 
+      local login = exports.qbx_core:Login(src, citizenId, newData)
+      return login
+    elseif settings.framework == 'es_extended' then 
+
+    end
+  end,
+
+  logoutCharacter = function(src, citizenId)
+    if settings.framework == 'qb-core' then 
+      return FW.Player.Logout(src, citizenId)
+    elseif settings.framework == 'qbx_core' then 
+      local logout = exports.qbx_core:Logout(src, citizenId)
+      return logout
     elseif settings.framework == 'es_extended' then 
 
     end

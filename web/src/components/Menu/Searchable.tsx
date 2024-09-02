@@ -7,6 +7,7 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
     return (
       <Flex
         w='100%'
+        p='xs'
         h='100%'
         direction={'column'}
         align='center'

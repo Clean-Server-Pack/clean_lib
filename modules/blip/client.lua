@@ -41,8 +41,6 @@ function blip:__init()
   assert(self.scale, 'blip must have a scale')
   assert(self.color, 'blip must have a color')
 
-print('blip', self.name, self.pos.x, self.pos.y, self.pos.z)
-
   self:render()
 end
 

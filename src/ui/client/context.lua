@@ -35,6 +35,14 @@ RegisterNuiCallback('contextClicked', function(id,cb)
 end)
 
 lib.registerContext = function(id, data)
+  
+  -- OX COMPAT
+  if type(id) == 'table' then 
+    data = id
+    data.id = data.id
+    id = data.id
+  end 
+
 
   contextMenus[id] = {
     title = data.title or 'My Context Menu',
@@ -80,6 +88,9 @@ lib.openContext = function(id)
   }))
 end
 
+lib.getOpenContextMenu = function()
+  return currentContext
+end
 
 -- OX COMPATIBILITY
 lib.showContext = lib.openContext

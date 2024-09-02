@@ -54,17 +54,12 @@ local settings = require 'src.settings'
 lib.settings = settings
 
 local getFrameworkObject = function()
-  if settings.framework == 'qb-core' or setings.framework == 'qbx_core' then 
-    print('GETTING QB CORE')
-    return exports[settings.framework]:GetCoreObject()
+  if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
+    return exports['qb-core']:GetCoreObject()
   elseif settings.framework == 'es_extended' then
     return exports['es_extended']:getSharedObject()
   end
 end
-
-print('TESTING', settings.framework)
-lib.print.error('TESTING', settings.framework)
-
 
 lib.FW = setmetatable({}, {
 	__index = function(self, index)

@@ -40,7 +40,6 @@ camera = {
 
 lib.camera = {
   focusEntity = function(entity, data)
-    print('focus entity', entity, data)
     camera.exit(data)
     camera.new(data)
     PointCamAtEntity(camera.current, entity, data.offset.x, data.offset.y, data.offset.z, true)

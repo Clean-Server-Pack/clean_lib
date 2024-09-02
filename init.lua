@@ -68,8 +68,10 @@ end
 local lib = setmetatable({
   name = clean_lib, 
   context = context,
-  onCache = function(key, cb)
+  onCache = function(key, cb)  
     AddEventHandler(('clean_lib:cache:%s'):format(key), cb)
+    -- Pass current value to callback
+    cb(cache[key])
   end,
 
   settings = {
@@ -118,9 +120,7 @@ local cache = setmetatable({
 
     if not value then 
       value = func()
-
       rawset(self,key,value)
-
       if timeout then SetTimeout(timeout,function() self[key] = nil; end) end 
     end
 
@@ -136,7 +136,7 @@ local settings = require 'src.settings'
 lib.settings = settings
 
 local getFrameworkObject = function()
-  if settings.framework == 'qb-core' or setings.framework == 'qbx_core' then 
+  if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
     return exports['qb-core']:GetCoreObject()
   elseif settings.framework == 'es_extended' then
     return exports['es_extended']:getSharedObject()

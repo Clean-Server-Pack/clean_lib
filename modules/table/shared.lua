@@ -215,6 +215,12 @@ lib.table = {
     return getCount(table)
   end,
 
+  wipe = function(tbl)
+    for k in pairs(tbl) do
+      tbl[k] = nil
+    end
+  end,
+
   freeze = function(tbl)
     local copy = deepClone(tbl)
     local metatable = getmetatable(tbl)
@@ -230,12 +236,6 @@ lib.table = {
 
     return tbl
   end,
-
-  wipe = function(tbl)
-    for k in pairs(tbl) do
-      tbl[k] = nil
-    end
-  end
 }
 
 

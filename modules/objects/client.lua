@@ -28,7 +28,6 @@ function object:__init()
 
   local stock_funcs = {
     onEnter = function()
-      print('onEnter')
       local can_spawn = self.canSpawn and self.canSpawn() or true
       if not can_spawn then return end
       self:spawn()
@@ -75,8 +74,7 @@ function object:__init()
     end
   end)
 
-  print(('object %s registered'):format(self.id))
-
+  lib.print.debug(('object %s registered'):format(self.id))
 end
 
 function object:despawn()
@@ -99,7 +97,6 @@ function object:spawn()
   elseif self.type == 'vehicle' then
     self.entity = CreateVehicle(self.model, self.pos, self.pos.w or 0.0, false, false)
   elseif self.type == 'object' then 
-    print('creating object')
     self.entity = CreateObject(self.model, self.pos, false, false, false)
     SetEntityHeading(self.entity, self.pos.w or 0.0)
   end
