@@ -19,7 +19,8 @@ files {
   'modules/**/client.lua',
   'modules/**/server.lua',
   'modules/**/shared.lua',
-
+  'src/modelNames.lua',
+  'src/settings.lua',
 
   --\\ NUI WHEN ADDED \\--
   'web/build/index.html',

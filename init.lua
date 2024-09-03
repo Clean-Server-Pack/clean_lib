@@ -65,6 +65,7 @@ local call = function(self, index, ...)
   return module 
 end
 
+
 local lib = setmetatable({
   name = clean_lib, 
   context = context,
@@ -74,25 +75,7 @@ local lib = setmetatable({
     cb(cache[key])
   end,
 
-  settings = {
-    server_name     = 'CleanRP',
-    framework       = 'qb-core',
-    inventory       = 'ox_inventory',
-    target          = 'ox_target',
-    
-    
-    keys            = 'ox_keys',
-    jail            = 'ox_jail',
-    time            = 'clean_weather', 
-    progress        = 'clean_lib',
-    phone           = 'lb-phone', 
-    fuel            = 'ox_fuel',
-    dispatch        = 'ox_dispatch',
-
-    primaryColor    = 'clean',
-    secondaryColor  = 'clean',
-    logo            = 'https://via.placeholder.com/150' 
-  }
+  settings = settings,
 }, {
   __index = call, 
   __call  = call
@@ -102,6 +85,8 @@ _ENV.lib = lib
 
 --## Override require with ox's lovely require module
 require = lib.require
+local settings = require 'src.settings'
+lib.settings = settings
 
 local cache = setmetatable({
   resource = resource_name,
@@ -131,10 +116,6 @@ local cache = setmetatable({
 })
 
 --## FRAMEWORK/SETTINGS
-
-local settings = require 'src.settings'
-lib.settings = settings
-
 local getFrameworkObject = function()
   if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
     return exports['qb-core']:GetCoreObject()

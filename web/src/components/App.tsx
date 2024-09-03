@@ -1,13 +1,14 @@
+import { MantineProvider } from '@mantine/core';
 import '@mantine/dates/styles.css';
 import React, { useEffect, useState } from "react";
-import "./App.css";
-import Menu from './Menu/main';
-import { BackgroundImage, MantineProvider } from '@mantine/core';
-import Quiz from './Quiz/main';
-import Notifications from './Notify/main';
+import { useNuiEvent } from '../hooks/useNuiEvent';
 import { useSettings } from '../providers/settings/settings';
 import theme from '../theme';
+import "./App.css";
 import Dialog from './Dialog/main';
+import Menu from './Menu/main';
+import Notifications from './Notify/main';
+import Quiz from './Quiz/main';
 
 const App: React.FC = () => {
   const [curTheme, setCurTheme] = useState(theme);
@@ -20,6 +21,15 @@ const App: React.FC = () => {
     cloned.primaryShade = settings.primaryShade;
     setCurTheme(cloned);
   }, [settings]);
+
+  useNuiEvent('COPY_TO_CLIPBOARD', (data: string) => {
+    const el = document.createElement('textarea');
+    el.value = data;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+  });
 
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>

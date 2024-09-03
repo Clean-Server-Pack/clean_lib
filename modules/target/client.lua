@@ -120,7 +120,51 @@ lib.target = {
         exports.ox_target:removeLocalEntity(entity)       
       end
     end
-  end
+  end,
+
+  addModels = function(data)
+    if settings.target == "qb-target" or settings.target == "qtarget" then
+      exports[settings.target]:AddTargetModel(data.models, {
+        distance = (data.distance or 1.5),
+        options  = data.options,
+      })
+    elseif settings.target == "ox_target" then
+      return exports.ox_target:addModel(data.models, parse_options_for_ox(data.options))
+    end
+  end, 
+
+  addGlobalVehicle = function(data)
+    if settings.target == "qb-target" then 
+      exports[settings.target]:AddGlobalVehicle({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "qtarget" then
+      exports[settings.target]:Vehicle({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "ox_target" then
+      return exports.ox_target:addGlobalVehicle(parse_options_for_ox(data.options))
+    end
+  end,
+  
+
+  addGlobalPed = function(data)
+    if settings.target == "qb-target" then 
+      exports[settings.target]:AddGlobalPed({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "qtarget" then
+      exports[settings.target]:Ped({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "ox_target" then
+      return exports.ox_target:addGlobalPed(parse_options_for_ox(data.options))
+    end
+  end,
 }
 
 return lib.target

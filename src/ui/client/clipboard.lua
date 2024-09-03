@@ -1,6 +1,6 @@
 lib.copyToClipboard = function(text)
   SendNUIMessage({
-    type         = "COPY_TO_CLIPBOARD",
-    value        = val,
+    action         = "COPY_TO_CLIPBOARD",
+    data           = text,
   })
 end

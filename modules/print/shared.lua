@@ -32,7 +32,7 @@ local print_types = {
   debug = {
     prefixText = 'DEBUG',
     color = 'green',
-    condition = function() return settings.debug end
+    condition = function() return lib.settings.debug end
   },
 }
 
@@ -47,8 +47,16 @@ lib.print = {
   end,
 }
 
+setmetatable(lib.print, {
+  __call = function(_, ...)
+    lib.print.info(...)
+  end
+})
+
 for k, v in pairs(print_types) do 
   lib.print.addType(k, v.prefixText, v.color, v.condition)
 end
+
+
 
 return lib.print

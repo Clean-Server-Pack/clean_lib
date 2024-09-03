@@ -1,5 +1,4 @@
 
-
 local debug_getinfo = debug.getinfo
 
 noop = function() 
@@ -12,8 +11,6 @@ end
 lib = setmetatable({
   name = 'clean_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
-  settings = settings,
-
 }, {
   __newindex = function(self,key,fn)
     rawset(self,key,fn)
@@ -49,6 +46,7 @@ lib = setmetatable({
 --## Override require with ox's lovely require module
 require = lib.require
 
+
 --## FRAMEWORK/SETTINGS
 local settings = require 'src.settings'
 lib.settings = settings
@@ -72,3 +70,13 @@ cache = {
   game     = GetGameName(),
 }
 
+local poolNatives = {
+  CPed = GetAllPeds,
+  CObject = GetAllObjects,
+  CVehicle = GetAllVehicles,
+}
+
+local GetGamePool = function(poolName)
+  local fn = poolNatives[poolName]
+  return fn and fn() --[[@as number[] ]]
+end

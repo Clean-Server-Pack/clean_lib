@@ -6,8 +6,7 @@ lib.player = {
     if settings.framework == 'qb-core' then 
       return FW.Functions.GetPlayer(src)
     elseif settings.framework == 'qbx_core' then 
-      local ply =  exports.qbx_core:GetPlayer(src)
-      return ply
+      return exports.qbx_core:GetPlayer(src)
     elseif settings.framework == 'es_extended' then 
       return FW.GetPlayerFromId(src)
     end
@@ -56,12 +55,10 @@ lib.player = {
     if settings.framework == 'qb-core' then 
       return FW.Player.DeleteCharacter(src, citizenId)
     elseif settings.framework == 'qbx_core' then
-      print('deleting character')
       local deleted = exports.qbx_core:DeleteCharacter(citizenId)
-      print('deleted', deleted)
       return deleted
     elseif settings.framework == 'es_extended' then 
-
+      MySQL.Async.execute('DELETE FROM users WHERE identifier = @identifier', {['@identifier'] = citizenId})
     end
   end, 
 
@@ -72,7 +69,7 @@ lib.player = {
       local login = exports.qbx_core:Login(src, citizenId, newData)
       return login
     elseif settings.framework == 'es_extended' then 
-
+      TriggerEvent('esx:onPlayerJoined', src, newData.slot, newData)
     end
   end,
 
@@ -80,10 +77,10 @@ lib.player = {
     if settings.framework == 'qb-core' then 
       return FW.Player.Logout(src, citizenId)
     elseif settings.framework == 'qbx_core' then 
-      local logout = exports.qbx_core:Logout(src, citizenId)
+      local logout = exports.qbx_core:Logout(src)
       return logout
     elseif settings.framework == 'es_extended' then 
-
+      TriggerEvent('esx:onPlayerLogout', src)
     end
   end,
 
@@ -133,11 +130,11 @@ lib.player = {
   end,
 
   addItem = function(src, item, amount, md, slot)
-    
+    -- return lib.inventory.addItem(src, item, amount, md, slot)
   end,
 
   removeItem = function(src, item ,amount ,md, slot)
-
+    -- return lib.inventory.removeItem(src, item, amount, md, slot)
   end,
 
   editItem = function(src, slot, new_data)
