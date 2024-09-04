@@ -196,8 +196,16 @@ lib.zones = {
     return zone.delete(name)
   end,
 
+  destroy = function(name)
+    return zone.delete(name)
+  end,
+
   getCenter = function(poly)
     
+  end,
+
+  polyPointCheck = function(poly, coord)
+    return glm.polygon.new(poly):contains(coord)
   end
 }
 

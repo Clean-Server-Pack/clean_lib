@@ -65,6 +65,7 @@ lib.FW = setmetatable({}, {
 		return fw_obj[index]
 	end
 })
+
 cache = {
   resource = GetCurrentResourceName(), 
   game     = GetGameName(),

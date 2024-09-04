@@ -16,7 +16,6 @@ const App: React.FC = () => {
   // Ensure the theme is updated when the settings change
   useEffect(() => {
     const cloned = { ...curTheme };
-    console.log('new theme' + settings.primaryColor + settings.primaryShade);
     cloned.primaryColor = settings.primaryColor;
     cloned.primaryShade = settings.primaryShade;
     setCurTheme(cloned);

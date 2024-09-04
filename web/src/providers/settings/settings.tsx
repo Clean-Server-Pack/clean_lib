@@ -14,7 +14,6 @@ export const SettingsProvider: React.FC<{ children: ReactNode }> = ({ children }
 
   useEffect(() => {
     if (!isEnvBrowser()) {
-      console.log('SettingsProvider: Fetching settings from Lua');
       fetchNui('GET_SETTINGS')
         .then((data) => {
           // Ensure data is of type SettingsProps

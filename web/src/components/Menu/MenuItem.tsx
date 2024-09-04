@@ -98,9 +98,9 @@ export function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(77,77,77,0.8)' : !props.disabled ? 'rgba(77,77,77,0.6)' : 'rgba(77,77,77,0.4)'}
+      bg={!props.disabled && hovered ? 'rgba(62,62,62,0.8)' : !props.disabled ? 'rgba(62,62,62,0.6)' : 'rgba(62,62,62,0.4)'}
       w='90%'
-      p='sm'
+      p='lg'
       gap='xs'
       direction='column'
       style={{
@@ -126,14 +126,17 @@ export function MenuItem(props: MenuItemProps) {
 
       >
         {props.icon && is_icon ? (
-          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ color: 'white' }} size='sm' />  
+          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
+            color: 'white',
+            fontSize: '2vh',
+          }}  />  
         ) : (
           <img src={props.icon} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
         )}
 
-        <Text fw='bold' size='md' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
+        <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
       </Flex>
-      {props.description && <Text size='sm' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
+      {props.description && <Text size='1.5vh' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
         {props.description}
       </Text>}
       {props.progress && 

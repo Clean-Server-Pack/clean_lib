@@ -15,7 +15,11 @@ object.get = function(id)
 end
 
 object.delete = function(id)
+  local this = object[id]
+  if not this then return end
+  this:despawn()
   object[id] = nil
+  lib.zones.destroy(id)
 end
 
 

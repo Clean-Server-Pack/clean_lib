@@ -65,6 +65,7 @@ export default function Button(props: ButtonProps) {
 
 
       style={{
+        aspectRatio: '1/1',
         borderRadius: props.radius || theme.radius.xs,
         cursor: !props.disabled ? 'pointer' : 'not-allowed',
         padding: props.p || '0.5rem',
@@ -76,7 +77,14 @@ export default function Button(props: ButtonProps) {
       onClick={props.onClick}
     >
       {props.icon && (
-        <FontAwesomeIcon icon={props.icon as IconName || 'fa-play'} style={{ color: hovered && !props.disabled ? colors.iconColor.hovered : colors.iconColor.normal }} size={props.iconSize as SizeProp || 'md'}/>
+        <FontAwesomeIcon icon={props.icon as IconName || 'fa-play'} style={{ 
+          color: hovered && !props.disabled ? colors.iconColor.hovered : colors.iconColor.normal,
+          fontSize: props.iconSize || '2vh',
+          aspectRatio: '1/1',
+        }} 
+        
+        />
+
       )}
 
       {props.text && (

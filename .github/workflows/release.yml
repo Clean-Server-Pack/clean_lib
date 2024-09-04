@@ -77,6 +77,7 @@ jobs:
           mkdir -p ./temp/clean_lib/web/
           cp ./fxmanifest.lua ./init.lua ./temp/clean_lib/
           cp -r ./src ./temp/clean_lib
+          cp -r ./bridge ./temp/clean_lib
           cp -r ./modules ./temp/clean_lib
           cp -r ./web/build ./temp/clean_lib/web/
           cd ./temp && zip -r ../clean_lib.zip ./clean_lib

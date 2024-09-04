@@ -173,6 +173,8 @@ lib.player = {
       raw_inv = ply.getInventory()
     elseif settings.framework == 'qb-core' then 
       raw_inv = ply.PlayerData.items
+    elseif settings.framework == 'qbx_core' then 
+      raw_inv = ply.PlayerData.items
     end
 
     assert(raw_inv and type(raw_inv) == 'table', 'Inventory is not a table or does not exist?')

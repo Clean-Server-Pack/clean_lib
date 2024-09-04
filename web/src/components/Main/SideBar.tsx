@@ -38,7 +38,7 @@ function SideBar(props:SideBarProps){
     <Box
       pos='absolute'
       right = {props.menuOpen ? '0' : '-100%'}
-      bg='rgba(0, 0, 0, 0.9)'
+      bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 27%, rgba(36,36,36,0.55) 47%, rgba(0,0,0,0) 100%)'
       w={props.w}
       h={props.h}
       style={styles}

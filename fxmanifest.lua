@@ -1,7 +1,7 @@
 fx_version 'cerulean'
 lua54 'yes'
 games { 'rdr3', 'gta5' }
-
+use_experimental_fxv2_oal 'yes'
 name         'clean_lib'
 author       'DirkScripts'
 version      '1.0.11'
@@ -19,6 +19,9 @@ files {
   'modules/**/client.lua',
   'modules/**/server.lua',
   'modules/**/shared.lua',
+  'bridge/**/client.lua',
+  'bridge/**/server.lua',
+  'bridge/**/shared.lua',
   'src/modelNames.lua',
   'src/settings.lua',
 

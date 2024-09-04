@@ -11,29 +11,12 @@ RegisterNetEvent(callback_event:format(cache.resource), function(key, ...)
 end)
 
 
-local eventTimer = function(event,delay)
-  if delay and type(delay) == 'number' and delay > 0 then 
-    local time = GetGameTimer()
 
 
-    if (timer[event] or 0) > time then 
-      return false 
-    end 
-
-    timers[event] = time + delay 
-
-    return true
-  end
-  return true
-end
 
 
-local triggerServerCallback = function(_,event, delay, cb, ...)
-  if not eventTimer(event, delay) then return end 
-
+local triggerServerCallback = function(_,event, cb, ...)
   local key 
-
-
   repeat 
     key = ('%s_%s'):format(event, math.random(0, 9999999))
   until not awaitingCallbacks[key]
@@ -62,21 +45,26 @@ end
 
 
 lib.callback = setmetatable({}, {
-  __call = function(_, event, delay, cb, ...)
+  __call = function(_, event, cb, ...)
     if not cb then 
       warn(('Callback %s does not have a callback'):format(event))
     else 
+      if type(cb) == 'number' then 
+        lib.print.warn(('Callback %s : 2nd argument should be a function not a number, ignored for now'):format(event))
+        local rawArgs = {...}
+        cb = rawArgs[1]
+      end   
       local cbType = type(cb)
-      assert(cbType == 'function', ('Callback %s must have a function for argument 3'):format(event))
+      assert(cbType == 'function', ('Callback %s must have a function for argument 2'):format(event))
     end
 
-    return triggerServerCallback(_, event, delay, cb, ...)
+    return triggerServerCallback(_, event, cb, ...)
   end
 })
 
 
 lib.callback.await = function(event, ...)
-  return triggerServerCallback(_, event, false, ...)
+  return triggerServerCallback(_, event, nil, ...)
 end
 
 

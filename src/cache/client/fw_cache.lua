@@ -6,6 +6,8 @@ if settings.framework == 'qb-core' then
   AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     local PlayerData =  lib.FW.Functions.GetPlayerData()
     cache:set('playerLoaded', PlayerData)
+    cache:set('playerData', PlayerData)
+    cache:set('citizenId', PlayerData.citizenid)
   end)
 
   AddEventHandler('QBCore:Client:OnPlayerUnload', function()
@@ -14,6 +16,10 @@ if settings.framework == 'qb-core' then
 
   AddEventHandler('QBCore:Client:JobUpdate', function(job)
     cache:set('job', job)
+  end)
+
+  AddEventHandler('QBCore:Client:UpdatePlayerData', function(data)
+    cache:set('playerData', data)
   end)
 
 elseif settings.framework == 'qbx_core' then 

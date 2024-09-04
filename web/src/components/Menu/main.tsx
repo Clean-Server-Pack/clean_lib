@@ -1,6 +1,6 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Image, Input, useMantineTheme } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
 import { Title } from "../Generic/Title";
@@ -48,6 +48,17 @@ export default function Menu(){
       setSearch(e.target.value)
     }
 
+    // handle escaape key press
+    useEffect(() => {
+      const handleKeyPress = (e: KeyboardEvent) => {
+        if (e.key === 'Escape' && menuOpen && menuOpen.canClose) {
+          fetchNui('closeContext')
+        }
+      }
+
+      window.addEventListener('keydown', handleKeyPress)
+      return () => window.removeEventListener('keydown', handleKeyPress)
+    }, [menuOpen])
 
 
     return (
@@ -80,7 +91,7 @@ export default function Menu(){
                 description={menuOpen.description || ''} 
                 icon={menuOpen.icon as IconName} 
                 
-                backButton={menuOpen.menu != null || menuOpen.menu != false}
+                backButton={menuOpen.menu ? true : false}
                 onBack={() => {
                   if (menuOpen.menu) {
                     fetchNui('openContext', {
@@ -109,11 +120,10 @@ export default function Menu(){
                     w='65%'
                     size='md'
                     radius={theme.radius.xs}
-                    bg='rgba(77,77,77,0.6)'
                     styles={{
                       input:{
                         border:'1px solid var(--mantine-primary-color-9)',
-                        background:'rgba(77,77,77,0.5)',
+                        background:'rgba(62,62,62,0.6)',
                       }
                     }}
                     placeholder='Search...'

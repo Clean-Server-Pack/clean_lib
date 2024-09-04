@@ -2,9 +2,6 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { fetchNui } from "../../utils/fetchNui";
 import { Title } from "../Generic/Title";
 import { MenuProps } from "./main";
-import { useState } from "react";
-import hoverSound from './soundfx.mp3';
-import clickSound from './click_sound.mp3';
 
 
 type MenuTitleProps = {
@@ -27,7 +24,7 @@ export function MenuTitle(props: MenuTitleProps) {
   //   }
   //   return true;
   // }, [props.icon]);
-  console.log('props', props.menu)
+
   const onBack = function(){
     if (props.menu) {
       fetchNui('openContext', {

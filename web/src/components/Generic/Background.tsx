@@ -34,7 +34,7 @@ export default function Background(props: BackgroundProps) {
     // > 
       <Flex
         direction='column'
-        bg='rgba(0, 0, 0, 0.9)'
+        bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 41%, rgba(36,36,36,0.55) 76%, rgba(255,255,255,0) 100%)'
         opacity={opacity}
         w='100vw'
         h='100vh'

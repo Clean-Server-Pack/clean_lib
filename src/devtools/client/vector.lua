@@ -12,7 +12,6 @@ DevTool.register('vector4', {
   end
 })
 
-
 DevTool.register('vector3', {
   label = 'Vector3',
   command = true, 
@@ -36,6 +35,7 @@ DevTool.register('vector2', {
     local vec = vector2(coords.x, coords.y)
     local vecString = ('vector2(%s, %s)'):format(vec.x, vec.y)
     lib.copyToClipboard(vecString)
+    
   end
 })
 
