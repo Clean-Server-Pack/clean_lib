@@ -7,7 +7,7 @@ return {
   item_img_path   = GetConvar('clean_lib:item_img_path', 'nui://clean_inventory/web/images/'),
   target          = GetConvar('clean_lib:target', 'ox_target'),
   keys            = GetConvar('clean_lib:keys', 'ox_keys'),
-  jail            = GetConvar('clean_lib:jail', 'ox_jail'),
+  prison          = GetConvar('clean_lib:prison', 'ox_jail'),
   time            = GetConvar('clean_lib:time', 'clean_weather'),
   progress        = GetConvar('clean_lib:progress', 'clean_lib'),
   phone           = GetConvar('clean_lib:phone', 'lb-phone'),

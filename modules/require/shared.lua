@@ -114,7 +114,7 @@ package.searchers = {
 ---@param env? table
 ---@return unknown
 ---Loads and runs a Lua file at the given path. Unlike require, the chunk is not cached for future use.
-function lib.load(filePath, env)
+function lib.load(filePath, env, bridge)
   if type(filePath) ~= 'string' then
     error(("file path must be a string (received '%s')"):format(filePath), 2)
   end
@@ -123,7 +123,11 @@ function lib.load(filePath, env)
 
   if result then return result() end
 
-  error(("file '%s' not found\n\t%s"):format(filePath, err))
+  if not bridge then 
+    error(("file '%s' not found\n\t%s"):format(filePath, err))
+  else 
+    return false 
+  end 
 end
 
 ---@param filePath string
@@ -179,6 +183,15 @@ function lib.require(modName)
   end
 
   error(("%s"):format(table.concat(err, "\n\t")))
+end
+
+function lib.loadBridge(_type, resource, _context )
+  local loaded = lib.load(('@clean_lib.bridge.%s.%s.%s'):format(_type, resource, _context), nil, true) 
+  if not loaded then 
+    lib.print.error(('Bridge %s for resource %s not found. Context is %s'):format(_type, resource, _context))
+    return {}
+  end 
+  return loaded
 end
 
 return lib.require

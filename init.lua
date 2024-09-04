@@ -100,6 +100,7 @@ local cache = setmetatable({
     return rawset(self,key,export.cache(nil,key) or false)[key]
   end or nil,
 
+
   __call = function(self, key, value)
     local value = rawget(self,key)
 
@@ -116,17 +117,10 @@ local cache = setmetatable({
 })
 
 --## FRAMEWORK/SETTINGS
-local getFrameworkObject = function()
-  if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
-    return exports['qb-core']:GetCoreObject()
-  elseif settings.framework == 'es_extended' then
-    return exports['es_extended']:getSharedObject()
-  end
-end
-
+local framework_bridge = lib.loadBridge('framework', settings.framework, 'shared')
 lib.FW = setmetatable({}, {
 	__index = function(self, index)
-		local fw_obj = getFrameworkObject()
+		local fw_obj = framework_bridge.getObject()
 		return fw_obj[index]
 	end
 })

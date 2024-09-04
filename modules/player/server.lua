@@ -1,89 +1,82 @@
-local settings = lib.settings
-local FW = lib.FW
-lib.player = {
-  get = function(src)
-    assert(type(src) == 'number', 'src must be a number')
-    if settings.framework == 'qb-core' then 
-      return FW.Functions.GetPlayer(src)
-    elseif settings.framework == 'qbx_core' then 
-      return exports.qbx_core:GetPlayer(src)
-    elseif settings.framework == 'es_extended' then 
-      return FW.GetPlayerFromId(src)
-    end
-  end,
+local settings      = lib.settings
+local bridge        = lib.loadBridge('player', settings.framework, 'server')
+local prison        = lib.loadBridge('prison', settings.prison, 'server')
 
-  identifier = function(src)
-    local ply = lib.player.get(src)
-    assert(ply, 'Player does not exist')
-    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
-      return ply.PlayerData.citizenid
-    elseif settings.framework == 'es_extended' then 
-      return ply.identifier
-    end
-  end,
+return  {
+  ---@param src number | string 
+  ---@return table
+  get = bridge.get,
+
+  ---@param src number
+  ---@return string
+  identifier      = bridge.identifier,
+
+  ---@param src number
+  ---@return string, string
+  name            = bridge.name,
   
-  name  = function(src)
-    local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
-      return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
-    elseif settings.framework == 'es_extended' then 
-      local raw = ply.getName()
-      local firstName, lastName = raw:match("(%a+)%s+(.*)")
-      return firstName, lastName
-    end
-  end,
+  ---@param src number
+  ---@return string
+  phone_number    = bridge.phone_number,
 
-  phone_number = function(src)
-    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
-      return ply.PlayerData.charinfo.phone
-    elseif settings.framework == 'es_extended' then 
-      local result = MySQL.Sync.fetchAll("SELECT phone_number FROM users WHERE identifier = @identifier", {['@identifier'] = ply.identifier})
-      return result[1] or "No Number"
-    end
-  end,
+  ---@param src number
+  ---@return string
+  gender          = bridge.gender,
 
-  gender       = function(src)
-    local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' or settings.framework == 'qbx_core' then 
-      return ply.PlayerData.charinfo.gender or 'unknown'
-    elseif settings.framework == 'es_extended' then
-      return 'unknown'
-    end 
-  end, 
+  ---@param src number
+  ---@param citizenId string
+  ---@return boolean
+  deleteCharacter = bridge.deleteCharacter,
 
-  deleteCharacter = function(src, citizenId)
-    if settings.framework == 'qb-core' then 
-      return FW.Player.DeleteCharacter(src, citizenId)
-    elseif settings.framework == 'qbx_core' then
-      local deleted = exports.qbx_core:DeleteCharacter(citizenId)
-      return deleted
-    elseif settings.framework == 'es_extended' then 
-      MySQL.Async.execute('DELETE FROM users WHERE identifier = @identifier', {['@identifier'] = citizenId})
-    end
-  end, 
+  ---@param src number
+  ---@param citizenId string
+  ---@param newData table
+  ---@return boolean
+  loginCharacter  = bridge.loginCharacter,
 
-  loginCharacter = function(src, citizenId, newData)
-    if settings.framework == 'qb-core' then 
-      return FW.Player.Login(src, citizenId, newData)
-    elseif settings.framework == 'qbx_core' then 
-      local login = exports.qbx_core:Login(src, citizenId, newData)
-      return login
-    elseif settings.framework == 'es_extended' then 
-      TriggerEvent('esx:onPlayerJoined', src, newData.slot, newData)
-    end
-  end,
+  ---@param src number
+  ---@param citizenId string
+  ---@return boolean
+  logoutCharacter = bridge.logoutCharacter,
 
-  logoutCharacter = function(src, citizenId)
-    if settings.framework == 'qb-core' then 
-      return FW.Player.Logout(src, citizenId)
-    elseif settings.framework == 'qbx_core' then 
-      local logout = exports.qbx_core:Logout(src)
-      return logout
-    elseif settings.framework == 'es_extended' then 
-      TriggerEvent('esx:onPlayerLogout', src)
-    end
-  end,
+  ---@param src number
+  ---@param time number
+  ---@param reason string
+  ---@return boolean
+  jail = prison.jail or bridge.jail,  
 
+  ---@param src number
+  ---@param acc string
+  ---@param count number
+  ---@param reason string
+  ---@return boolean
+  addMoney = bridge.addMoney,
+
+  ---@param src number
+  ---@param acc string
+  ---@param count number
+  ---@param reason string
+  ---@return boolean
+  removeMoney = bridge.removeMoney,
+
+  ---@param src number
+  ---@param item string
+  ---@param count number
+  ---@param slot number
+  ---@param md table
+  ---@return boolean
+  addItem = lib.inventory.addItem,
+  
+  ---@param src number
+  ---@param item string
+  ---@param count number
+  ---@param slot number
+  ---@param md table
+  ---@return boolean
+  removeItem = lib.inventory.removeItem,
+
+  ---@param identifier string|number
+  ---@return boolean
   checkOnline = function(identifier)
     assert(type(identifier) == 'string' or type(identifier) == 'number', 'Identifier must be a string or number')
     if type(identifier) == 'number' then 
@@ -101,97 +94,5 @@ lib.player = {
     return false
   end,
 
-  jail = function(trg, data)
-    if settings.jail_system == 'esx_jail' then 
-      TriggerEvent('esx_jail:sendToJail', trg, data.time * 60, true)
-    elseif settings.jail__system == 'qb-prison' then 
 
-    end 
-  end,
-
-  addMoney = function(src, acc, amount, reason)
-    local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' then 
-      ply.Functions.AddMoney(acc, amount, reason)
-    elseif settings.framework == 'es_extended' then 
-
-    end
-  end, 
-
-  removeMoney = function(src,acc, amount, reason)
-    local ply = lib.player.get(src)
-    if settings.framework == 'qb-core' then 
-      ply.Functions.RemoveMoney(acc, amount, reason)
-    elseif settings.framework == 'es_extended' then 
-    
-    elseif settings.framework == 'qbox' then 
-      ply.Functions.RemoveMoney(acc, amount, reason)
-    end
-  end,
-
-  addItem = function(src, item, amount, md, slot)
-    return lib.inventory.addItem(src, item, amount, md, slot)
-  end,
-
-  removeItem = function(src, item ,amount ,md, slot)
-    return lib.inventory.removeItem(src, item, amount, md, slot)
-  end,
-
-  editItem = function(src, slot, new_data)
-    local ply = lib.player.get(src)
-    if settings.inventory == "qs-inventory" then
-      exports['qs-inventory']:SetItemMetadata(src, slot, new_data)
-    elseif settings.inventory == "ox_inventory" then
-      exports['ox_inventory']:SetMetadata(src, slot, new_data)
-    elseif settings.inventory == "core_inventory" then
-      print(' FEATURE NOT SUPPORTED YET')
-    else
-      --## FALL BACK FOR MOST INVENTORIES
-      -- OLD QS
-      -- QB-INVENTORY
-      -- LJ-INVENTORY
-      -- ESX-INVENTORY
-      if settings.framework == "es_extended" then
-        ply.addInventoryItem(i,a, md or nil)
-      elseif settings.framework == "qb-core" then
-        local item = ply.Functions.GetItemBySlot(slot)
-        if item then 
-          if ply.Functions.RemoveItem(item.name,item.amount,slot) then 
-            ply.Functions.AddItem(item.name,item.amount, slot, new_data)
-          end
-        end
-      end
-    end
-  end,
-
-  getInventory = function(src)
-    local ply = lib.player.get(src)
-    assert(ply, 'Player does not exist')
-    local sanitized = {}
-    local raw_inv   = false 
-    if settings.framework == 'es_extended' then
-      raw_inv = ply.getInventory()
-    elseif settings.framework == 'qb-core' then 
-      raw_inv = ply.PlayerData.items
-    elseif settings.framework == 'qbx_core' then 
-      raw_inv = ply.PlayerData.items
-    end
-
-    assert(raw_inv and type(raw_inv) == 'table', 'Inventory is not a table or does not exist?')
-
-    for k,v in ipairs(raw_inv) do
-      if (v.amount and v.amount >= 1) or (v.count and v.count >= 1) then
-      table.insert(sanitized, {
-          name  = v.name,
-          label = v.label,
-          count = (v.amount or v.count),
-          info  = (v.info or v.metadata or false),
-          slot  = (v.slot or nil),
-        })
-      end
-    end
-    return sanitized
-  end,
 }
-
-return lib.player
