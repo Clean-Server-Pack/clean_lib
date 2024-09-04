@@ -1,9 +1,9 @@
-local inventory = lib.load(('@clean_lib.bridge.inventory.%s.server'):format(lib.settings.inventory))
-
+local bridge = lib.load(('@clean_lib.bridge.inventory.%s.server'):format(lib.settings.inventory))
 lib.inventory = {}
 
+
 lib.inventory.useableItem = function(item_name, callback)
-  local useableItem = inventory.useableItem
+  local useableItem = bridge.useableItem
   if useableItem then
     useableItem(item_name, callback)
   else 
@@ -20,7 +20,7 @@ lib.inventory.useableItem = function(item_name, callback)
 end
 
 lib.inventory.addItem = function(item_name, count, slot, metadata)
-  local addItem = inventory.addItem
+  local addItem = bridge.addItem
   if addItem then
     return addItem(item_name, count, slot, metadata)
   else 

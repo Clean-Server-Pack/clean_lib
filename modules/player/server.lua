@@ -130,11 +130,11 @@ lib.player = {
   end,
 
   addItem = function(src, item, amount, md, slot)
-    -- return lib.inventory.addItem(src, item, amount, md, slot)
+    return lib.inventory.addItem(src, item, amount, md, slot)
   end,
 
   removeItem = function(src, item ,amount ,md, slot)
-    -- return lib.inventory.removeItem(src, item, amount, md, slot)
+    return lib.inventory.removeItem(src, item, amount, md, slot)
   end,
 
   editItem = function(src, slot, new_data)
