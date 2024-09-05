@@ -38,5 +38,3 @@ DevTool.register('vector2', {
     
   end
 })
-
-print('DevTools registered')

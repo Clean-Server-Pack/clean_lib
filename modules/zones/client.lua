@@ -1,20 +1,21 @@
+local zones = {}
 local zone = {}
 zone.__index = zone
 
 zone.new = function(id,data)
   local self = setmetatable(data, zone)
   self.id = id
-  zone[id] = self
+  zones[id] = self
   self:__init()
   return self
 end
 
 zone.get = function(id)
-  return zone[id]
+  return zones[id]
 end
 
 zone.delete = function(id)
-  zone[id] = nil
+  zones[id] = nil
 end
 
 function zone:__init()
@@ -84,19 +85,24 @@ end
 
 function zone:enter(data)
   if self.inside then return false; end   
-
-  if self.onEnter then 
-    self.onEnter(data)
-  end
   self.inside = true
+  if self.onEnter then 
+    CreateThread(function()
+      self.onEnter(data)
+      TerminateThisThread()
+    end)
+  end
 end
 
 function zone:exit(data)
   if not self.inside then return false; end
-  if self.onExit then 
-    self.onExit(data)
-  end
   self.inside = false
+  if self.onExit then 
+    CreateThread(function()
+      self.onExit(data)
+      TerminateThisThread()
+    end)
+  end
 end
 
 function zone:handleGameZone(current_zone)
@@ -151,30 +157,28 @@ CreateThread(function()
       game_zone = gta_zone
     }
 
-    for name, data in pairs(zone) do
-      if type(data) == 'table' and data.id then 
-        if data.type == 'all_game_zone' then 
-          data:handleGameZone(current_state.game_zone)
-        end
+    for name, data in pairs(zones) do
+      if data.type == 'all_game_zone' then 
+        data:handleGameZone(current_state.game_zone)
+      end
 
-        if data.chunk_zone then 
-          if data.chunk_zone == gta_zone then 
-            
-            wait_time = data:draw(current_state) and 0 or 1000
-            local is_inside = data:is_inside(current_state)
-            if is_inside then 
-              data:enter(current_state)
-              if data.onInside then 
-                data.onInside(current_state)
-              end
-            else 
-              data:exit(current_state)
+      if data.chunk_zone then 
+        if data.chunk_zone == gta_zone then 
+          
+          wait_time = data:draw(current_state) and 0 or wait_time
+          local is_inside = data:is_inside(current_state)
+          if is_inside then 
+            data:enter(current_state)
+            if data.onInside then 
+              data.onInside(current_state)
             end
           else 
             data:exit(current_state)
           end
-        end 
-      end
+        else 
+          data:exit(current_state)
+        end
+      end 
     end
     
     Wait(wait_time)

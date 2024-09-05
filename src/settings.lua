@@ -7,6 +7,10 @@ return {
   item_img_path   = GetConvar('clean_lib:item_img_path', 'nui://clean_inventory/web/images/'),
   target          = GetConvar('clean_lib:target', 'ox_target'),
   keys            = GetConvar('clean_lib:keys', 'ox_keys'),
+  garage          = GetConvar('clean_lib:garage', 'ox_garage'),
+  ambulance       = GetConvar('clean_lib:ambulance', 'qb-ambulancejob'),
+
+  notify          = GetConvar('clean_lib:notify', 'clean_lib'),
   prison          = GetConvar('clean_lib:prison', 'ox_jail'),
   time            = GetConvar('clean_lib:time', 'clean_weather'),
   progress        = GetConvar('clean_lib:progress', 'clean_lib'),
@@ -19,6 +23,4 @@ return {
   logo            = GetConvar('clean_liblogo', 'https://via.placeholder.com/150'),
   -- notify_audio    = GetConvar('notify_audio', true),
   -- notify_position = GetConvar('notify_position', 'top-right'),
-
-  esxCharTables   = GetConvar('clean_lib:esxCharTables', 'esx_characters'),
 }

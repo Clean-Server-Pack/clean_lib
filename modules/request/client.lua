@@ -15,6 +15,7 @@ lib.request = {
     end
 
     local start_time = GetGameTimer()
+    if DoesEntityExist(entity) then return true end
     while not DoesEntityExist(entity) do
       if GetGameTimer() - start_time > timeout then
         return false
@@ -36,9 +37,11 @@ lib.request = {
       end
       return true
     end
-
+    
     local model = joaat(model)
+    local inCdImage = IsModelInCdimage(joaat(model))
     local start_time = GetGameTimer()
+    if HasModelLoaded(model) then return true end
     while not HasModelLoaded(model) do
       RequestModel(model)
       if GetGameTimer() - start_time > timeout then
@@ -63,6 +66,7 @@ lib.request = {
     end
 
     local start_time = GetGameTimer()
+    if HasNamedPtfxAssetLoaded(asset) then return true end
     while not HasNamedPtfxAssetLoaded(asset) do
       RequestNamedPtfxAsset(asset)
       if GetGameTimer() - start_time > timeout then
@@ -87,6 +91,7 @@ lib.request = {
     end
 
     local start_time = GetGameTimer()
+    if HasStreamedTextureDictLoaded(txd) then return true end
     while not HasStreamedTextureDictLoaded(txd) do
       RequestStreamedTextureDict(txd)
       if GetGameTimer() - start_time > timeout then
@@ -136,6 +141,7 @@ lib.request = {
     end
 
     local start_time = GetGameTimer()
+    if HasAnimDictLoaded(dict) then return true end
     while not HasAnimDictLoaded(dict) do
       RequestAnimDict(dict)
       if GetGameTimer() - start_time > timeout then

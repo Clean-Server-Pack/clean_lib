@@ -1,11 +1,9 @@
--- types || playerLoaded, playerLogout, playerDied
-local settings = lib.settings
-
+local settings      = lib.settings
+local bridge        = lib.loadBridge('player', settings.framework, 'client')
 
 lib.player = {
-  loaded = function()
-    return isLoggedIn
-  end,
+  ---@return string
+  identifier = bridge.identifier,
 
 }
 
