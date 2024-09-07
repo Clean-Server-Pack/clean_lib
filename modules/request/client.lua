@@ -38,13 +38,23 @@ lib.request = {
       return true
     end
     
-    local model = joaat(model)
-    local inCdImage = IsModelInCdimage(joaat(model))
+    local hash = type(model) == 'string' and GetHashKey(model) or model
+    local modelValid = IsModelValid(hash)
+    assert(modelValid, 'model is not valid: ' .. model..hash)
+    local inCdImage = IsModelInCdimage(hash)
     local start_time = GetGameTimer()
-    if HasModelLoaded(model) then return true end
-    while not HasModelLoaded(model) do
-      RequestModel(model)
-      if GetGameTimer() - start_time > timeout then
+    
+    if HasModelLoaded(hash) then return true end
+    RequestModel(hash)
+    local last_model_request = GetGameTimer() - 2500
+    while not HasModelLoaded(hash) do
+      local now = GetGameTimer()
+      if now - last_model_request > 2500 then
+        RequestModel(hash)
+        last_model_request = now
+      end
+
+      if now - start_time > timeout then
         return false
       end
       Wait(0)
@@ -144,6 +154,84 @@ lib.request = {
     if HasAnimDictLoaded(dict) then return true end
     while not HasAnimDictLoaded(dict) do
       RequestAnimDict(dict)
+      if GetGameTimer() - start_time > timeout then
+        return false
+      end
+      Wait(0)
+    end
+
+    return true
+  end,
+
+  animSet = function(set, timeout)
+    assert(set, 'an anim set is required')
+    assert(type(set) == 'string' or type(set) == 'table', 'set must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(set) == 'table' then
+      for i, v in ipairs(set) do
+        if not lib.request.animSet(v, timeout) then
+          return false
+        end
+      end
+      return true
+    end
+
+    local start_time = GetGameTimer()
+    if HasAnimSetLoaded(set) then return true end
+    while not HasAnimSetLoaded(set) do
+      RequestAnimSet(set)
+      if GetGameTimer() - start_time > timeout then
+        return false
+      end
+      Wait(0)
+    end
+
+    return true
+  end,
+
+  scaleFormMovie = function(movie, timeout)
+    assert(movie, 'a scaleform movie is required')
+    assert(type(movie) == 'string' or type(movie) == 'table', 'movie must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(movie) == 'table' then
+      for i, v in ipairs(movie) do
+        if not lib.request.scaleFormMovie(v, timeout) then
+          return false
+        end
+      end
+      return true
+    end
+
+    local start_time = GetGameTimer()
+    if HasScaleformMovieLoaded(movie) then return true end
+    while not HasScaleformMovieLoaded(movie) do
+      RequestScaleformMovie(movie)
+      if GetGameTimer() - start_time > timeout then
+        return false
+      end
+      Wait(0)
+    end
+
+    return true
+  end,
+
+  weaponAsset = function(asset, timeout)
+    assert(asset, 'a weapon asset is required')
+    assert(type(asset) == 'string' or type(asset) == 'table', 'asset must be a string or table')
+    if not timeout then timeout = defaultTimeout end
+    if type(asset) == 'table' then
+      for i, v in ipairs(asset) do
+        if not lib.request.weaponAsset(v, timeout) then
+          return false
+        end
+      end
+      return true
+    end
+
+    local start_time = GetGameTimer()
+    if HasWeaponAssetLoaded(asset) then return true end
+    while not HasWeaponAssetLoaded(asset) do
+      RequestWeaponAsset(asset)
       if GetGameTimer() - start_time > timeout then
         return false
       end

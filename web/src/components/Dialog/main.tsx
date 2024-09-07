@@ -56,7 +56,6 @@ export default function Dialog(){
   useNuiEvent("DIALOG_STATE", (data: IDialogProps) => {
     setOpenMenu(data ? true : false);
     if (data) {
-      console.log(JSON.stringify(data, null, 2));
       setData(data);
     }
   });

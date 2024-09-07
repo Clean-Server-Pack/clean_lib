@@ -1,27 +1,32 @@
-object = {}
+local objects = {}
+local object = {}
 object.__index = object
 
 object.new = function(id, data)
   
   local self = setmetatable(data, object)
   self.id = id
-  object[id] = self
+
+  
   self:__init()
+
+  objects[id] = self
   return self
 end
 
 object.get = function(id)
-  return object[id]
+  return objects[id]
 end
 
 object.delete = function(id)
-  local this = object[id]
-  if not this then return end
+  local this = objects[id]
+  if not this then return 
+    lib.print.debug(('object %s does not exist'):format(id))
+  end
   this:despawn()
-  object[id] = nil
+  objects[id] = nil
   lib.zones.destroy(id)
 end
-
 
 function object:__init()
   self.resource = cache.resource
@@ -47,6 +52,7 @@ function object:__init()
         self:despawn()
         return 
       end
+    
       self:spawn()
     end,
   }
@@ -92,37 +98,43 @@ function object:despawn()
 end
 
 function object:spawn()
-  if self.entity then return end
-  local model_loaded = lib.request.model(self.model, 15000)
+  if self.entity and self.entity ~= 0 then return end
+  local model_hash = joaat(self.model)
+  local model_loaded = lib.request.model(model_hash, 15000)
   assert(model_loaded, 'Failed to load model : ' .. self.model)
-
   if self.type == 'ped' then 
-    self.entity = CreatePed(1, self.model, self.pos, self.pos.w or 0.0, false, false)
+    self.entity = CreatePed(1, self.model, self.pos, self.pos.w or 0.0, false, true)
   elseif self.type == 'vehicle' then
     self.entity = CreateVehicle(self.model, self.pos, self.pos.w or 0.0, false, false)
   elseif self.type == 'object' then 
     self.entity = CreateObject(self.model, self.pos, false, false, false)
-    SetEntityHeading(self.entity, self.pos.w or 0.0)
   end
 
-  if self.entity then 
-    SetEntityAsMissionEntity(self.entity, true, true)
-    SetModelAsNoLongerNeeded(self.model)
+  while not DoesEntityExist(self.entity) do 
+    Wait(0)
   end
+  SetModelAsNoLongerNeeded(model_hash)
 
+  lib.print.info(('object %s spawned for %s'):format(self.entity, self.id))
+
+  
   if self.onSpawn then 
     self:onSpawn({
       entity = self.entity
     })
   end
 
+
   return self.entity
 end
 
-
 lib.objects = {
-  register = function(name, new_data)
-    return object.new(name, new_data)
+  register = function(id, new_data)
+    if objects[id] then 
+      lib.print.error(('object %s already exists'):format(id))
+      return 
+    end
+    return object.new(id, new_data)
   end,
 
   get = function(id)
@@ -140,16 +152,3 @@ lib.objects = {
 
 
 return lib.objects
-
-
--- lib.objects.register('my_object', {
---   type       = 'object',
---   model      = 'prop_cs_burger_01',
---   renderDist = 10.0,
-
---   canSpawn = function()
---     return true 
---   end
-  
--- })
-

@@ -24,6 +24,7 @@ files {
   'bridge/**/shared.lua',
   'src/modelNames.lua',
   'src/settings.lua',
+  'src/compat.lua',
 
   --\\ NUI WHEN ADDED \\--
   'web/build/index.html',
@@ -36,6 +37,7 @@ shared_script 'src/init.lua'
 
 shared_scripts {
   'src/**/shared.lua',
+  
 }
 
 client_scripts {
@@ -48,3 +50,4 @@ server_scripts {
   'src/**/server.lua',
   'src/**/server/*.lua',
 }
+

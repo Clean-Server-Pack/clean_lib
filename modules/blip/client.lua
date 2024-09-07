@@ -1,31 +1,32 @@
+local blips = {}
 local blip = {}
 blip.__index = blip
 
 blip.new = function(id, data)
   local self = setmetatable(data, blip)
   self.id = id
-  blip[id] = self
   self:__init()
+  blips[id] = self
   return self
 end
 
 blip.get = function(id)
-  return blip[id]
+  return blips[id]
 end
 
 blip.delete = function(id)
-  local blip = blip[id]
+  local blip = blips[id]
   if blip then
     blip:hide()
   end
-  blip[id] = nil
+  blips[id] = nil
 end
 
 blip.update = function(id, data)
-  local blip = blip[id]
-  if blip then
+  local foundBlip = blips[id]
+  if foundBlip then
     for k,v in pairs(data) do 
-      blip[k] = v
+      foundBlip[k] = v
     end
     blip:hide()
     blip:render()
@@ -110,6 +111,10 @@ end)
 
 lib.blip = {
   register = function(id, data)
+    if blips[id] then
+      lib.print.error(('blip %s already exists'):format(id))
+      return
+    end
     return blip.new(id, data)
   end,
 

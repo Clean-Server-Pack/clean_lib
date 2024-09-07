@@ -59,6 +59,8 @@ function zone:__init()
   if self.center_pos then 
     self.chunk_zone = GetNameOfZone(self.center_pos.x, self.center_pos.y, self.center_pos.z)
   end
+  lib.print.debug(('zone %s has been created n chunkZone %s'):format(self.id, self.chunk_zone))
+  return self
 end
 
 
@@ -67,7 +69,6 @@ end
 function zone:is_inside(data)
   local dist = #(data.pos - self.center_pos.xyz)
   local current_pos = data.pos 
-
 
   if self.type == 'circle2D' then 
     return #(current_pos.xy - self.pos.xy) <= self.radius
@@ -87,10 +88,10 @@ function zone:enter(data)
   if self.inside then return false; end   
   self.inside = true
   if self.onEnter then 
-    CreateThread(function()
-      self.onEnter(data)
-      TerminateThisThread()
-    end)
+
+    self.onEnter(data)
+
+
   end
 end
 
@@ -98,10 +99,7 @@ function zone:exit(data)
   if not self.inside then return false; end
   self.inside = false
   if self.onExit then 
-    CreateThread(function()
-      self.onExit(data)
-      TerminateThisThread()
-    end)
+    self.onExit(data)
   end
 end
 
@@ -164,7 +162,6 @@ CreateThread(function()
 
       if data.chunk_zone then 
         if data.chunk_zone == gta_zone then 
-          
           wait_time = data:draw(current_state) and 0 or wait_time
           local is_inside = data:is_inside(current_state)
           if is_inside then 
