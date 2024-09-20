@@ -1,7 +1,7 @@
 local settings = lib.settings
 
 if settings.framework == 'qb-core' then
-  AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
+  RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     local PlayerData =  lib.FW.Functions.GetPlayerData()
     cache:set('playerLoaded', PlayerData)
     cache:set('citizenId', PlayerData.citizenid)
@@ -12,20 +12,19 @@ if settings.framework == 'qb-core' then
     })
   end)
 
-  AddEventHandler('QBCore:Client:OnPlayerUnload', function()
+  RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     cache:set('playerLoaded', false)
   end)
 
-  AddEventHandler('QBCore:Client:JobUpdate', function(job)
-    local PlayerData = lib.FW.Functions.GetPlayerData()
+  RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     cache:set('job', {
-      name = PlayerData.job.name,
-      grade = PlayerData.job.grade.level,
-      onduty = PlayerData.job.onduty
+      name = job.name,
+      grade = job.grade.level,
+      onduty = job.onduty,
     })
   end)
 
-  AddEventHandler('QBCore:Client:UpdatePlayerData', function(data)
+  RegisterNetEvent('QBCore:Client:UpdatePlayerData', function(data)
     cache:set('playerData', data)
   end)
 
@@ -51,7 +50,7 @@ elseif settings.framework == 'qbx_core' then
     end
   end)
 
-  AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
+  AddEventHAndler('QBCore:Client:OnJobUpdate', function(job)
     local PlayerData = lib.FW.Functions.GetPlayerData()
     cache:set('job', {
       name = PlayerData.job.name,
@@ -64,5 +63,11 @@ elseif settings.framework == 'qbx_core' then
   
   end)
 elseif settings.framework == 'es_extended' then
-
+  AddEventHandler('esx:setJob', function(job)
+    cache:set('job', {
+      name = job.name,
+      grade = job.grade,
+      onduty = job.onduty
+    })
+  end)
 end
