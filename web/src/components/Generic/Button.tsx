@@ -26,6 +26,9 @@ type ButtonProps = {
   hoverColor?: string;
   fontSize?: string;
   iconSize?: string;
+  
+  // style css properties 
+  style?: React.CSSProperties;
 
 }
 
@@ -71,6 +74,7 @@ export default function Button(props: ButtonProps) {
         padding: props.p || '0.5rem',
         outline: !props.disabled && hovered? `0.1rem solid ${colorWithAlpha(props.hoverColor || theme.colors[theme.primaryColor][9], 0.8)}`: "0.25rem solid transparent",
         transition: 'all 0.1s ease-in-out',
+        ...props.style,
       }}
       align='center'
       justify='center'

@@ -10,10 +10,9 @@ export type ResponseProps = {
   label: string,
   icon?: IconProp,
   description?: string,
+  disabled?: boolean,
   dontClose?: boolean,
   actionid?: string,
-  colorScheme?: string
-  
 }
 
 type ResponsesContainerProps = {
@@ -26,7 +25,7 @@ function ResponsesContainer(props : ResponsesContainerProps) {
   const pages = Math.ceil(props.responses.length / 4);
   const [currentPage, setCurrentPage] = useState(1);
   const currentResponses = props.responses.slice((currentPage - 1) * 4, currentPage * 4);
-  
+
   useEffect(() => {
     setCurrentPage(1);
   }, [props.responses])
@@ -42,6 +41,10 @@ function ResponsesContainer(props : ResponsesContainerProps) {
         icon='fas fa-chevron-left' 
 
         disabled={currentPage === 1}
+
+        style={{
+          visibility: currentPage === 1 ? 'hidden' : 'visible'
+        }}
 
         onClick={() => {
           if (currentPage === 1) return;
@@ -64,6 +67,11 @@ function ResponsesContainer(props : ResponsesContainerProps) {
         mb='auto'
         icon='fas fa-chevron-right' 
         disabled={currentPage === pages}
+
+        style={{
+          visibility: currentPage === pages ? 'hidden' : 'visible'
+        }}
+
         onClick={() => {
           if (currentPage === pages) return;
           setCurrentPage(currentPage + 1);

@@ -59,7 +59,7 @@ function zone:__init()
   if self.center_pos then 
     self.chunk_zone = GetNameOfZone(self.center_pos.x, self.center_pos.y, self.center_pos.z)
   end
-  lib.print.debug(('zone %s has been created n chunkZone %s'):format(self.id, self.chunk_zone))
+  -- lib.print.debug(('zone %s has been created n chunkZone %s'):format(self.id, self.chunk_zone))
   return self
 end
 

@@ -84,7 +84,7 @@ function object:__init()
     end
   end)
 
-  lib.print.debug(('object %s registered'):format(self.id))
+  -- lib.print.debug(('object %s registered'):format(self.id))
 end
 
 function object:despawn()

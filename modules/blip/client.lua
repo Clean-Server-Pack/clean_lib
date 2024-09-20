@@ -42,6 +42,12 @@ function blip:__init()
   assert(self.scale, 'blip must have a scale')
   assert(self.color, 'blip must have a color')
 
+  assert(not self.area or self.area?.width, 'blip area must have a width')
+  assert(not self.area or self.area?.height, 'blip area must have a height')
+
+  assert(not self.radius or type(self.radius) == 'number', 'blip radius must be a number')
+
+  assert(not self.entity or type(self.entity) == 'number', 'blip entity must be a number')
   self:render()
 end
 
@@ -56,12 +62,20 @@ function blip:render()
   local blip
   if self.area then
     blip = AddBlipForArea(self.pos.x, self.pos.y, self.pos.z, self.area.width, self.area.height)
+  elseif self.radius then
+    blip = AddBlipForRadius(self.pos.x, self.pos.y, self.pos.z, self.radius)
+  elseif self.entity then
+    blip = AddBlipForEntity(self.entity)
   else
     blip = AddBlipForCoord(self.pos.x, self.pos.y, self.pos.z)
   end
-  SetBlipSprite(blip, self.sprite or 1)
+
+  if not self.radius then 
+    SetBlipSprite(blip, self.sprite or 1)
+    SetBlipScale(blip, self.scale or 1.0)
+  end 
+
   SetBlipDisplay(blip, self.display or 4)
-  SetBlipScale(blip, self.scale or 1.0)
   SetBlipColour(blip, self.color or 1)
   SetBlipAsShortRange(blip, self.shortRange or false)
   SetBlipCategory(blip, self.category or 1)

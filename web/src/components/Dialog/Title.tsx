@@ -12,6 +12,7 @@ type TitleProps = {
   icon: string;
   backButton?: boolean;
   onBack?: () => void;
+  fontSize?: string;
 
   closeButton?: boolean;
   onClose?: () => void;
@@ -39,17 +40,18 @@ export function Title(props: TitleProps) {
             backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5),
             padding: theme.spacing.xs,
             borderRadius: theme.radius.xs,
+            fontSize: props.fontSize || '2vh',
             border: `1px solid var(--mantine-primary-color-9)`,
           }} 
         />
         <Flex
           direction='column'
         >
-          <Text p='0' size='md' style={{
+          <Text p='0' size='2vh' style={{
             fontFamily: 'Akrobat Black'
           }}>{props.title}</Text>
           <Text 
-            size='sm'
+            size='1.5vh'
             c='grey'
           >{props.description}</Text>
         </Flex>

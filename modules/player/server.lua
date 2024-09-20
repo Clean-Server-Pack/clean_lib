@@ -53,6 +53,15 @@ return  {
   addMoney = bridge.addMoney,
 
   ---@param src number
+  ---@param job string
+  ---@param rank string | number
+  setJob   = bridge.setJob,
+
+  ---@param src number
+  ---@param duty boolean
+  setDuty  = bridge.setDuty,
+
+  ---@param src number
   ---@param acc string
   ---@param count number
   ---@param reason string
@@ -84,10 +93,10 @@ return  {
     end
     local plys = GetPlayers()
     for _, ply in ipairs(plys) do 
-      local other_ply = lib.player.get(ply)
+      local other_ply = lib.player.get(tonumber(ply))
       if other_ply then 
-        if identifier == lib.player.identifier(ply) then 
-          return true
+        if identifier == lib.player.identifier(tonumber(ply)) then
+          return ply
         end
       end
     end

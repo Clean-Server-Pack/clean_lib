@@ -1,5 +1,5 @@
 return {
   getObject = function()
-    return exports['es_extended']:getSharedObject()
+    return exports['qb-core']:GetCoreObject()
   end
 }

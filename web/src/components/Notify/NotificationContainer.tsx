@@ -3,74 +3,76 @@ import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import Notification, { NotificationProps } from "./Notification";
 
-
-
 export type NotificationContainerProps = {
-  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'  
+  position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
 }
 
 function NotificationContainer(props: NotificationContainerProps) {
-  const [notifications, setNotifications] = useState<NotificationProps[]>([])
+  const [notifications, setNotifications] = useState<NotificationProps[]>([]);
 
   useNuiEvent('ADD_NOTIFICATION', (data: NotificationProps) => {
-    if (data.position !== props.position) return
-    // if everything in the notification is the same as another then update the count
-    const existingNotification = notifications.find((n) => n.title === data.title && n.description === data.description && props.position === data.position && n.icon === data.icon)
-    if (existingNotification) {
-      existingNotification.count = (existingNotification.count || 1) + 1
-      setNotifications([...notifications])
-      return
-    } 
+    if (data.position !== props.position) return;
 
-    setNotifications([...notifications, data])
-  })
+    const existingNotification = notifications.find((n) => n.title === data.title && n.description === data.description && props.position === data.position && n.icon === data.icon);
+    if (existingNotification) {
+      existingNotification.count = (existingNotification.count || 1) + 1;
+      setNotifications([...notifications]);
+      return;
+    }
+
+    setNotifications([...notifications, data]);
+  });
 
   useNuiEvent('CLEAR_NOTIFICATIONS', () => {
-    setNotifications([])
-  })
+    setNotifications([]);
+  });
 
-  // timers for duration
   useEffect(() => {
-    notifications.forEach((notification, index) => {
+    // Create an array of timers for each notification
+    const timers = notifications.map((notification, index) => {
+      const hideTimer = setTimeout(() => {
+        notification.hide = true;
+        setNotifications((prevNotifications) => [...prevNotifications]);
 
-    setTimeout(() => {
-      notification.hide = true
-      setNotifications([...notifications])
-      setTimeout(() => {
-        // remove the notification
-        setNotifications(notifications.filter((n, i) => i !== index))
-      }, 500)
-    }, notification.duration || 5000)
-  
-    })
-  }, [notifications])
+        const removeTimer = setTimeout(() => {
+          setNotifications((prevNotifications) => prevNotifications.filter((_, i) => i !== index));
+        }, 500);
+
+        return () => clearTimeout(removeTimer);
+      }, notification.duration || 5000);
+
+      return () => clearTimeout(hideTimer); // Cleanup for hide timer
+    });
+
+    // Cleanup timers on unmount or when notifications change
+    return () => {
+      timers.forEach((clearTimer) => clearTimer());
+    };
+  }, [notifications]);
 
   return (
-    // <></>
-    <Flex      
-      direction='column'
-      gap='xs'
-      w='20%'
-      h='fit-content'
-
-      pos='absolute'
-      
+    <Flex
+      direction="column"
+      gap="xs"
+      w="20%"
+      h="fit-content"
+      pos="absolute"
       style={{
         top: props.position?.includes('top') ? '1rem' : 'unset',
         bottom: props.position?.includes('bottom') ? '1rem' : 'unset',
         left: props.position?.includes('left') ? '1rem' : 'unset',
         right: props.position?.includes('right') ? '1rem' : 'unset',
       }}
-
-    > 
+    >
       {notifications.map((notification, index) => (
         <Notification {...notification} key={index} />
       ))}
     </Flex>
-  )
+  );
 }
 
 export default NotificationContainer;
+
 
 
 // internalEvent([

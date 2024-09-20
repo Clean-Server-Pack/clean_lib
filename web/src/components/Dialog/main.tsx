@@ -83,7 +83,7 @@ export default function Dialog(){
         direction='column'
         w='50%'
       >
-        <Header title={title} dialog={dialog} icon={icon} prevDialog={data.prevDialog} />
+        <Header title={title} dialog={dialog} icon={icon} prevDialog={data.prevDialog} metadata={data.metadata} />
         <ResponsesContainer responses={responses} />
       </Flex>
     </Background>

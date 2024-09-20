@@ -41,6 +41,18 @@ return {
     return exports.qbx_core:Logout(src)
   end,
 
+  setJob = function(src, name, rank)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    ply.Functions.SetJob(name, rank)
+  end,
+  
+  setDuty = function(src, duty)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    ply.Functions.SetJobDuty(duty)
+  end,
+
   jail = function()
 
   end, 

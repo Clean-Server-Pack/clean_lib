@@ -39,7 +39,7 @@ function Metadata(props: MetadataProps) {
           justify='center'
           align='center'
         >
-          <Text c='lightgrey' size='xs'
+          <Text c='lightgrey' size='1.3vh'
             style={{
               fontFamily: 'Akrobat Bold'
             }}>{props.label}</Text>
@@ -52,7 +52,7 @@ function Metadata(props: MetadataProps) {
           align='center'
           justify='center'
         >
-          <Text c='lightgrey' size='xs'
+          <Text c='lightgrey' size='1.3vh'
             style={{
               fontFamily: 'Akrobat Bold'
             }}
@@ -82,6 +82,7 @@ function MetadataContainer(props: MetadataContainerProps) {
   return (
     <Flex
       p='sm'
+      gap='xs'
     >
       {props.metadata.map((meta, index) => {
         return (

@@ -133,6 +133,7 @@ lib.FW = setmetatable({}, {
 
 _ENV.cache = cache
 
+-- INTERVALS 
 SetInterval = function(cb, ms, reps)
   local id = SetTimeout(function()
     cb()
@@ -149,6 +150,23 @@ end
 ClearInterval = function(id)
   ClearTimeout(id)
 end
+
+if context == 'server' then 
+  -- USEFUL CONVERSION FOR SERVER SIDE GAMEPOOLS THANKS OX 
+  local poolNatives = {
+    CPed = GetAllPeds,
+    CObject = GetAllObjects,
+    CVehicle = GetAllVehicles,
+  }
+
+  ---@param poolName 'CPed' | 'CObject' | 'CVehicle'
+  ---@return number[]
+  ---Server-side parity for the `GetGamePool` client native.
+  function GetGamePool(poolName)
+    local fn = poolNatives[poolName]
+    return fn and fn() --[[@as number[] ]]
+  end
+end 
 
 
 for i = 1, GetNumResourceMetadata(cache.resource, 'clean_lib') do

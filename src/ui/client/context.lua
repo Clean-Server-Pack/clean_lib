@@ -43,7 +43,7 @@ lib.registerContext = function(id, data)
     id = data.id
   end 
 
-
+  
   contextMenus[id] = {
     title = data.title or 'My Context Menu',
     icon = data.icon or 'cog',
@@ -51,7 +51,10 @@ lib.registerContext = function(id, data)
     searchBar = data.searchBar or false,
     dialog = data.dialog or false,
     menu = data.menu or false,
+    description = data.description or false,
     watermark = data.watermark or nil,
+    onExit = data.onExit or false,
+    onBack = data.onBack or false,
     clickSounds = data.clickSounds or false,
     hoverSound = data.hoverSound or false,
     options = data.options or {},
@@ -103,8 +106,13 @@ end)
 
 lib.closeContext = function()
   if not currentContext then return end
-  currentContext = nil
   SetNuiFocus(false, false)
+
+  if contextMenus[currentContext].onExit then 
+    contextMenus[currentContext].onExit(); 
+  end
+  currentContext = nil
+
   SendNuiMessage(json.encode({
     action = 'CONTEXT_MENU_STATE',
     data   = {

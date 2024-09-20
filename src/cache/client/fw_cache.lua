@@ -1,13 +1,15 @@
 local settings = lib.settings
-local stored_events = {}
-local job = {}
 
 if settings.framework == 'qb-core' then
   AddEventHandler('QBCore:Client:OnPlayerLoaded', function()
     local PlayerData =  lib.FW.Functions.GetPlayerData()
     cache:set('playerLoaded', PlayerData)
-    cache:set('playerData', PlayerData)
     cache:set('citizenId', PlayerData.citizenid)
+    cache:set('job', {
+      name = PlayerData.job.name,
+      grade = PlayerData.job.grade.level,
+      onduty = PlayerData.job.onduty
+    })
   end)
 
   AddEventHandler('QBCore:Client:OnPlayerUnload', function()
@@ -15,7 +17,12 @@ if settings.framework == 'qb-core' then
   end)
 
   AddEventHandler('QBCore:Client:JobUpdate', function(job)
-    cache:set('job', job)
+    local PlayerData = lib.FW.Functions.GetPlayerData()
+    cache:set('job', {
+      name = PlayerData.job.name,
+      grade = PlayerData.job.grade.level,
+      onduty = PlayerData.job.onduty
+    })
   end)
 
   AddEventHandler('QBCore:Client:UpdatePlayerData', function(data)
@@ -45,10 +52,11 @@ elseif settings.framework == 'qbx_core' then
   end)
 
   AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
+    local PlayerData = lib.FW.Functions.GetPlayerData()
     cache:set('job', {
-      name = job.name,
-      grade = job.grade.level, 
-      onduty = job.onduty
+      name = PlayerData.job.name,
+      grade = PlayerData.job.grade.level,
+      onduty = PlayerData.job.onduty
     })
   end)
 
