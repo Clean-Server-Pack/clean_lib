@@ -9,7 +9,7 @@ return {
   keys            = GetConvar('clean_lib:keys', 'ox_keys'),
   garage          = GetConvar('clean_lib:garage', 'ox_garage'),
   ambulance       = GetConvar('clean_lib:ambulance', 'qb-ambulancejob'),
-
+  interact        = GetConvar('clean_lib:interact', 'sleepless_interact'),
   notify          = GetConvar('clean_lib:notify', 'clean_lib'),
   prison          = GetConvar('clean_lib:prison', 'ox_jail'),
   time            = GetConvar('clean_lib:time', 'clean_weather'),

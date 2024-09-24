@@ -1,43 +1,54 @@
-
+local settings = lib.settings
 local parseOptions = function(options)
-  local opts = {}
   for k,v in pairs(options) do 
     if v.action then 
       v.onSelect = v.action
     end 
   end
-  return opts
+  return options
 end
 
 
 lib.interact = {
-  addEntity = function(entity, data)
+  entity = function(entity, data)
     if settings.interact == 'sleepless_interact' then
-      local options = {
+      local interact_data = {
         id = ('entity_%s'):format(entity), 
         entity = entity, 
+        -- netId  = data.network and entity or nil, 
         options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
       }
-      if data.local then 
-        exports.sleepless_interact.addLocalEntity(options)
+      print('netId', interact_data.netId)
+      if data.network then 
+        print()
+        exports.sleepless_interact:addEntity(interact_data)
       else
-        exports.sleepless_interact.addEntity(options)
-      else 
+       
+        exports.sleepless_interact:addLocalEntity(interact_data)
+      end
         
-    elseif settings.ineract == 'marker' then 
+    elseif settings.interact == 'marker' then 
 
     end 
   end,
 
-  addModels = function(models, data)
+  addModels = function(data)
+    -- print('rawOptionns', json.encode(data.options, {indent = true}))
     if settings.interact == 'sleepless_interact' then
-      local options = {
+      local interact_data = {
         id = ('model_%s'):format(data.model),
-        models = models, 
-        model  = #models == 1 and models[1] or nil,
+        models = data.models, 
+        model  = #data.models == 1 and data.models[1] or nil,
         options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
       }
-      exports.sleepless_interact.addGlobalModel(data)
+      -- print('options', json.encode(interact_data.options, {indent = true}))
+      exports.sleepless_interact:addGlobalModel(interact_data)
     elseif settings.interact == 'marker' then 
 
     end 
@@ -49,12 +60,15 @@ lib.interact = {
         id = ('vehicle_%s'):format(vehicle), 
         vehicle = vehicle, 
         options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
       }
-      if data.local then 
-        exports.sleepless_interact.addLocalVehicle(options)
-      else
+      if data.network then 
         exports.sleepless_interact.addVehicle(options)
-      else 
+      else
+        exports.sleepless_interact.addLocalVehicle(options)
+      end
         
     elseif settings.ineract == 'marker' then 
 
@@ -63,3 +77,6 @@ lib.interact = {
 
   
 }
+
+
+return lib.interact

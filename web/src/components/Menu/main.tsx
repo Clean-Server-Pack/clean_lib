@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
 import { Title } from "../Generic/Title";
-import SideBar from "../Main/SideBar";
+import SideBar from "../Generic/SideBar";
 import './Menu.module.css';
 import { MenuItem, MenuItemProps } from "./MenuItem";
 import SearchableContent from "./Searchable";

@@ -1,4 +1,4 @@
-import { MantineProvider } from '@mantine/core';
+import { BackgroundImage, MantineProvider } from '@mantine/core';
 import '@mantine/dates/styles.css';
 import React, { useEffect, useState } from "react";
 import { useNuiEvent } from '../hooks/useNuiEvent';
@@ -9,6 +9,8 @@ import Dialog from './Dialog/main';
 import Menu from './Menu/main';
 import Notifications from './Notify/main';
 import Quiz from './Quiz/main';
+import Input from './Input/main';
+import { isEnvBrowser } from '../utils/misc';
 
 const App: React.FC = () => {
   const [curTheme, setCurTheme] = useState(theme);
@@ -32,18 +34,28 @@ const App: React.FC = () => {
 
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
-      {/* <BackgroundImage w='100vw' h='100vh' style={{overflow:'hidden'}}
-        src="https://i.ytimg.com/vi/TOxuNbXrO28/maxresdefault.jpg"
-      >  */}
-      <>
+      <Wrapper>
         <Notifications />
         <Menu />
         <Quiz />
         <Dialog />
-      </>
-      {/* </BackgroundImage> */}
+        <Input />
+      </Wrapper>
     </MantineProvider>
   );
 };
 
 export default App;
+
+
+function Wrapper({ children }: { children: React.ReactNode }) {
+  return isEnvBrowser() ? ( 
+    <BackgroundImage w='100vw' h='100vh' style={{overflow:'hidden'}}
+      src="https://i.ytimg.com/vi/TOxuNbXrO28/maxresdefault.jpg"
+    >  
+      {children}
+    </BackgroundImage>
+  ) : (
+    <>{children}</>
+  )
+}

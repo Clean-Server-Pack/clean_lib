@@ -50,7 +50,7 @@ elseif settings.framework == 'qbx_core' then
     end
   end)
 
-  AddEventHAndler('QBCore:Client:OnJobUpdate', function(job)
+  AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
     local PlayerData = lib.FW.Functions.GetPlayerData()
     cache:set('job', {
       name = PlayerData.job.name,

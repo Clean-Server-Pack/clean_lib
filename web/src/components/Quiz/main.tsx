@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Flex, Text, Button} from '@mantine/core'
-import SideBar from '../Main/SideBar'
+import SideBar from '../Generic/SideBar'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconName } from '@fortawesome/fontawesome-svg-core'
 import InfoBox from './InfoBox'
