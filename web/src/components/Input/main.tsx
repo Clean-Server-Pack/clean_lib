@@ -38,13 +38,14 @@ type InputProps =
   | {
       type: 'checkbox';
       label: string;
+      icon?: string;
       checked?: boolean;
       disabled?: boolean;
       required?: boolean;
     }
   | {
       type: 'color';
-      label: string;
+      label:string;
       description?: string;
       placeholder?: string;
       icon?: string;
@@ -147,7 +148,7 @@ function CustomInput(props: InputProps){
       gap='0.5rem'
     >
       <Flex>
-        {props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{marginRight:'0.5rem'}} />}
+        {typeof props !== 'string' && props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{marginRight:'0.5rem'}} />}
 
         <Text>{isSimple(props) ? props : props.label}</Text>
       </Flex>
