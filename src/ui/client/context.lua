@@ -15,7 +15,7 @@ end
 
 
 RegisterNuiCallback('contextClicked', function(id,cb)
-  
+  cb('ok')
   if not currentContext then return end
   local item = get_item_by_id(id)
   
@@ -33,6 +33,7 @@ RegisterNuiCallback('contextClicked', function(id,cb)
       TriggerServerEvent(item.serverEvent, item.args)
     end
   end
+
 end)
 
 lib.registerContext = function(id, data)
