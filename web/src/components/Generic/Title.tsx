@@ -11,7 +11,7 @@ type TitleProps = {
   icon: string;
   backButton?: boolean;
   onBack?: () => void;
-
+  mt?: string;
   closeButton?: boolean;
   onClose?: () => void;
 };
@@ -21,6 +21,7 @@ export function Title(props: TitleProps) {
   const theme = useMantineTheme();
   return (
     <Flex
+      mt={props.mt}
       direction='column'
       align='center'
       gap='xs'
@@ -38,7 +39,7 @@ export function Title(props: TitleProps) {
         w='90%'
       >
         {props.backButton && (
-          <Button icon='fa-arrow-left' onClick={props.onBack} />
+          <Button mr='xs' icon='fa-arrow-left' onClick={props.onBack} />
         )}
 
         <Flex
