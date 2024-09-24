@@ -148,9 +148,13 @@ function CustomInput(props: InputProps){
       gap='0.5rem'
     >
       <Flex>
-        {typeof props !== 'string' && props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{marginRight:'0.5rem'}} />}
+        <Flex>
+          {typeof props !== 'string' && props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{marginRight:'0.5rem'}} />}
 
-        <Text>{isSimple(props) ? props : props.label}</Text>
+          <Text>{isSimple(props) ? props : props.label}</Text>
+        </Flex>
+        {/* description if there is one */}
+        {typeof props !== 'string' && props.description && <Text>{props.description}</Text>}
       </Flex>
       {isSimple(props) ? 
         <TextInput/>

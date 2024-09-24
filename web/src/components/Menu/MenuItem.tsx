@@ -24,6 +24,9 @@ export type MenuItemProps = {
   menu?: string; 
   dialog? : string;
   onSelect?: string; 
+
+  serverEvent?: string;
+  clientEvent?: string;
   icon?: IconName | string;
   iconColor?: string;
   iconAnimation?: string;
@@ -48,7 +51,7 @@ export function MenuItem(props: MenuItemProps) {
       return;
     }
 
-    if (props.onSelect) {
+    if (props.onSelect || props.serverEvent || props.clientEvent) {
       fetchNui('contextClicked', props.id) 
     }
 

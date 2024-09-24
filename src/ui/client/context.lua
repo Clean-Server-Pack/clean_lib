@@ -15,6 +15,7 @@ end
 
 
 RegisterNuiCallback('contextClicked', function(id,cb)
+  
   if not currentContext then return end
   local item = get_item_by_id(id)
   
