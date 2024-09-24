@@ -154,7 +154,7 @@ function CustomInput(props: InputProps){
           <Text>{isSimple(props) ? props : props.label}</Text>
         </Flex>
         {/* description if there is one */}
-        {typeof props !== 'string' && props.description && <Text>{props.description}</Text>}
+        {/* {typeof props !== 'string' && props.description && <Text>{props.description}</Text>} */}
       </Flex>
       {isSimple(props) ? 
         <TextInput/>
