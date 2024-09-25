@@ -288,7 +288,7 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         align='center'
 
       >
-        {isSimple(props) ? 
+        {/* {isSimple(props) ? 
           <TextInput/>
         : props.type === 'input' ?
           <TextInput w='100%' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} type={props.password ? 'password' : 'text'} min={props.min} max={props.max} />
@@ -304,28 +304,28 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
           <MultiSelect placeholder={props.placeholder} required={props.required} disabled={props.disabled} data={props.options} searchable={props.searchable} clearable={props.clearable} maxSelectedValues={props.maxSelectedValues} />
         : props.type === 'textarea' ?
           <Textarea placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} autosize={props.autosize} resize={'both'} />
-        : props.type === 'date-range' ?
-          <DateInput 
+        // : props.type === 'date-range' ?
+        //   <DateInput 
           
-            placeholder={props.placeholder} 
-            required={props.required} 
-            disabled={props.disabled} 
-            clearable={props.clearable} 
-            min={props.min} 
-            max={props.max}
-          />
-        : props.type === 'date' ?
-          <DateInput 
-            placeholder={props.placeholder} 
-            required={props.required} 
-            disabled={props.disabled} 
-            clearable={props.clearable} 
-            min={props.min} 
-            max={props.max}
-          />
+        //     placeholder={props.placeholder} 
+        //     required={props.required} 
+        //     disabled={props.disabled} 
+        //     clearable={props.clearable} 
+        //     min={props.min} 
+        //     max={props.max}
+        //   />
+        // : props.type === 'date' ?
+        //   <DateInput 
+        //     placeholder={props.placeholder} 
+        //     required={props.required} 
+        //     disabled={props.disabled} 
+        //     clearable={props.clearable} 
+        //     min={props.min} 
+        //     max={props.max}
+        //   />
         : props.type === 'slider' ?
           <Slider w='100%' defaultValue={props.default} min={props.min} max={props.max} />
-        : null}
+        : null} */}
       </Flex>
 
     </Flex>
