@@ -29,7 +29,7 @@ if settings.framework == 'qb-core' then
   end)
 
 elseif settings.framework == 'qbx_core' then 
-  RegisterNetEvent('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
+  AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     if value then   
       local PlayerData =  lib.FW.Functions.GetPlayerData()
       if not PlayerData or not PlayerData.job then return end
@@ -63,9 +63,9 @@ elseif settings.framework == 'qbx_core' then
     local PlayerData = lib.FW.Functions.GetPlayerData()
     if groupName == 'job' then
       cache:set('job', {
-          name = PlayerData.job.name,
-          grade = PlayerData.job.grade.level,
-          onduty = PlayerData.job.onduty
+        name = PlayerData.job.name,
+        grade = PlayerData.job.grade.level,
+        onduty = PlayerData.job.onduty
       })
     end
   end)
