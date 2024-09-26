@@ -29,7 +29,7 @@ if settings.framework == 'qb-core' then
   end)
 
 elseif settings.framework == 'qbx_core' then 
-  AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
+  RegisterNetEvent('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     if value then   
       local PlayerData =  lib.FW.Functions.GetPlayerData()
       if not PlayerData or not PlayerData.job then return end
@@ -50,7 +50,7 @@ elseif settings.framework == 'qbx_core' then
     end
   end)
 
-  AddEventHandler('QBCore:Client:OnJobUpdate', function(job)
+  RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     local PlayerData = lib.FW.Functions.GetPlayerData()
     cache:set('job', {
       name = PlayerData.job.name,
@@ -59,8 +59,15 @@ elseif settings.framework == 'qbx_core' then
     })
   end)
 
-  AddEventHandler('qbx_core:client:onGroupUpdate', function(groupName, groupGrade)
-  
+  RegisterNetEvent('qbx_core:client:onGroupUpdate', function(groupName, groupGrade)
+    local PlayerData = lib.FW.Functions.GetPlayerData()
+    if groupName == 'job' then
+      cache:set('job', {
+          name = PlayerData.job.name,
+          grade = PlayerData.job.grade.level,
+          onduty = PlayerData.job.onduty
+      })
+    end
   end)
 elseif settings.framework == 'es_extended' then
   AddEventHandler('esx:setJob', function(job)

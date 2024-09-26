@@ -165,6 +165,23 @@ lib.target = {
       return exports.ox_target:addGlobalPed(parse_options_for_ox(data.options))
     end
   end,
+
+
+  addGlobalPlayer = function(data)
+    if settings.target == "qb-target" then 
+      exports[settings.target]:AddGlobalPlayer({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "qtarget" then
+      exports[settings.target]:Player({
+        options = data.options,
+        distance = (data.distance or 1.5),
+      })
+    elseif settings.target == "ox_target" then
+      return exports.ox_target:addGlobalPlayer(parse_options_for_ox(data.options))
+    end
+  end,
 }
 
 return lib.target

@@ -43,6 +43,19 @@ lib = setmetatable({
   end
 })
 
+if lib.context == 'server' then 
+  lib.notify = function(src, data)
+    if type(src) == 'table' then 
+      for _, id in ipairs(src) do 
+        TriggerClientEvent('clean_lib:notify', id, data)
+      end
+      return 
+    end
+    
+    TriggerClientEvent('clean_lib:notify', src, data)
+  end
+end 
+
 --## Override require with ox's lovely require module
 require = lib.require
 

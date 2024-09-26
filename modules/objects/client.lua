@@ -109,6 +109,10 @@ function object:spawn()
   elseif self.type == 'object' then 
     self.entity = CreateObject(self.model, self.pos, false, false, false)
   end
+  
+  if self.pos.w then 
+    SetEntityHeading(self.entity, self.pos.w)
+  end
 
   while not DoesEntityExist(self.entity) do 
     Wait(0)

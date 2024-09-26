@@ -39,3 +39,5 @@ lib.notify = function(data)
     if sound.bank then ReleaseNamedScriptAudioBank(sound.bank) end
   end
 end
+
+RegisterNetEvent('clean_lib:notify', lib.notify)

@@ -101,13 +101,13 @@ function dialog:open(another_menu, entity)
   }))
 end
 
-function dialog:close()
+function dialog:close(keep_cam)
   self.isOpen = false
   SetNuiFocus(false, false)
   SendNuiMessage(json.encode({
     action = 'DIALOG_STATE'
   }))
-  if not self.disableFocus then 
+  if not keep_cam and not self.disableFocus then 
     self:closeCamera()
   end
 
@@ -201,10 +201,10 @@ lib.openDialog     = function(entity, id)
   end 
 end
 
-lib.closeDialog    = function(id)
+lib.closeDialog    = function(id, keep_cam)
   for k,v in pairs(dialogs) do 
     if not id or v.id == id then
-      v:close()
+      v:close(keep_cam)
     end
   end
 end
