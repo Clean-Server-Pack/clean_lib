@@ -22,7 +22,7 @@ lib.notify = function(data)
   local settings = lib.settings
   if not settings.notify or settings.notify == 'clean_lib' then
     local sound = settings.notify_audio and data.sound
-    data.position = settings.notify_position or 'top-right'
+    data.position = data.position or settings.notify_position or 'top-right'
     data.icon = data.icon or types[data.type] and types[data.type].icon or types['inform'].icon
     data.iconColor = data.iconColor or types[data.type] and types[data.type].iconColor
 

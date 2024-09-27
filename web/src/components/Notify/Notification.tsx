@@ -40,7 +40,7 @@ export default function Notification(props: NotificationProps){
       setAmountEffect(true)
       setTimeout(() => {
         setAmountEffect(false)
-      }, 500)
+      }, 100)
     }
   }, [props.count])
 
@@ -48,7 +48,7 @@ export default function Notification(props: NotificationProps){
     if (!props.hide) { 
       setTimeout(() => {
         setDisplay(true)
-      }, 500)
+      }, 100)
     } else {
       setDisplay(false)
     }
@@ -57,7 +57,7 @@ export default function Notification(props: NotificationProps){
     <Box 
       style={{ 
         position: 'relative',
-        transition: 'all 0.3s ease-in-out',
+        transition: 'all 0.2s ease-in-out',
       }} 
       w="100%"
       right={props.position.includes('right') ? !display ? '-150%' : '0': 'auto'}
@@ -81,7 +81,7 @@ export default function Notification(props: NotificationProps){
             fontWeight: 700,
             textAlign: 'center',
             transform: amountEffect ? 'scale(1.2)' : 'scale(1)',
-            transition: 'all 0.3s ease-in-out',
+            transition: 'all 0.2s ease-in-out',
             zIndex: 1000, // Ensure it is above other content
           }}
         >
