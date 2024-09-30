@@ -332,33 +332,33 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
   )
 }
 
-internalEvent([
-  {
-    action: 'OPEN_INPUT',
-    data: {
-      inputs: [
-        'Username',
-        'Password',
-        {icon:'user', type: 'checkbox', label: 'Remember Me', description: 'Check this box to remember your login information', checked: true},
-        {type: 'slider', label: 'Volume', description: 'Adjust the volume of the game', min: 0, max: 100, default: 50},
-        {type: 'date', label: 'Date of Birth', description: 'Enter your date of birth', default: true, format: 'MM/DD/YYYY', returnString: true, clearable: true},
-        {type: 'color', label: 'Primary Color', description: 'Select your primary color', default: '#7ac61f', format: 'hex'},
-        {type: 'select', label: 'Language', description: 'Select your preferred language', options: [{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}], placeholder: 'Select a language', required: true},
-        {type: 'multi-select', label: 'Favourite Foods', description: 'Select your favourite foods', options: [{value: 'pizza', label: 'Pizza'}, {value: 'burger', label: 'Burger'}, {value: 'pasta', label: 'Pasta'}, {value: 'salad', label: 'Salad'}], placeholder: 'Select your favourite foods', required: true, clearable: true, maxSelectedValues: 2},
-        {type: 'textarea', label: 'Bio', description: 'Enter a short bio about yourself', placeholder: 'Enter your bio here', required: true, autosize: false},
-        {type: 'time', label: 'Time', description: 'Select the time', default: '12:00', format: '12', clearable: true},
-        {type: 'date-range', label: 'Date Range', description: 'Select a date range', default: ['01/01/2022', '01/02/2022'], format: 'MM/DD/YYYY', returnString: true, clearable: true},
-        {type: 'number', label: 'Age', description: 'Enter your age', placeholder: 'Enter your age', required: true, min: 18, max: 100, default: 18, precision: 0, step: 1},
-        {type: 'input', label: 'Email', description: 'Enter your email address', placeholder: 'Enter your email address', required: true},
+// internalEvent([
+//   {
+//     action: 'OPEN_INPUT',
+//     data: {
+//       inputs: [
+//         'Username',
+//         'Password',
+//         {icon:'user', type: 'checkbox', label: 'Remember Me', description: 'Check this box to remember your login information', checked: true},
+//         {type: 'slider', label: 'Volume', description: 'Adjust the volume of the game', min: 0, max: 100, default: 50},
+//         {type: 'date', label: 'Date of Birth', description: 'Enter your date of birth', default: true, format: 'MM/DD/YYYY', returnString: true, clearable: true},
+//         {type: 'color', label: 'Primary Color', description: 'Select your primary color', default: '#7ac61f', format: 'hex'},
+//         {type: 'select', label: 'Language', description: 'Select your preferred language', options: [{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}], placeholder: 'Select a language', required: true},
+//         {type: 'multi-select', label: 'Favourite Foods', description: 'Select your favourite foods', options: [{value: 'pizza', label: 'Pizza'}, {value: 'burger', label: 'Burger'}, {value: 'pasta', label: 'Pasta'}, {value: 'salad', label: 'Salad'}], placeholder: 'Select your favourite foods', required: true, clearable: true, maxSelectedValues: 2},
+//         {type: 'textarea', label: 'Bio', description: 'Enter a short bio about yourself', placeholder: 'Enter your bio here', required: true, autosize: false},
+//         {type: 'time', label: 'Time', description: 'Select the time', default: '12:00', format: '12', clearable: true},
+//         {type: 'date-range', label: 'Date Range', description: 'Select a date range', default: ['01/01/2022', '01/02/2022'], format: 'MM/DD/YYYY', returnString: true, clearable: true},
+//         {type: 'number', label: 'Age', description: 'Enter your age', placeholder: 'Enter your age', required: true, min: 18, max: 100, default: 18, precision: 0, step: 1},
+//         {type: 'input', label: 'Email', description: 'Enter your email address', placeholder: 'Enter your email address', required: true},
       
-      ],
-      info: {
-        title: 'Login',
-        description: 'Enter your login information below',
-        icon: 'user',
-        backButton: 'menu_to_return_to',
-        canClose: true,
-      }
-    }
-  }
-])
+//       ],
+//       info: {
+//         title: 'Login',
+//         description: 'Enter your login information below',
+//         icon: 'user',
+//         backButton: 'menu_to_return_to',
+//         canClose: true,
+//       }
+//     }
+//   }
+// ])

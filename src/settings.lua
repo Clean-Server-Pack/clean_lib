@@ -1,5 +1,5 @@
 return {
-  debug           = GetConvarInt('clean_lib:debug', 1),
+  debug           = GetConvar('clean_lib:debug', 'true') == 'true',
   language        = GetConvar('clean_lib:language', 'en'),
   server_name     = GetConvar('clean_lib:server_name', 'CleanRP'),
   framework       = GetConvar('clean_lib:framework', 'qbx_core'),
@@ -20,7 +20,21 @@ return {
 
   primaryColor    = GetConvar('clean_lib:primaryColor', 'clean'),
   primaryShade    = GetConvarInt('clean_lib:primaryShade', 9),
+  customTheme     = json.decode(GetConvar('clean_lib:customTheme', json.encode({
+    "#f8edff",
+    "#e9d9f6",
+    "#d0b2e8",
+    "#b588da",
+    "#9e65cf",
+    "#914ec8",
+    "#8a43c6",
+    "#7734af",
+    "#692d9d",
+    "#5c258b"
+  }))),
+
+
   logo            = GetConvar('clean_liblogo', 'https://via.placeholder.com/150'),
-  -- notify_audio    = GetConvar('notify_audio', true),
-  -- notify_position = GetConvar('notify_position', 'top-right'),
+  notify_audio    = GetConvar('notify_audio', 'true') == 'true',
+  notify_position = GetConvar('notify_position', 'top-right'),
 }

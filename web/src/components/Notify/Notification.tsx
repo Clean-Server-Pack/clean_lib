@@ -58,6 +58,7 @@ export default function Notification(props: NotificationProps){
       style={{ 
         position: 'relative',
         transition: 'all 0.2s ease-in-out',
+        borderRadius: theme.radius.sm,
       }} 
       w="100%"
       right={props.position.includes('right') ? !display ? '-150%' : '0': 'auto'}
@@ -94,7 +95,7 @@ export default function Notification(props: NotificationProps){
         bg='rgba(0,0,0,0.6)'
         p='xs'
         style={{
-          borderRadius: theme.radius.xs,
+          borderRadius: theme.radius.sm,
         }}
         align='center'
         gap='xs'
@@ -102,19 +103,25 @@ export default function Notification(props: NotificationProps){
 
       <Flex
         direction={'column'}
+        h= '3.75em'
+        justify={'center'}
+        align='center'
         style={{
-          backgroundColor: colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.3),
+          backgroundColor: 'rgba(255,255,255,0.1)',
           padding: theme.spacing.xs,
           borderRadius: theme.radius.xs,
-          border: `2px solid ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.9)}`,
-          boxShadow: `0 0 5px ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.9)}`,
+          outline: `2px solid ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)}`,
+          // boxShadow: `0 0 5px ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)}`,
+          // filter: `drop-shadow(0 0 5px ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)})`,
+          aspectRatio: '1/1',
+          
         }} 
       >
         {props.icon && is_icon && (
           <FontAwesomeIcon 
             icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp} 
+            color={colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.8)}
             size='2x'
-            color={colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 1)}
           />
         )}
 
@@ -139,7 +146,7 @@ export default function Notification(props: NotificationProps){
             style={{
               fontFamily: 'Akrobat Bold',
               lineHeight: '1.2rem',
-              textShadow: `0 0 8px ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.9)}`
+              textShadow: `0 0 8px ${colorWithAlpha(theme.colors[theme.primaryColor][9], 1)}`
             }}
           >{props.title}</Text>
           <Text

@@ -29,14 +29,15 @@ function NotificationContainer(props: NotificationContainerProps) {
 
   useEffect(() => {
     // Create an array of timers for each notification
-    const timers = notifications.map((notification, index) => {
+    const timers = notifications.map((notification) => {
       const hideTimer = setTimeout(() => {
         notification.hide = true;
         setNotifications((prevNotifications) => [...prevNotifications]);
 
         const removeTimer = setTimeout(() => {
-          setNotifications((prevNotifications) => prevNotifications.filter((_, i) => i !== index));
-        }, 500);
+          // remove by matching rather than index in case index changes
+          setNotifications((prevNotifications) => prevNotifications.filter((n) => n !== notification));
+        }, 100);
 
         return () => clearTimeout(removeTimer);
       }, notification.duration || 5000);
@@ -96,8 +97,8 @@ export default NotificationContainer;
 //       data: {
 //         title: 'Item Removed',
 //         message: '1 x Marked Bills has been removed from your inventory',
-//         icon: 'https://raw.githubusercontent.com/fazitanvir/items-images/main/illegal/markedbills.png',
-//         iconColor: 'rgba(255,255,255,0.4)',
+//         icon: 'exclamation-triangle',
+//         iconColor: 'rgba(255,0,0,0.8)',
 //         position: 'top-right',
 //         duration: 50000,
 //       }
