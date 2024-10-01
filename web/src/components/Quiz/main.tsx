@@ -73,8 +73,8 @@ function Quiz(){
   // eslint-disable-next-line
   const [answers , setAnswers] = useState<any>({})
 
-  useEffect(() => {
-  }, [answers])
+  // useEffect(() => {
+  // }, [answers])
 
   const are_all_questions_answered = () => {
     for (const key in answers) {

@@ -84,7 +84,7 @@ function Question(props: {question: QuestionProps, answers: any, setAnswers: (va
         [props.index]: selected
       }
     })
-  } , [selected, props])
+  } , [selected])
   return (
     <Flex
       p='xs'

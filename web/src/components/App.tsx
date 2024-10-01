@@ -5,12 +5,13 @@ import { useNuiEvent } from '../hooks/useNuiEvent';
 import { useSettings } from '../providers/settings/settings';
 import theme from '../theme';
 import { isEnvBrowser } from '../utils/misc';
-import "./App.css";
+
 import Dialog from './Dialog/main';
 import Input from './Input/main';
 import Menu from './Menu/main';
 import Notifications from './Notify/main';
 import Quiz from './Quiz/main';
+import KeyInputs from './KeyInputs/main';
 
 const App: React.FC = () => {
   const [curTheme, setCurTheme] = useState(theme);
@@ -55,6 +56,7 @@ const App: React.FC = () => {
         <Quiz />
         <Dialog />
         <Input />
+        <KeyInputs />
       </Wrapper>
     </MantineProvider>
   );

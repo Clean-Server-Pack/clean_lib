@@ -4,7 +4,7 @@ const theme = createTheme({
   primaryColor: "clean",
   primaryShade: 7,
   defaultRadius: "sm",
-  fontFamily: "Akshar, sans-serif",
+  fontFamily: "Akrobat, sans-serif",
   colors: {
     dark:[
       "#ffffff",
