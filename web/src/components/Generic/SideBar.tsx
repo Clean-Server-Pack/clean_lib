@@ -1,4 +1,4 @@
-import {Box} from '@mantine/core'
+import { Box, useMantineTheme } from '@mantine/core'
 
 
 
@@ -19,6 +19,7 @@ type SideBarProps = {
 }
 
 function SideBar(props:SideBarProps){
+  const theme = useMantineTheme()
   const setMenuOpen = props.setMenuOpen
 
     //  Listen for escape key if menu can close
@@ -38,6 +39,7 @@ function SideBar(props:SideBarProps){
     <Box
       pos='absolute'
       right = {props.menuOpen ? '0' : '-100%'}
+      //bg={getGradient({ from: 'rgba(0,0,0,0.3)', to: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.2), deg: 360 }, theme)}
       bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 27%, rgba(36,36,36,0.55) 47%, rgba(0,0,0,0) 100%)'
       w={props.w}
       h={props.h}

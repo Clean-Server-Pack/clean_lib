@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import colorWithAlpha from "../../utils/colorWithAlpha";
+import { internalEvent } from "../../utils/internalEvent";
 
 type KeyInputProps = {
   key: string
@@ -22,6 +23,24 @@ type PositionProps = 'top-right' | 'middle-right' | 'bottom-right' | 'top-left' 
   transform?: string
 }
 export default function KeyInputs(){
+  const [rawDisplay, setRawDisplay] = useState<boolean>(false)
+  const [display, setDisplay] = useState<boolean>(false)
+  const [opacity, setOpacity] = useState<number>(0)
+
+  useEffect(() => {
+    if (display) {
+      setRawDisplay(true)
+      setTimeout(() => {
+        setOpacity(1)
+      }, 100)
+    } else {
+      setOpacity(0)
+      setTimeout(() => {
+        setRawDisplay(false)
+      }, 100)
+    }
+  }, [display])
+
   const [position, setPosition] = useState<PositionProps>('middle-bottom')
   const [pressedKeys, setPressedKeys] = useState<string[]>([])
   const [keyInputs, setKeyInputs] = useState<KeyInputProps[]>([
@@ -33,35 +52,44 @@ export default function KeyInputs(){
     position: PositionProps
     inputs: KeyInputProps[]
   }) => {
+    console.log(JSON.stringify(data, null, 2))
     setPosition(data.position)
     setKeyInputs(data.inputs) 
+    setDisplay(true)
+  })
+
+  useNuiEvent('HIDE_KEY_INPUTS', () => {
+    setDisplay(false)
   })
 
   
 
 
-  // listen for keys pressed and release and set the pressed state
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      e.preventDefault()
-      if (!pressedKeys.includes(e.key)) {
-        setPressedKeys([...pressedKeys, e.key])
-      }
-    }
-
+      if (e.key !== 'F12' && e.key !== 'F5') e.preventDefault();
+      setPressedKeys((prevKeys) => {
+        if (!prevKeys.includes(e.key)) {
+          return [...prevKeys, e.key]; // Append the new key
+        }
+        return prevKeys;
+      });
+    };
+  
     const handleKeyUp = (e: KeyboardEvent) => {
-      e.preventDefault()
-      setPressedKeys(pressedKeys.filter(key => key !== e.key))
-    }
-
-    window.addEventListener('keydown', handleKeyDown)
-    window.addEventListener('keyup', handleKeyUp)
-
+      if (e.key !== 'F12' && e.key !== 'F5') e.preventDefault();
+      setPressedKeys((prevKeys) => prevKeys.filter((key) => key !== e.key)); // Remove the released key
+    };
+  
+    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keyup', handleKeyUp);
+  
     return () => {
-      window.removeEventListener('keydown', handleKeyDown)
-      window.removeEventListener('keyup', handleKeyUp)
-    }
-  }, [keyInputs])
+      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keyup', handleKeyUp);
+    };
+  }, []);
+  
 
   const getPositionProps = (position : PositionProps) => {
 
@@ -119,8 +147,6 @@ export default function KeyInputs(){
     }
   }
 
-
-
   const getTranslate = (position: PositionProps) => {
     if (typeof position !== 'string') {
       return position.transform
@@ -146,14 +172,16 @@ export default function KeyInputs(){
     }
   }
 
-  return (
+  return rawDisplay && (
     <Flex
       pos='absolute'
       gap='xs'
       p='xs'
-     
+      opacity={opacity}
+
       {...getPositionProps(position)}
       style={{
+        transition: 'opacity 0.1s',
         transform: getTranslate(position)
       }}
       direction={'column'}
@@ -255,3 +283,20 @@ export function KeyLabel(props: KeyInputProps) {
     </Flex>
   );
 }
+
+internalEvent([
+  {
+    action: 'SET_KEY_INPUTS',
+    data: {
+      inputs: [
+        { key: 'w', label: 'Move Forward', icon: 'arrow-up' },
+        { key: 'a', label: 'Move Left', icon: 'arrow-left' },
+        { key: 's', label: 'Move Backward', icon: 'arrow-down' },
+        { key: 'd', label: 'Move Right', icon: 'arrow-right' },
+        { key: ' ', label: 'Jump', icon: 'space' },
+      ],
+
+      position: 'middle-bottom',
+    }
+  }
+])

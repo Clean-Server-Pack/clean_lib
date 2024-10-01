@@ -273,12 +273,12 @@ const test_menu = {
   ]
 }
 
-// internalEvent([
-//   {
-//     action:'CONTEXT_MENU_STATE',
-//     data:{
-//       action:'OPEN',
-//       menu:test_menu
-//     }
-//   }
-// ])
+internalEvent([
+  {
+    action:'CONTEXT_MENU_STATE',
+    data:{
+      action:'OPEN',
+      menu:test_menu
+    }
+  }
+])
