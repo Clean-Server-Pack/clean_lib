@@ -1,4 +1,4 @@
-import { Box, useMantineTheme } from '@mantine/core'
+import { Box, Transition, useMantineTheme } from '@mantine/core'
 
 
 
@@ -19,9 +19,7 @@ type SideBarProps = {
 }
 
 function SideBar(props:SideBarProps){
-  const theme = useMantineTheme()
   const setMenuOpen = props.setMenuOpen
-
     //  Listen for escape key if menu can close
   window.onkeydown = (e) => {
     if (props.menuOpen && props.escapeClose && e.key === 'Escape') {
@@ -30,27 +28,33 @@ function SideBar(props:SideBarProps){
     }
   }
 
-  // insert transtion to style if exists or creatre style with transtion if not 
-  const styles = props.style ? {...props.style} : {transition : 'all ease-in-out 0.2s'}
-  styles.transition = 'all ease-in-out 0.2s'
-  
+  // insert transtion to style if exists or creatre style with transtion if not   
 
   return (
-    <Box
-      pos='absolute'
-      right = {props.menuOpen ? '0' : '-100%'}
-      //bg={getGradient({ from: 'rgba(0,0,0,0.3)', to: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.2), deg: 360 }, theme)}
-      bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 27%, rgba(36,36,36,0.55) 47%, rgba(0,0,0,0) 100%)'
-      w={props.w}
-      h={props.h}
-      style={styles}
-        
-
-    
+    <Transition
+      mounted={props.menuOpen}
+      transition='slide-left'
+      duration={300}
+      timingFunction='ease'
     >
-
-      {props.children}
-    </Box>
+      {(transitionStyles) => (
+        <Box
+          pos='absolute'
+          right={0}
+          //bg={getGradient({ from: 'rgba(0,0,0,0.3)', to: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.2), deg: 360 }, theme)}
+          bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 27%, rgba(36,36,36,0.55) 47%, rgba(0,0,0,0) 100%)'
+          w={props.w}
+          h={props.h}
+          style={{
+            ...props.style,
+            ...transitionStyles,
+          }}
+        >
+    
+          {props.children}
+        </Box>
+      )}
+    </Transition>
   ) 
 }
 

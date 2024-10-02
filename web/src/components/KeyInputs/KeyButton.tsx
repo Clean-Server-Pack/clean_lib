@@ -1,4 +1,4 @@
-import { Flex, Text, useMantineTheme } from "@mantine/core";
+import { Flex, Kbd, useMantineTheme } from "@mantine/core";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 
 type KeyProps = {
@@ -8,7 +8,41 @@ type KeyProps = {
 
 const KeyIcon = function (props: KeyProps) {
   const theme = useMantineTheme();
+  
+  const convertKey = (key: string | number) => { 
 
+    key = key.toString()
+    switch (key) {
+      case "ArrowUp":
+        return "↑";
+      case "ArrowDown":
+        return "↓";
+      case "ArrowLeft":
+        return "←";
+      case "ArrowRight":
+        return "→"; 
+      case "Enter":
+        return "↵";
+      case "Escape":
+        return "ESC";
+      case "Backspace":
+        return "⌫";
+      case "Tab":
+        return "⇥";
+      case "CapsLock":
+        return "⇪";
+      case "Shift":
+        return "⇧";
+      case " ":   
+        return "␣";
+      case "Control":
+    } 
+  }
+
+
+
+
+    
   return (
     <Flex
       bg="rgba(0,0,0,0.5)"
@@ -35,15 +69,19 @@ const KeyIcon = function (props: KeyProps) {
         position: "relative",
       }}
     >
-      <Text
-        size="md"
+      <Kbd
+        size="xl"
         style={{
+          backgroundColor: "transparent",
+          border: "none",
           fontFamily: "Akrobat Black",
           color: theme.colors["gray"][1],
         }}
       >
-        {props._key}
-      </Text>
+        {typeof props._key === "number" ? props._key :
+          convertKey(props._key) ? convertKey(props._key) : props._key.toUpperCase()
+        }
+      </Kbd>
     </Flex>
   );
 };

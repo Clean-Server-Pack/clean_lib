@@ -12,6 +12,9 @@ import Menu from './Menu/main';
 import Notifications from './Notify/main';
 import Quiz from './Quiz/main';
 import KeyInputs from './KeyInputs/main';
+import TextUI from './TextUI/main';
+import Progress from './Progress/main';
+
 
 const App: React.FC = () => {
   const [curTheme, setCurTheme] = useState(theme);
@@ -51,6 +54,8 @@ const App: React.FC = () => {
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
       <Wrapper>
+        <Progress />
+        <TextUI />
         <Notifications />
         <Menu />
         <Quiz />

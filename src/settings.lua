@@ -34,7 +34,9 @@ return {
   }))),
 
 
-  logo            = GetConvar('clean_liblogo', 'https://via.placeholder.com/150'),
-  notify_audio    = GetConvar('notify_audio', 'true') == 'true',
-  notify_position = GetConvar('notify_position', 'top-right'),
+  logo              = GetConvar('clean_liblogo', 'https://via.placeholder.com/150'),
+  notify_audio      = GetConvar('notify_audio', 'true') == 'true',
+  notify_position   = GetConvar('notify_position', 'top-right'),
+  showText_position = GetConvar('showText_position', 'bottom-center'),
+  progbar_position  = GetConvar('progbar_position', 'bottom-center'),
 }
