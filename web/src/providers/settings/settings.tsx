@@ -1,6 +1,6 @@
 import React, { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 import { defaultSettings } from './default_settings';
-import { SettingsProps } from './settings_props';
+import { SettingsProps } from './default_settings';
 import { isEnvBrowser } from '../../utils/misc';
 import { fetchNui } from '../../utils/fetchNui';
 import { useNuiEvent } from '../../hooks/useNuiEvent';
