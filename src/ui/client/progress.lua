@@ -272,7 +272,9 @@ end)
 RegisterCommand('test_progress', function()
     if lib.progressBar({
       duration = 2000,
-      label = 'Drinking water',
+      icon = 'fas fa-utensils',
+      description = 'Such a nice refreshing water',
+      label = 'Drinking',
       useWhileDead = false,
       canCancel = true,
       disable = {
@@ -288,4 +290,19 @@ RegisterCommand('test_progress', function()
         rot = vec3(0.0, 0.0, -1.5)
       },
   }) then print('Do stuff when complete') else print('Do stuff when cancelled') end
+end)
+
+RegisterCommand('clearProps', function()
+  -- Clear area around ped of props
+  
+  local ped = PlayerPedId()
+  local coords = GetEntityCoords(ped)
+  local objects = GetGamePool('CObject')
+  for i = 1, #objects do
+    local object = objects[i]
+    local objCoords = GetEntityCoords(object)
+    if #(coords - objCoords) < 2.0 then
+      DeleteEntity(object)
+    end
+  end
 end)

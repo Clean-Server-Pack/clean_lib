@@ -6,6 +6,7 @@ import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { useSettings } from "../../providers/settings/settings";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import { getPositionProps, getTranslate, PositionProps } from "../../utils/positioning";
+import { fetchNui } from "../../utils/fetchNui";
 
 type ProgressProps = {
   position: PositionProps 
@@ -37,7 +38,7 @@ export default function Progress() {
         if (prev >= 100) {
           clearInterval(interval)
           setDisplay(false)
-
+          fetchNui('PROGRESS_COMPLETE')
           return 0
         }
         return prev + 1
@@ -168,7 +169,7 @@ function CustomProgress({ value }: CustomProgressProps) {
               position: 'relative',
               backgroundColor: 'rgba(0, 0, 0, 0.2)', // Default empty box color
               transition: 'background-color 0.3s ease', // Smooth transition for filling
-              borderRadius: theme.radius.sm,
+              borderRadius: theme.radius.xs,
             }}
           >
             {/* Inner fill box that represents the progress */}

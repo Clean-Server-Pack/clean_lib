@@ -1,4 +1,4 @@
-import { IconName, SizeProp } from "@fortawesome/fontawesome-svg-core";
+import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";

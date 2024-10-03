@@ -75,7 +75,71 @@ lib.interact = {
     end 
   end,
 
+  addCoords = function(data)
+    if settings.interact == 'sleepless_interact' then
+      local interact_data = {
+        id = ('coords_%s'):format(data.coords), 
+        coords = vector3(data.coords.x, data.coords.y, data.coords.z), 
+        options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
+      }
+      exports.sleepless_interact:addCoords(interact_data)
+    elseif settings.interact == 'marker' then 
+
+    end
+  end,
+
+
+  addGlobalPed = function(data)
+    if settings.interact == 'sleepless_interact' then
+      local interact_data = {
+        id = data.id or ('ped_%s'):format(math.random(1, 1000000)), 
+        options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
+      }
   
+      exports.sleepless_interact.addGlobalPed(interact_data)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
+
+
+  removeById = function(id)
+    if settings.interact == 'sleepless_interact' then
+      exports.sleepless_interact:removeById(id)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
+
+  removeEntity = function(entity)
+    if settings.interact == 'sleepless_interact' then
+      exports.sleepless_interact:removeEntity(entity)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
+
+  removeGlobnlModel = function(model)
+    if settings.interact == 'sleepless_interact' then
+      exports.sleepless_interact:removeGlobalModel(model)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
+
+  removeGlobalPlayer = function(player)
+    if settings.interact == 'sleepless_interact' then
+      exports.sleepless_interact:removeGlobalPlayer(player)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
 
   
 }

@@ -1,0 +1,18 @@
+.menu-wrapper {
+  --__reactRadialMenu__menu-bgColor: 'rgba(0, 0, 0, 0.8)';
+  --__reactRadialMenu__separator-color: #00000000;
+  --__reactRadialMenu__item-color: #333;
+  --__reactRadialMenu__activeItem-color: #ea0202;
+  --__reactRadialMenu__activeItem-bgColor: #3498db;
+  --__reactRadialMenu__arrow-color: #6f6e77;
+  --__reactRadialMenu__activeArrow-color: #fff;
+}
+
+.__rrm-base {
+  transition: all var(--__reactRadialMenu__animation-delay) ease;
+  fill: rgb(0 0 0 / 75%);
+  stroke: var(--__reactRadialMenu__separator-color);
+}
+.__rrm-content{
+  background-color: 'yellow !important';
+}

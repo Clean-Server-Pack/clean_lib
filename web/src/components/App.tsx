@@ -14,6 +14,8 @@ import Quiz from './Quiz/main';
 import KeyInputs from './KeyInputs/main';
 import TextUI from './TextUI/main';
 import Progress from './Progress/main';
+import Radial from './Radial/main';
+import { MantineEmotionProvider } from '@mantine/emotion';
 
 
 const App: React.FC = () => {
@@ -53,16 +55,19 @@ const App: React.FC = () => {
 
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
-      <Wrapper>
-        <Progress />
-        <TextUI />
-        <Notifications />
-        <Menu />
-        <Quiz />
-        <Dialog />
-        <Input />
-        <KeyInputs />
-      </Wrapper>
+      <MantineEmotionProvider>
+        <Wrapper>
+          {/* <Radial /> */}
+          <Progress />
+          <TextUI />
+          <Notifications />
+          <Menu />
+          <Quiz />
+          <Dialog />
+          <Input />
+          <KeyInputs />
+        </Wrapper>
+      </MantineEmotionProvider>
     </MantineProvider>
   );
 };
