@@ -109,9 +109,9 @@ function object:spawn()
   assert(model_loaded, 'Failed to load model : ' .. self.model)
   
   if self.type == 'ped' then 
-    self.entity = CreatePed(1, self.model, self.pos, self.pos.w or 0.0, false, true)
+    self.entity = CreatePed(1, self.model, self.pos, false, false)
   elseif self.type == 'vehicle' then
-    self.entity = CreateVehicle(self.model, self.pos, self.pos.w or 0.0, false, false)
+    self.entity = CreateVehicle(self.model, self.pos, false, false)
   elseif self.type == 'object' then 
     self.entity = CreateObject(self.model, self.pos, false, false, false)
   elseif self.type == 'weapon' then 

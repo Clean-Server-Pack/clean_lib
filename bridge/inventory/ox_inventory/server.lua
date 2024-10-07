@@ -7,8 +7,8 @@ return {
   ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
   ---@return boolean
-  addItem  = function(invId, item, count or 1, slot, md) 
-    return exports.ox_inventory:AddItem(invId, item, count, md, slot)
+  addItem  = function(invId, item, count, slot, md) 
+    return exports.ox_inventory:AddItem(invId, item, count or 1, md, slot)
   end,
 
   --- Remove Item from inventory either playerid or invId

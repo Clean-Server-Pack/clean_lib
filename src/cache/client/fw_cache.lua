@@ -81,6 +81,29 @@ elseif settings.framework == 'qbx_core' then
     })
   end)
 elseif settings.framework == 'es_extended' then
+  CreateThread(function()
+    while not lib.FW do Wait(500); end 
+    while not lib.FW.IsPlayerLoaded() do Wait(500); end
+    local PlayerData =  lib.FW.GetPlayerData()
+    cache:set('citizenId', PlayerData.identifier)
+    cache:set('job', {
+      name = PlayerData.job.name,
+      grade = PlayerData.job.grade,
+      onduty = PlayerData.job.onduty
+    })
+    cache:set('playerLoaded', true)
+  end)
+
+  AddEventHandler('esx:playerLoaded', function(xPlayer)
+    cache:set('citizenId', xPlayer.identifier)
+    cache:set('job', {
+      name = xPlayer.job.name,
+      grade = xPlayer.job.grade,
+      onduty = xPlayer.job.onduty
+    })
+    cache:set('playerLoaded', true)
+  end)
+
   AddEventHandler('esx:setJob', function(job)
     cache:set('job', {
       name = job.name,

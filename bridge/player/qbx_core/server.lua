@@ -71,22 +71,4 @@ return {
   removeMoney = function(src, acc, count, reason)
 
   end,
-
-
-  ---## Inventory
-  hasItem = function(src, item, count, slot, md)
-
-  end,
-
-  addItem = function(src, item, count, slot, md)
-
-  end,
-
-  removeItem = function(src, item, count, slot, md)
-
-  end,
-
-  getInventory = function(src)
-
-  end,
 }
