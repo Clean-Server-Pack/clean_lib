@@ -2,7 +2,7 @@
 
 return {
   get = function(src)
-    return lib.FW.GetPlayerById(src)
+    return lib.FW.GetPlayerFromId(src)
   end,
 
   identifier = function(src)
@@ -75,6 +75,9 @@ return {
   removeMoney = function(src, acc, count, reason)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
+    local accounts = ply.getAccounts() or {}
+    if not accounts[acc] then return false, 'no_account' end
+    if accounts[acc].money < count then return false, 'insufficient_funds' end
     return ply.removeAccountMoney(acc,count)
   end,
 }

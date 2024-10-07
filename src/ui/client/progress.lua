@@ -294,7 +294,6 @@ end)
 
 RegisterCommand('clearProps', function()
   -- Clear area around ped of props
-  
   local ped = PlayerPedId()
   local coords = GetEntityCoords(ped)
   local objects = GetGamePool('CObject')
