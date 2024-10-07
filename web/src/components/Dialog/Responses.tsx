@@ -13,10 +13,14 @@ export type ResponseProps = {
   disabled?: boolean,
   dontClose?: boolean,
   actionid?: string,
+  hoverSounds?: boolean,
+  clickSounds?: boolean,
 }
 
 type ResponsesContainerProps = {
   responses: ResponseProps[]
+  hoverSounds?: boolean
+  clickSounds?: boolean
 }
 
 
@@ -54,10 +58,11 @@ function ResponsesContainer(props : ResponsesContainerProps) {
       <SimpleGrid
         cols={2}
         flex={1}
+        p='xs'
       >
         {currentResponses.map((response, index) => {
           return (
-            <Response key={index} {...response} />
+            <Response key={index} {...response} hoverSounds={props.hoverSounds} clickSounds={props.clickSounds} />
           )
         })}
       </SimpleGrid>

@@ -6,7 +6,7 @@
 --   hidden?: boolean
 --   pressed?: boolean
 -- }
-
+-- type DirectionProps = 'row' | 'column' | 'row-reverse' | 'column-reverse'
 -- type PositionProps = 'top-right' | 'right-center' | 'bottom-right' | 'top-left' | 'left-center' | 'bottom-left' | 'bottom-center' | 'top-center' | { top?: string | number, right?: string | number, bottom?: string | number, left?: string | number, transform?: string } |
 -- {  
 -- top?: string | number
@@ -15,16 +15,27 @@
 --   left?: string | number
 --   transform?: string
 -- }
+
+
+local invoking_resource = nil
+AddEventHandler('onResourceStop', function(resource)
+  if resource == invoking_resource then
+    lib.hideKeys()
+  end
+end)
+
 local keyInputOpen = false
 local stored_checks = {}
 local stored_functions = {}
 lib.showKeys = function(data)
-  
-  if keyInputOpen then return end
+  invoking_resource = GetInvokingResource()
+  if keyInputOpen then
+    lib.hideKeys()
+  end
   assert(type(data) == 'table', 'arg must be a table for lib.showKeys')
   assert(type(data.position) == 'string' or type(data.position) == 'table', 'data.position must be a string or table for lib.showKeys')
   assert(type(data.inputs) == 'table', 'data.inputs must be a table for lib.showKeys')
-  
+  assert(#data.inputs > 0, 'data.inputs must have at least one input for lib.showKeys')
   local current_inputs = {}
   for k,v in ipairs(data.inputs) do 
     assert(type(v.key) == 'string', 'data.inputs['..k..'].key must be a string for lib.showKeys even if its a number just put it in quotes')
@@ -37,11 +48,11 @@ lib.showKeys = function(data)
     v.qwerty         = key_info.qwerty
     v.control        = key_info.control
 
-    if type(v.canInteract) == 'function' then
+    if v.canInteract then 
       stored_checks[v.qwerty] = v.canInteract
     end
 
-    if v.action and type(v.action) == 'function' then
+    if v.action then
       stored_functions[v.qwerty] = v.action
     end
 
@@ -65,7 +76,7 @@ lib.showKeys = function(data)
       canHold = v.canHold or false,
       qwerty = v.qwerty,
       delay = v.delay or false,
-      hidden = type(v.canInteract) == 'function' and not v.canInteract() or false,
+      hidden = v.canInteract and not v.canInteract() or false,
       pressed = false
     })
   end
@@ -76,55 +87,57 @@ lib.showKeys = function(data)
     action = 'SET_KEY_INPUTS',
     data = {
       position = data.position,
-      inputs = current_inputs
+      inputs = current_inputs,
+      direction = data.direction or 'column'
     }
   }, {sort_keys = true}))
 
   -- Catch when a control is pressed and released and update current_pressed if theres a difference
 
-  while keyInputOpen do
-    local changed_inputs = false 
-    for index, control in pairs(current_inputs) do
-      local is_hidden  = stored_checks[control.qwerty] and not stored_checks[control.qwerty]() or false
-      DisableControlAction(1, tonumber(control.control), not is_hidden)
-      local is_pressed = IsDisabledControlPressed(1, tonumber(control.control))
-
-      if is_pressed and not control.delay then 
-        if stored_functions[control.qwerty] then
-          stored_functions[control.qwerty]()
+  CreateThread(function()
+    while keyInputOpen do
+      local changed_inputs = false 
+      for index, control in pairs(current_inputs) do
+        local is_hidden  = stored_checks[control.qwerty] and not stored_checks[control.qwerty]() or false
+        DisableControlAction(1, tonumber(control.control), not is_hidden)
+        local is_pressed = IsDisabledControlPressed(1, tonumber(control.control))
+  
+        if is_pressed and not control.delay then 
+          if stored_functions[control.qwerty] then
+            stored_functions[control.qwerty]()
+          end
+        end
+  
+        if control.pressed ~= is_pressed then
+          changed_inputs = true
+          control.pressed = is_pressed
+        end
+  
+        if control.hidden ~= is_hidden then
+          changed_inputs = true
+          control.hidden = is_hidden
+        end
+      end  
+      
+      if changed_inputs then
+        if #current_inputs == 0 then
+          lib.hideKeys()
+        else 
+          if not keyInputOpen then return end
+          SendNuiMessage(json.encode({
+            action = 'SET_KEY_INPUTS',
+            data = {
+              position = data.position,
+              direction = data.direction or 'column',
+              inputs = current_inputs
+            }
+          }, {sort_keys = true}))
         end
       end
-
-      if control.pressed ~= is_pressed then
-        changed_inputs = true
-        control.pressed = is_pressed
-      end
-
-      if control.hidden ~= is_hidden then
-        changed_inputs = true
-        control.hidden = is_hidden
-      end
-    
-
-    end  
-    
-    if changed_inputs then
-      if #current_inputs == 0 then
-        lib.hideKeys()
-      else 
-        if not keyInputOpen then return end
-        SendNuiMessage(json.encode({
-          action = 'SET_KEY_INPUTS',
-          data = {
-            position = data.position,
-            inputs = current_inputs
-          }
-        }, {sort_keys = true}))
-      end
+      
+      Wait(0)
     end
-    
-    Wait(0)
-  end
+  end)
 end
 
 RegisterNuiCallback('KEY_INPUT', function(data, cb)
@@ -145,78 +158,87 @@ lib.isKeysOpen = function()
 end
 
 
+-- CreateThread(function()
+--   Wait(2000)
+--   lib.showKeys({
+--     position = 'bottom-center',
+--     direction='row',
+--     inputs = {
+--       {
+--         key = 'e',
+--         label = 'Interact',
+--         icon = 'fas fa-handshake',
+--         delay = 6000,
+        
+--         canInteract = function()
+--           return true
+--         end,
+
+--         action = function()
+--           print('Interacted')
+--         end
+--       },
+--       {
+--         key = 'g',
+--         label = 'Greet',
+--         icon = 'fas fa-handshake',
+--         canInteract = function()
+--           return true
+--         end,
+--         action = function()
+--           print('Greeted')
+--         end
+--       },
+--       {
+--         key = 'h',
+--         label = 'Hug',
+--         icon = 'fas fa-handshake',
+--         canInteract = function()
+--           return true
+--         end,
+--         action = function()
+--           print('Hugged')
+--         end
+--       },
+--       {
+--         key = 'x',
+--         label = 'Kiss',
+--         icon = 'fas fa-handshake',
+--         canInteract = function()
+--           return true
+--         end,
+--         action = function()
+--           print('Kissed')
+--         end
+--       },
+--       {
+--         key = 'y',
+--         label = 'Wave',
+--         icon = 'fas fa-handshake',
+--         canInteract = function()
+--           return true
+--         end,
+--         action = function()
+--           print('Waved')
+--         end
+--       },
+--       {
+--         key = 'z',
+--         label = 'Dance',
+--         icon = 'fas fa-handshake',
+--         canInteract = function()
+--           return true
+--         end,
+--         action = function()
+--           print('Danced')
+--         end
+--       },
+--     }
+--   })
+-- end)
+
 --[[
   Usage of lib.showKeys
-  lib.showKeys({
-    position = 'top-right',
-    inputs = {
-      {
-        key = 'e',
-        label = 'Interact',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Interacted')
-        end
-      },
-      {
-        key = 'g',
-        label = 'Greet',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Greeted')
-        end
-      },
-      {
-        key = 'h',
-        label = 'Hug',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Hugged')
-        end
-      },
-      {
-        key = 'x',
-        label = 'Kiss',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Kissed')
-        end
-      },
-      {
-        key = 'y',
-        label = 'Wave',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Waved')
-        end
-      },
-      {
-        key = 'z',
-        label = 'Dance',
-        icon = 'fas fa-handshake',
-        canInteract = function()
-          return true
-        end,
-        action = function()
-          print('Danced')
-        end
-      },
-    }
-  })
+
 
 ]]

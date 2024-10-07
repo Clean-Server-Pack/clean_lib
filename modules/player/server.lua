@@ -67,22 +67,11 @@ return  {
   ---@param reason string
   ---@return boolean
   removeMoney = bridge.removeMoney,
-
-  ---@param src number
-  ---@param item string
-  ---@param count number
-  ---@param slot number
-  ---@param md table
-  ---@return boolean
-  addItem = lib.inventory.addItem,
   
   ---@param src number
-  ---@param item string
-  ---@param count number
-  ---@param slot number
-  ---@param md table
-  ---@return boolean
-  removeItem = lib.inventory.removeItem,
+  ---@param _key string
+  ---@param data table
+  setPlayerData = bridge.setPlayerData,
 
   ---@param identifier string|number
   ---@return boolean

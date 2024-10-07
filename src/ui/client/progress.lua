@@ -273,7 +273,7 @@ RegisterCommand('test_progress', function()
     if lib.progressBar({
       duration = 2000,
       icon = 'fas fa-utensils',
-      description = 'Such a nice refreshing water',
+      -- description = 'Such a nice refreshing water',
       label = 'Drinking',
       useWhileDead = false,
       canCancel = true,

@@ -30,7 +30,7 @@ end
 
 function object:__init()
   self.resource = cache.resource
-  assert(self.type, 'object must have a specified type : ped, vehicle, object')
+  assert(self.type, 'object must have a specified type : ped, vehicle, object, weapon')
   assert(self.model, 'object must have a model')
   assert(self.pos, 'object must have a position')
   self.renderDist = self.renderDist or 50.0
@@ -100,14 +100,23 @@ end
 function object:spawn()
   if self.entity and self.entity ~= 0 then return end
   local model_hash = joaat(self.model)
-  local model_loaded = lib.request.model(model_hash, 15000)
+  local model_loaded = false
+  if self.type ~= 'weapon' then 
+    model_loaded = lib.request.model(model_hash, 15000)
+  else 
+    model_loaded = lib.request.weaponAsset(model_hash, 15000)
+  end
   assert(model_loaded, 'Failed to load model : ' .. self.model)
+  
   if self.type == 'ped' then 
     self.entity = CreatePed(1, self.model, self.pos, self.pos.w or 0.0, false, true)
   elseif self.type == 'vehicle' then
     self.entity = CreateVehicle(self.model, self.pos, self.pos.w or 0.0, false, false)
   elseif self.type == 'object' then 
     self.entity = CreateObject(self.model, self.pos, false, false, false)
+  elseif self.type == 'weapon' then 
+    self.entity = CreateWeaponObject(self.model, 1, self.pos, false, 0.0)
+    RequestWeaponHighDetailModel(self.entity)
   end
   
   if self.pos.w then 

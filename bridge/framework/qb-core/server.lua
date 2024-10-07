@@ -1,10 +1,5 @@
-local bridge = {
-  get = function(src)
-    if not src then return end
-    src = tonumber(src)
-    return lib.FW.Functions.GetPlayer(src)
+return {
+  canUseItem = function(item)
+    return lib.FW.Functions.CanUseItem(item)
   end,
-
 }
-
-return bridge

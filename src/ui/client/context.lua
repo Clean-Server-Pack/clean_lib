@@ -1,4 +1,4 @@
-
+local settings = lib.settings
 local contextMenus   = {}
 local saved_functions = {}
 local currentContext = nil
@@ -60,8 +60,8 @@ lib.registerContext = function(id, data)
     args = data.args or {},
     onExit = data.onExit or false,
     onBack = data.onBack or false,
-    clickSounds = data.clickSounds or false,
-    hoverSound = data.hoverSound or false,
+    clickSounds = data.clickSounds or settings.contextClickSounds,
+    hoverSounds = data.hoverSounds or settings.contextHoverSounds,
     options = data.options or {},
   }
 

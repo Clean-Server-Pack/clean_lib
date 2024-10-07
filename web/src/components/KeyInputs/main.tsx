@@ -20,6 +20,7 @@ export type KeyInputProps = {
 export default function KeyInputs(){
   const [display, setDisplay] = useState<boolean>(false)
   const [position, setPosition] = useState<PositionProps>('right-center')
+  const [direction, setDirection] = useState<'row' | 'column' | 'row-reverse' | 'column-reverse'>('column')
   // eslint-disable-next-line
   const [pressedKeys, setPressedKeys] = useState<string[]>([])
   const [keyInputs, setKeyInputs] = useState<KeyInputProps[]>([
@@ -30,9 +31,11 @@ export default function KeyInputs(){
   useNuiEvent('SET_KEY_INPUTS', (data: {
     position: PositionProps
     inputs: KeyInputProps[]
+    direction: 'row' | 'column' | 'row-reverse' | 'column-reverse'
   }) => {
     setPosition(data.position)
     setKeyInputs(data.inputs) 
+    setDirection(data.direction)
     setDisplay(true)
   })
 
@@ -89,7 +92,7 @@ export default function KeyInputs(){
         ...styles, // Keep Mantine's animation styles
         transform: getTranslate(position), // Custom transform logic
       }}
-      direction={'column'}
+      direction={direction}
       justify={'center'}
     >
       {keyInputs.map((keyInput, index) => (
@@ -111,19 +114,21 @@ export default function KeyInputs(){
 }
 
 
-// internalEvent([
-//   {
-//     action: 'SET_KEY_INPUTS',
-//     data: {
-//       inputs: [
-//         { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
+internalEvent([
+  {
+    action: 'SET_KEY_INPUTS',
+    data: {
+      direction: 'row',
+      inputs: [
         
-//       ],
+        { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
+        { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
+      ],
 
-//       position: 'bottom-center'
-//     }
-//   }
-// ])
+      position: 'bottom-center'
+    }
+  }
+])
 
 // setTimeout(() => {
 

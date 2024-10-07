@@ -8,7 +8,7 @@ import { isEnvBrowser } from '../utils/misc';
 
 import Dialog from './Dialog/main';
 import Input from './Input/main';
-import Menu from './Menu/main';
+import Menu from './Context/main';
 import Notifications from './Notify/main';
 import Quiz from './Quiz/main';
 import KeyInputs from './KeyInputs/main';

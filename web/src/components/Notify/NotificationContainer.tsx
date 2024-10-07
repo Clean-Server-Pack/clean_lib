@@ -74,36 +74,3 @@ function NotificationContainer(props: NotificationContainerProps) {
 
 export default NotificationContainer;
 
-
-
-// internalEvent([
-//   {
-//     action: 'ADD_NOTIFICATION',
-//     data: {
-//       title: 'Item Removed',
-//       description: '1 x Marked Bills has been removed from your inventory',
-//       icon: 'https://raw.githubusercontent.com/fazitanvir/items-images/main/illegal/markedbills.png',
-//       iconColor: 'rgba(255,255,255,0.4)',
-//       position: 'top-right',
-//       duration: 50000,
-//     }
-//   }
-// ])
-
-// setTimeout(() => {
-//   internalEvent([
-//     {
-//       action: 'ADD_NOTIFICATION',
-//       data: {
-//         title: 'Item Removed',
-//         message: '1 x Marked Bills has been removed from your inventory',
-//         icon: 'exclamation-triangle',
-//         iconColor: 'rgba(255,0,0,0.8)',
-//         position: 'top-right',
-//         duration: 50000,
-//       }
-//     }
-//   ])
-  
-// },500)
-

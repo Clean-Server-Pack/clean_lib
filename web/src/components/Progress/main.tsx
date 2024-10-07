@@ -74,14 +74,13 @@ export default function Progress() {
           p='xs'
           pos='absolute'
           {...getPositionProps(options.position)}
-          bg='rgba(0,0,0,0.5)'
+          bg={`linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.302621947216386) 16%, rgba(0,0,0,0.3) 46%, rgba(0,0,0,0.6) 100%)`}
           style={{
             borderRadius: theme.radius.sm,
             transform: getTranslate(options.position),
             ...styles
           }}
           direction={'column'}
-          gap='xs'
         >
           <Flex
             direction='column'
@@ -89,21 +88,21 @@ export default function Progress() {
             <Flex
               gap='xs'
               align='center'
-              mb='xs'
             >
               {options.icon && (
                 <FontAwesomeIcon
                   color='rgba(255,255,255,0.8)'
                   icon={options.icon as IconProp} 
                   style={{
-                    fontSize: '1.8vh'
+                    fontSize: '1.8vh', 
                   }}
                 />  
               )}
               <Text
                 size='1.8vh'
                 style={{
-                  fontFamily: 'Akrobat Bold'
+                  fontFamily: 'Akrobat Bold',
+                  textShadow: `0 0 0.1vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.9)}`
                 }}
               >{options.label}</Text>
             </Flex>
@@ -144,9 +143,14 @@ function CustomProgress({ value }: CustomProgressProps) {
     <Flex
       w='28vh'
       gap='0.5vh'
+
+      mt='xs'
+      // bg='rgba(0, 0, 0, 0.4)'
+
+
       style={{
         borderRadius: theme.radius.sm,
-        overflow: 'hidden',
+        // overflow: 'hidden',
         
       }}
     >
@@ -163,13 +167,14 @@ function CustomProgress({ value }: CustomProgressProps) {
           <Flex
             key={index}
             w={`${100 / boxCount}%`} // Divide width equally among boxes
-
             h='2vh'
             style={{
               position: 'relative',
               backgroundColor: 'rgba(0, 0, 0, 0.2)', // Default empty box color
+              
               transition: 'background-color 0.3s ease', // Smooth transition for filling
               borderRadius: theme.radius.xs,
+              transform: 'skewX(-10deg)', // Skew the fill box to give a 3D effect
             }}
           >
             {/* Inner fill box that represents the progress */}
@@ -178,10 +183,12 @@ function CustomProgress({ value }: CustomProgressProps) {
                 width: `${fillPercentage}%`,
                 height: '100%',
                 // backgroundColor: theme.colors[theme.primaryColor][theme.primaryShade as number],
-                backgroundColor: 'rgba(0, 0, 0, 0.5)', // Fill color
-                boxShadow: fillPercentage > 0 
-                  ? `inset 0 0 2.5vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.9)}`
-                  : 'none',
+                borderRadius: theme.radius.xs,
+                backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.8),
+                // boxShadow: fillPercentage > 0 
+                //   ? `inset 0 0 2.5vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.9)}`
+                //   : 'none',
+                // transform: 'skewX(-20deg)', // Skew the fill box to give a 3D effect
                 transition: 'width 0.1s ease', // Smooth transition for the width change
               }}
             />

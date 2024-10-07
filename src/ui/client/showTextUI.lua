@@ -17,10 +17,18 @@
 --   alignIcon?: 'top' | 'center' | 'bottom'
 -- }
 
+local invoking_resource = nil
+AddEventHandler('onResourceStop', function(resource)
+  if resource == invoking_resource then
+    lib.hideTextUI()
+  end
+end)
+
 local isOpen = false
 lib.showTextUI = function(text, options)
   assert(text and type(text) == 'string', 'text must be a string')
   assert(options == nil or type(options) == 'table', 'options must be a table or nil')
+  invoking_resource = GetInvokingResource()
   if not options then options = {
     position = lib.settings.showText_position, 
   } end 
@@ -41,6 +49,9 @@ lib.hideTextUI = function()
     action = 'HIDE_TEXT_UI'
   }))
 end
+
+
+
 
 
 lib.isTextUIOpen = function()

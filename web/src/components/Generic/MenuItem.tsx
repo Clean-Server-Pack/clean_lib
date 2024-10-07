@@ -2,17 +2,16 @@ import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Progress, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
-import { useEffect, useMemo, useState } from "react";
-import hoverSound from './soundfx.mp3';
-import clickSound from './click_sound.mp3';
-import { fetchNui } from "../../utils/fetchNui";
+import { useEffect, useMemo } from "react";
+
+import { useAudioPlayer } from "../../providers/audio/audio";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 
 
 
 export type MenuItemProps = {
 
-  id: string; 
+
   clickSounds: boolean;
   hoverSounds: boolean;
   title: string;
@@ -21,12 +20,7 @@ export type MenuItemProps = {
   willClose?: boolean;
   description?: string;
   readOnly?: boolean;
-  menu?: string; 
-  dialog? : string;
-  onSelect?: string; 
-
-  serverEvent?: string;
-  clientEvent?: string;
+  onClick?: () => void; 
   icon?: IconName | string;
   iconColor?: string;
   iconAnimation?: string;
@@ -34,50 +28,21 @@ export type MenuItemProps = {
   colorScheme?: string;
   arrow?: boolean;
   image?: string;
-  metadata: object; 
+  metadata?: object; 
+  hide?: boolean;
 };
 export function MenuItem(props: MenuItemProps) {
   const { hovered, ref } = useHover();
   const theme = useMantineTheme();
-  const [sound] = useState(new Audio(hoverSound));
-  const [sound_click] = useState(new Audio(clickSound));
-  // adjust volume 
-  sound.volume = 0.1;
-  sound_click.volume = 0.1;
-
+  const audio = useAudioPlayer();
   const handleClick = () => {
-
-    if (props.readOnly || props.disabled) {
+    if (props.disabled || props.readOnly) {
       return;
     }
-
-    if (props.onSelect || props.serverEvent || props.clientEvent) {
-      fetchNui('contextClicked', props.id) 
+    if (props.clickSounds) audio.play('click');
+    if (props.onClick) {
+      props.onClick();
     }
-
-    if (props.menu) {
-      fetchNui('openContext', {
-        back: false,
-        id: props.menu,
-      })
-    }
-
-    if (props.dialog) { 
-      fetchNui('openDialog', {
-        id: props.dialog,
-      })
-    }
-
-    if (props.willClose == null || props.willClose && !props.disabled && !props.readOnly) {
-      fetchNui('closeContext')
-    }
-
-    if (props.disabled || props.readOnly || !props.clickSounds) {
-      return;
-    }
-    sound_click.play();
-
-
   };
 
   useEffect(() => {
@@ -85,9 +50,9 @@ export function MenuItem(props: MenuItemProps) {
       return;
     }
     if (hovered) {
-      sound.play();
+      audio.play('hover');
     }
-  }, [hovered, props.disabled, props.readOnly, props.hoverSounds, sound]);
+  }, [hovered, props.disabled, props.readOnly, props.hoverSounds]);
 
   const is_icon = useMemo(() => {
     //  CHECK IF IS A HTTPS STRING
@@ -101,17 +66,18 @@ export function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(62,62,62,0.8)' : !props.disabled ? 'rgba(62,62,62,0.6)' : 'rgba(62,62,62,0.4)'}
-      w='90%'
+      bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(144, 144, 144, 0.5)'}
+      w='100%'
       p='lg'
       gap='xs'
       direction='column'
       style={{
-
+        visibility: props.hide ? 'hidden' : 'visible',
         backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: theme.radius.xs,
+        boxShadow: hovered ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
         cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
         outline:  (!props.readOnly && !props.disabled && hovered) ? `2px solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '2px solid rgba(0,0,0,0.2)',
         justifyContent: 'center',

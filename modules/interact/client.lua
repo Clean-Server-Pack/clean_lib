@@ -21,12 +21,9 @@ lib.interact = {
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
       }
-      print('netId', interact_data.netId)
       if data.network then 
-        print()
         exports.sleepless_interact:addEntity(interact_data)
       else
-       
         exports.sleepless_interact:addLocalEntity(interact_data)
       end
         

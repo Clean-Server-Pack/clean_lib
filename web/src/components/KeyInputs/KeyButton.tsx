@@ -49,9 +49,9 @@ const KeyIcon = function (props: KeyProps) {
       direction={"column"}
       align={"center"}
       justify={"center"}
-      w="4.2vh"
+      w="3.8vh"
       style={{
-        aspectRatio: 1 / 1,
+        aspectRatio: 1,
         borderRadius: theme.radius.sm,
         transition: "all ease-in-out 0.2s",
         boxShadow: props.pressed ? `inset 0 0 2.9vh ${colorWithAlpha(
@@ -64,7 +64,7 @@ const KeyIcon = function (props: KeyProps) {
                 theme.colors[theme.primaryColor][theme.primaryShade as number],
                 0.8
               )
-            : "gray"
+            : "rgba(255,255,255,0.1)"
         }`,
         position: "relative",
       }}

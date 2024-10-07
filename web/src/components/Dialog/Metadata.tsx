@@ -23,7 +23,7 @@ function Metadata(props: MetadataProps) {
       style={{
         borderRadius: theme.radius.xs,
         overflow: 'hidden',
-        border: `1px solid rgba(77,77,77,0.6)`
+        border: `1px solid rgba(77,77,77,0.9)`
       }}
       align='center'
       direction='column'
@@ -34,7 +34,7 @@ function Metadata(props: MetadataProps) {
       >
         <Flex
           p='xs'
-          bg='rgba(77,77,77,0.2)'
+          bg='rgba(77,77,77,0.8)'
           direction='column'
           justify='center'
           align='center'
@@ -47,7 +47,7 @@ function Metadata(props: MetadataProps) {
 
         <Flex
           p='xs'
-          bg='rgba(77,77,77,0.5)'
+          bg='rgba(77,77,77,0.6)'
           direction='column'
           align='center'
           justify='center'

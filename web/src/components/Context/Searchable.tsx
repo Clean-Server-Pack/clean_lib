@@ -16,6 +16,7 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
           overflowX:'hidden',
           overflowY:'auto',
           maxHeight:'60vh',
+        
         }}
       >
         {children}

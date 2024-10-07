@@ -46,7 +46,7 @@ export function KeyLabel(props: KeyInputProps) {
       p="xs"
  
       style={{
-        borderRadius: theme.radius.xs,
+        borderRadius: '0.5vh', // Rounded corners
         overflow: "hidden", // Prevent overflow for the progress bar
         backgroundColor: "rgba(0,0,0,0.5)", // Background for the container
         
@@ -79,7 +79,7 @@ export function KeyLabel(props: KeyInputProps) {
         icon={props.icon as IconProp}
         style={{ zIndex: 1 }} // Ensure the icon is above the progress bar
       />
-      <Text size="1.8vh" style={{ zIndex: 1 }}> {/* Ensure text is above the progress bar */}
+      <Text size="1.5vh" style={{ zIndex: 1 }}> {/* Ensure text is above the progress bar */}
         {props.label}
       </Text>
     </Flex>

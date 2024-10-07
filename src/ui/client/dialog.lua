@@ -1,3 +1,4 @@
+local settings = lib.settings
 local dialogs = {}
 local dialog = {}
 dialog.__index = dialog
@@ -96,6 +97,8 @@ function dialog:open(another_menu, entity)
       prevDialog = self.prevDialog,
       audioFile = self.audioFile,
       metadata = self.metadata,
+      clickSounds = self.clickSounds or settings.dialogClickSounds or false,
+      hoverSounds = self.hoverSounds or settings.dialogHoverSounds or false,
       responses = self.formatted_responses
     }
   }))

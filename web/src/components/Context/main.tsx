@@ -3,12 +3,11 @@ import { Image, Input, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
-import { Title } from "../Generic/Title";
-import SideBar from "../Generic/SideBar";
-import './Menu.module.css';
-import { MenuItem, MenuItemProps } from "./MenuItem";
-import SearchableContent from "./Searchable";
 import { internalEvent } from "../../utils/internalEvent";
+import SideBar from "../Generic/SideBar";
+import { Title } from "../Generic/Title";
+import { ContextItem, ContextItemProps } from "./ContextItem";
+import SearchableContent from "./Searchable";
 
 type MenuEventProps = {
   action: string
@@ -26,7 +25,7 @@ export type MenuProps = {
   watermark?: string
   clickSounds: boolean
   hoverSounds: boolean
-  options: MenuItemProps[]
+  options: ContextItemProps[]
 }
 
 export default function Menu(){
@@ -76,6 +75,7 @@ export default function Menu(){
           style={{
             // backdropFilter: 'blur(2px)',
             display:'flex',
+            padding:'1rem',
             flexDirection:'column',
             justifyContent:'center',
             alignItems:'center',
@@ -123,7 +123,7 @@ export default function Menu(){
                     styles={{
                       input:{
                         border:'1px solid var(--mantine-primary-color-9)',
-                        background:'rgba(62,62,62,0.6)',
+                        background:'rgba(144, 144, 155, 0.5)',
                       }
                     }}
                     placeholder='Search...'
@@ -133,7 +133,7 @@ export default function Menu(){
 
               <SearchableContent searchTerm={search}>
                 {menuOpen.options.map((option, index) => (
-                  <MenuItem key={index} {...option} clickSounds={menuOpen.clickSounds} hoverSounds={menuOpen.hoverSounds}/>
+                  <ContextItem key={index} {...option} clickSounds={menuOpen.clickSounds} hoverSounds={menuOpen.hoverSounds}/>
                 ))}
               </SearchableContent>
             </>

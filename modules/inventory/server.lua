@@ -10,6 +10,10 @@ return {
   useableItem       = inventory_bridge.useableItem or framework_bridge.useableItem,
 
   ---@param item_name: string
+  ---@return func | nil
+  canUseItem        = inventory_bridge.canUseItem or framework_bridge.canUseItem,
+
+  ---@param item_name: string
   ---@param count?: number
   ---@param slot?: number
   ---@param metadata?: table
@@ -20,6 +24,13 @@ return {
   ---@param slot?: number
   ---@param metadata?: table
   removeItem        = inventory_bridge.removeItem or framework_bridge.removeItem,
+
+  ---@param item_name: string
+  ---@param count?: number
+  ---@param slot?: number
+  ---@param metadata?: table
+  ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
+  hasItem           = inventory_bridge.hasItem or framework_bridge.hasItem,
 
   ---@param inventory_id: string
   clearInventory    = inventory_bridge.clearInventory or framework_bridge.clearInventory,

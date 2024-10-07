@@ -10,13 +10,19 @@ return {
   garage          = GetConvar('clean_lib:garage', 'ox_garage'),
   ambulance       = GetConvar('clean_lib:ambulance', 'qb-ambulancejob'),
   interact        = GetConvar('clean_lib:interact', 'sleepless_interact'),
-  notify          = GetConvar('clean_lib:notify', 'clean_lib'),
   prison          = GetConvar('clean_lib:prison', 'ox_jail'),
   time            = GetConvar('clean_lib:time', 'clean_weather'),
-  progress        = GetConvar('clean_lib:progress', 'clean_lib'),
   phone           = GetConvar('clean_lib:phone', 'lb-phone'),
   fuel            = GetConvar('clean_lib:fuel', 'ox_fuel'),
   dispatch        = GetConvar('clean_lib:dispatch', 'ox_dispatch'),
+
+  --## Menus/Progress etc  
+  notify          = GetConvar('clean_lib:notify', 'clean_lib'),
+  progress        = GetConvar('clean_lib:progress', 'clean_lib'),
+  showTextUI      = GetConvar('clean_lib:showTextUI', 'clean_lib'),
+  contextMenu     = GetConvar('clean_lib:contextMenu', 'clean_lib'),
+  dialog          = GetConvar('clean_lib:dialog', 'clean_lib'),
+  
 
   primaryColor    = GetConvar('clean_lib:primaryColor', 'clean'),
   primaryShade    = GetConvarInt('clean_lib:primaryShade', 9),
@@ -39,4 +45,9 @@ return {
   notify_position   = GetConvar('notify_position', 'top-right'),
   showText_position = GetConvar('showText_position', 'bottom-center'),
   progbar_position  = GetConvar('progbar_position', 'bottom-center'),
+
+  contextClickSounds = GetConvar('contextClickSounds', 'true') == 'true',
+  contextHoverSounds = GetConvar('contextHoverSounds', 'true') == 'true',
+  dialogClickSounds  = GetConvar('dialogClickSounds', 'true') == 'true',
+  dialogHoverSounds  = GetConvar('dialogHoverSounds', 'true') == 'true',
 }

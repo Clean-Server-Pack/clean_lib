@@ -7,8 +7,8 @@ return {
   ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
   ---@return boolean
-  addItem  = function(invId, item, count, slot, md) 
-    return exports.clean_inventory:addItem(invId, item, count, slot, md)
+  addItem  = function(invId, item, count or 1, slot, md) 
+    return exports.ox_inventory:AddItem(invId, item, count, md, slot)
   end,
 
   --- Remove Item from inventory either playerid or invId
@@ -19,7 +19,7 @@ return {
   ---@param md table [Optional] Item Metadata
   ---@return boolean
   removeItem = function(invId, item, count, slot, md) 
-    return exports.clean_inventory:removeItem(invId, item, count, slot, md)
+    return exports.ox_inventory:RemoveItem(invId, item, count or 1, md, slot)
   end,
 
   --- Check if player has item in inventory
@@ -30,7 +30,23 @@ return {
   ---@param md table [Optional] Item Metadata
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
   hasItem = function(invId, item, count, slot, md) 
-    return exports.clean_inventory:hasItem(invId, item, count, slot, md)
+    if not slot then 
+      return exports.ox_inventory:GetItem(invId, item, md, true) 
+    else 
+      local item_in_slot = exports.ox_inventory:GetSlot(invId, slot)
+      if not item_in_slot then return false end 
+      if item_in_slot.name ~= item then return false end
+      if md then 
+        for k,v in pairs(md) do 
+          if item_in_slot.metadata[k] ~= v then return false end 
+        end 
+      end
+      if count then 
+        if item_in_slot.count < count then return false end 
+      end
+      return true
+    end 
+    return exports.ox_inventory:GetItemCount(invId, itemName, slot, md)
   end,
   
 

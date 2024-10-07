@@ -371,7 +371,7 @@ local input_mappings = {
 function lib.getKey(index)
   local found = nil
   for _, mapping in ipairs(input_mappings) do
-    if mapping[1] == index or mapping[3] == index then
+    if mapping[1] == index or tostring(string.upper(mapping[3])) == tostring(string.upper(index)) then 
       found = mapping
       break
     end

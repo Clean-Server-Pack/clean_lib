@@ -217,7 +217,7 @@ lib.request = {
 
   weaponAsset = function(asset, timeout)
     assert(asset, 'a weapon asset is required')
-    assert(type(asset) == 'string' or type(asset) == 'table', 'asset must be a string or table')
+    assert(type(asset) == 'string' or type(asset) =='number' or type(asset) == 'table', 'asset must be a string or table')
     if not timeout then timeout = defaultTimeout end
     if type(asset) == 'table' then
       for i, v in ipairs(asset) do

@@ -42,7 +42,7 @@ function SideBar(props:SideBarProps){
           pos='absolute'
           right={0}
           //bg={getGradient({ from: 'rgba(0,0,0,0.3)', to: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.2), deg: 360 }, theme)}
-          bg='linear-gradient(211deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.75) 27%, rgba(36,36,36,0.55) 47%, rgba(0,0,0,0) 100%)'
+          bg='linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 55%, rgba(36,36,36,0.4) 77%, rgba(0,0,0,0) 100%)'
           w={props.w}
           h={props.h}
           style={{

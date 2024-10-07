@@ -6,6 +6,7 @@ return {
   end,
 
   identifier = function(src)
+    
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
     return ply.PlayerData.citizenid
@@ -53,6 +54,12 @@ return {
     ply.Functions.SetJobDuty(duty)
   end,
 
+  setPlayerData = function(src, _key, data)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    ply.Functions.SetPlayerData(_key, data)
+  end,
+
   jail = function()
 
   end, 
@@ -62,6 +69,12 @@ return {
   end, 
 
   removeMoney = function(src, acc, count, reason)
+
+  end,
+
+
+  ---## Inventory
+  hasItem = function(src, item, count, slot, md)
 
   end,
 
