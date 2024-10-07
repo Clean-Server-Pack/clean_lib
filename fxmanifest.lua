@@ -15,6 +15,7 @@ dependencies {
 ui_page 'web/build/index.html'
 
 files {
+  'locales/**/*',
   'init.lua',
   'modules/**/client.lua',
   'modules/**/server.lua',
@@ -24,7 +25,7 @@ files {
   'bridge/**/shared.lua',
   'src/modelNames.lua',
   'src/settings.lua',
-  'src/compat.lua',
+  'src/ox_compat.lua',
 
   --\\ NUI WHEN ADDED \\--
   'web/build/index.html',
