@@ -15,20 +15,20 @@ return {
 
   ---@param item_name: string
   ---@param count?: number
-  ---@param slot?: number
   ---@param metadata?: table
+  ---@param slot?: number
   addItem           = inventory_bridge.addItem or framework_bridge.addItem,
 
   ---@param item_name: string
   ---@param count?: number
-  ---@param slot?: number
   ---@param metadata?: table
+  ---@param slot?: number
   removeItem        = inventory_bridge.removeItem or framework_bridge.removeItem,
 
   ---@param item_name: string
   ---@param count?: number
-  ---@param slot?: number
   ---@param metadata?: table
+  ---@param slot?: number
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
   hasItem           = inventory_bridge.hasItem or framework_bridge.hasItem,
 

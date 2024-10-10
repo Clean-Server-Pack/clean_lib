@@ -88,6 +88,20 @@ lib.interact = {
     end
   end,
 
+  addGlobalPlayer = function(data)
+    if settings.interact == 'sleepless_interact' then
+      local interact_data = {
+        id = data.id or ('player_%s'):format(math.random(1, 1000000)), 
+        options = parseOptions(data.options),
+        renderDistance = data.renderDistance or 10.0,
+        activeDistance = data.distance       or 1.5,
+        cooldown       = data.cooldown       or 1500,
+      }
+      exports.sleepless_interact:addGlobalPlayer(interact_data)
+    elseif settings.interact == 'marker' then 
+
+    end 
+  end,
 
   addGlobalPed = function(data)
     if settings.interact == 'sleepless_interact' then
@@ -122,7 +136,7 @@ lib.interact = {
     end 
   end,
 
-  removeGlobnlModel = function(model)
+  removeGlobalModel = function(model)
     if settings.interact == 'sleepless_interact' then
       exports.sleepless_interact:removeGlobalModel(model)
     elseif settings.interact == 'marker' then 

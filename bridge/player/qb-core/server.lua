@@ -56,10 +56,14 @@ return {
   end, 
 
   addMoney = function(src, acc, count, reason)
-
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.AddMoney(acc, count, reason)
   end, 
 
   removeMoney = function(src, acc, count, reason)
-
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.RemoveMoney(acc, count, reason)
   end,
 }

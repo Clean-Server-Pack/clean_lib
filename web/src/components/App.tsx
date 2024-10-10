@@ -6,16 +6,15 @@ import { useSettings } from '../providers/settings/settings';
 import theme from '../theme';
 import { isEnvBrowser } from '../utils/misc';
 
+import { MantineEmotionProvider } from '@mantine/emotion';
+import Menu from './Context/main';
 import Dialog from './Dialog/main';
 import Input from './Input/main';
-import Menu from './Context/main';
-import Notifications from './Notify/main';
-import Quiz from './Quiz/main';
 import KeyInputs from './KeyInputs/main';
-import TextUI from './TextUI/main';
+import Notifications from './Notify/main';
 import Progress from './Progress/main';
-import Radial from './Radial/main';
-import { MantineEmotionProvider } from '@mantine/emotion';
+import Quiz from './Quiz/main';
+import TextUI from './TextUI/main';
 
 
 const App: React.FC = () => {

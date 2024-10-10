@@ -7,7 +7,7 @@ return {
   ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
   ---@return boolean
-  addItem  = function(invId, item, count, slot, md) 
+  addItem  = function(invId, item, count, md, slot)
     return exports.ox_inventory:AddItem(invId, item, count or 1, md, slot)
   end,
 
@@ -18,7 +18,7 @@ return {
   ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
   ---@return boolean
-  removeItem = function(invId, item, count, slot, md) 
+  removeItem = function(invId, item, count, md, slot)
     return exports.ox_inventory:RemoveItem(invId, item, count or 1, md, slot)
   end,
 
@@ -29,7 +29,7 @@ return {
   ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
-  hasItem = function(invId, item, count, slot, md) 
+  hasItem = function(invId, item, count, md, slot)
     if not slot then 
       return exports.ox_inventory:GetItem(invId, item, md, true) 
     else 

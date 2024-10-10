@@ -1,13 +1,11 @@
-import { Button, Checkbox, ColorInput, Flex, MultiSelect, NumberInput, Select, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
-import SideBar from "../Generic/SideBar";
-import { Title } from "../Generic/Title";
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Button, Flex, Text, useMantineTheme } from "@mantine/core";
+import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { internalEvent } from "../../utils/internalEvent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
-import { DateInput, DatePicker, DatePickerInput } from "@mantine/dates";
-import { useForm } from "@mantine/form";
+import SideBar from "../Generic/SideBar";
+import { Title } from "../Generic/Title";
 
 
 
