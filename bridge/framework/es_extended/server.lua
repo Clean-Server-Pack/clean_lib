@@ -6,4 +6,8 @@ return {
   registerUseableItem = function(item, cb)
     return exports.qbx_core:CreateUseableItem(item, cb)
   end,
+
+  getItemLabel = function(item)
+    return lib.FW.GetItemLabel(item)
+  end,
 }

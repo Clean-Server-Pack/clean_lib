@@ -62,6 +62,11 @@ return {
   ---@return table
   item              = inventory_bridge.item or framework_bridge.item,
 
+  
+  ---@param item: string
+  ---@return string
+  getItemLabel      = inventory_bridge.getItemLabel or framework_bridge.getItemLabel,
+
   ---@param inventory_id: string
   ---@param label: string
   ---@param max_slots: number

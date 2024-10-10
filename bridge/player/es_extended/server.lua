@@ -69,15 +69,17 @@ return {
   addMoney = function(src, acc, count, reason)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
-    return ply.addAccountMoney(acc,count)
+    ply.addAccountMoney(acc,count)
+    return true 
   end, 
 
   removeMoney = function(src, acc, count, reason)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
-    local accounts = ply.getAccounts() or {}
-    if not accounts[acc] then return false, 'no_account' end
-    if accounts[acc].money < count then return false, 'insufficient_funds' end
-    return ply.removeAccountMoney(acc,count)
+    local account_exists = ply.getAccount(acc)
+    if not account_exists then return false, 'no_account' end
+    if account_exists.money < count then return false, 'insufficient_funds' end
+    ply.removeAccountMoney(acc,count)
+    return true 
   end,
 }

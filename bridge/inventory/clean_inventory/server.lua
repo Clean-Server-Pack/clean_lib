@@ -32,6 +32,14 @@ return {
   hasItem = function(invId, item, count, md, slot) 
     return exports.clean_inventory:hasItem(invId, item, count, md, slot)
   end,
+
+  
+
+  getItemLabel = function(item)
+    local item_exists =  exports.clean_inventory:Items(item)
+    return item_exists and item_exists.label or false
+  end,
+
   
 
 
