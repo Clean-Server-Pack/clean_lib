@@ -341,16 +341,6 @@ local dui = lib.dui.register('example', {
   url = 'https://example.com'
 })
 
-
---renderTarget providing a model to render to
-local dui = lib.dui.register('example', {
-  type = 'renderTarget',
-  targetModel = 'prop_cs_tablet',
-  renderDistance = 20.0,
-  res = {x = 1920, y = 1080},
-  url = 'https://example.com'
-})
-
 --runtimeTexture
 local dui = lib.dui.register('example', {
   type = 'runtimeTexture',
