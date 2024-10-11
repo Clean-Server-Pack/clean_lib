@@ -101,17 +101,18 @@ local cache = setmetatable({
   end or nil,
 
 
-  __call = function(self, key, value)
-    local value = rawget(self,key)
+  __call = function(self, key, func, timeout)
+    local value = rawget(self, key)
 
-    if not value then 
+    if value == nil then
       value = func()
-      rawset(self,key,value)
-      if timeout then SetTimeout(timeout,function() self[key] = nil; end) end 
+      rawset(self, key, value)
+
+      if timeout then SetTimeout(timeout, function() self[key] = nil end) end
     end
 
     return value
-  end
+  end,
 
 
 })

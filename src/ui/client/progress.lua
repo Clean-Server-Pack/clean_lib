@@ -1,4 +1,4 @@
--- LAZY USING OX LIBS LUA FOR NOW
+-- THANKS OX FOR BACKEND OF PROG BARS LAZY BOI HERE
 local progress
 local DisableControlAction = DisableControlAction
 local DisablePlayerFiring = DisablePlayerFiring
@@ -80,7 +80,7 @@ local function startProgress(data)
   end
 
   if data.prop then
-    playerState:set('lib:progressProps', data.prop, true)
+      playerState:set('lib:progressProps', data.prop, true)
   end
 
   local disable = data.disable
@@ -157,11 +157,11 @@ function lib.progressBar(data)
     SendNUIMessage({
       action = 'SHOW_PROGRESS',
       data = {
-        position = data.position or lib.settings.progbar_position,
-        icon = data.icon,
-        description = data.description,
         label = data.label,
-        duration = data.duration
+        duration = data.duration,
+        position = data.position or lib.settings.notify_position or 'bottom-center',
+        icon     = data.icon,
+        description = data.description
       }
     })
 
@@ -205,9 +205,13 @@ RegisterNUICallback('PROGRESS_COMPLETE', function(data, cb)
   cb(1)
   progress = nil
 end)
-
+print('MADE COMMAND?')
 RegisterCommand('cancelprogress', function()
-  if progress?.canCancel then progress = false end
+  print('CanCancel?', progress?.canCancel)
+  if progress?.canCancel then 
+    print('Allowing Cancel?')
+    progress = false 
+  end
 end)
 
 if isFivem then
@@ -259,49 +263,23 @@ AddStateBagChangeHandler('lib:progressProps', nil, function(bagName, key, value,
   end
 end)
 
-AddEventHandler('onResourceStop', function(resource)
-  if resource == GetCurrentResourceName() then
-    for serverId, _ in pairs(createdProps) do
-      deleteProgressProps(serverId)
-    end
-  end
-end)
-
-
-
-RegisterCommand('test_progress', function()
-    if lib.progressBar({
-      duration = 2000,
-      icon = 'fas fa-utensils',
-      -- description = 'Such a nice refreshing water',
-      label = 'Drinking',
-      useWhileDead = false,
-      canCancel = true,
-      disable = {
-          car = true,
-      },
-      anim = {
-          dict = 'mp_player_intdrink',
-          clip = 'loop_bottle'
-      },
-      prop = {
-        model = `prop_ld_flow_bottle`,
-        pos = vec3(0.03, 0.03, 0.02),
-        rot = vec3(0.0, 0.0, -1.5)
-      },
-  }) then print('Do stuff when complete') else print('Do stuff when cancelled') end
-end)
-
-RegisterCommand('clearProps', function()
-  -- Clear area around ped of props
-  local ped = PlayerPedId()
-  local coords = GetEntityCoords(ped)
-  local objects = GetGamePool('CObject')
-  for i = 1, #objects do
-    local object = objects[i]
-    local objCoords = GetEntityCoords(object)
-    if #(coords - objCoords) < 2.0 then
-      DeleteEntity(object)
-    end
-  end
+RegisterCommand('test_prog', function()
+  if lib.progressBar({
+    duration = 2000,
+    label = 'Drinking water',
+    useWhileDead = false,
+    canCancel = true,
+    disable = {
+      car = true,
+    },
+    anim = {
+      dict = 'mp_player_intdrink',
+      clip = 'loop_bottle'
+    },
+    prop = {
+      model = `prop_ld_flow_bottle`,
+      pos = vec3(0.03, 0.03, 0.02),
+      rot = vec3(0.0, 0.0, -1.5)
+    },
+}) then print('Do stuff when complete') else print('Do stuff when cancelled') end
 end)

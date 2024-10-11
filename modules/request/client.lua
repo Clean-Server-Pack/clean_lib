@@ -38,9 +38,13 @@ lib.request = {
       return true
     end
     
-    local hash = type(model) == 'string' and GetHashKey(model) or model
+    local hash = type(model) == 'string' and joaat(model) or model
     local modelValid = IsModelValid(hash)
-    assert(modelValid, 'model is not valid: ' .. model..hash)
+    if not modelValid then
+      lib.print.error(('model is not valid: %s : %s'):format(model, hash))
+      return false
+    end
+
     local inCdImage = IsModelInCdimage(hash)
     local start_time = GetGameTimer()
     

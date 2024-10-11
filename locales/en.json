@@ -1,3 +1,4 @@
 {
-  "hello": "Hello"
+  "progress_cancelled": "Cancelled", 
+  "cancel_progress": "Cancel Progress"
 }

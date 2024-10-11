@@ -87,7 +87,7 @@ jobs:
         id: auto_release
         with:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Use the GitHub token from the repository secrets
-          title: "Release ${{ env.VERSION }}" # Use the version extracted from the workflow
+          title: "Release ${{ env.RELEASE_VERSION }}" # Use the version extracted from the workflow
           prerelease: false
           files: clean_lib.zip # Specify the file to attach to the release
           automatic_release_tag: 'latest_production' # Tag name for the release

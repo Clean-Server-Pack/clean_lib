@@ -3,10 +3,11 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, Transition, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { useSettings } from "../../providers/settings/settings";
+import { useLocale } from "../../providers/locales/locales";
 import colorWithAlpha from "../../utils/colorWithAlpha";
-import { getPositionProps, getTranslate, PositionProps } from "../../utils/positioning";
 import { fetchNui } from "../../utils/fetchNui";
+import { getPositionProps, getTranslate, PositionProps } from "../../utils/positioning";
+import { internalEvent } from "../../utils/internalEvent";
 
 type ProgressProps = {
   position: PositionProps 
@@ -17,9 +18,10 @@ type ProgressProps = {
 }
 
 export default function Progress() {
-  const settings = useSettings()
+  const locale = useLocale()
   const theme = useMantineTheme()
   const [display, setDisplay] = useState(false)
+  const [pause, setPause] = useState(false)
   const [progress, setProgress] = useState(0)
   const [options, setOptions] = useState<ProgressProps>({
     position: 'bottom-center',
@@ -28,38 +30,46 @@ export default function Progress() {
     label: 'Progress',
     duration: 8000
   })
-
-  // timer for the progress bar
+  
   useEffect(() => {
     if (!display) return
-
+  
     const interval = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          clearInterval(interval)
-          setDisplay(false)
-          fetchNui('PROGRESS_COMPLETE')
-          return 0
-        }
-        return prev + 1
-      })
+      if (!pause) {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            clearInterval(interval)
+            setDisplay(false)
+            fetchNui('PROGRESS_COMPLETE')
+            return 0
+          }
+          return prev + 1
+        })
+      }
     }, options.duration / 100)
+  
     return () => clearInterval(interval)
-  }, [display])
-
+  }, [display, options.duration, pause])
+  
   useNuiEvent('SHOW_PROGRESS', (data: ProgressProps) => {
+    setPause(false)
     setOptions(data)
+    setProgress(0) // Reset progress to start from 0 when new progress starts
     setDisplay(true)
   })
-
+  
   useNuiEvent('CANCEL_PROGRESS', () => {
-    setOptions((prev) => ({ ...prev, label:settings.locales.CancelProgress, duration: 0 }))
+    setPause(true)
+    setOptions((prev) => ({ ...prev, label: locale('progress_cancelled') }))
     setTimeout(() => {
-      setDisplay(false)
+      setDisplay(false)  // Turn off the display
+      fetchNui('PROGRESS_COMPLETE')
+      setProgress(0)     // Reset progress
+      setPause(false)    // Reset pause state
+      // Optionally clear all options here if needed
     }, 500)
-
   })
-
+  
   return (
     <Transition
       mounted={display}
@@ -127,6 +137,27 @@ export default function Progress() {
   )
 }
 
+internalEvent([
+  {
+    action : 'SHOW_PROGRESS',
+    data : {
+      position: 'top-center',
+      icon: 'fa fa-bars',
+      description: 'This is a progress bar',
+      label: 'Progress',
+      duration: 8000
+    }
+  }
+])
+
+setTimeout(() => {
+  internalEvent([
+    {
+      action : 'CANCEL_PROGRESS',
+    }
+  ])
+}, 4000)
+
 type CustomProgressProps = {
   value: number // Progress value in percentage
 }
@@ -189,7 +220,7 @@ function CustomProgress({ value }: CustomProgressProps) {
                 //   ? `inset 0 0 2.5vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.9)}`
                 //   : 'none',
                 // transform: 'skewX(-20deg)', // Skew the fill box to give a 3D effect
-                transition: 'width 0.1s ease', // Smooth transition for the width change
+                // transition: 'width 0.1s ease', // Smooth transition for the width change
               }}
             />
           </Flex>
@@ -198,4 +229,3 @@ function CustomProgress({ value }: CustomProgressProps) {
     </Flex>
   )
 }
-

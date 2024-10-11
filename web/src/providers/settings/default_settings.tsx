@@ -13,10 +13,6 @@ export const defaultSettings: SettingsProps = {
     "#692d9d",
     "#5c258b"
   ],
-
-  locales: {
-    CancelProgress: "Cancelled"
-  },
   // Add more default settings here
 };
 
@@ -26,8 +22,5 @@ export type SettingsProps = {
   primaryColor: MantineColor;
   primaryShade: MantineColorShade;
   customTheme: MantineColorsTuple;
-  locales: {
-    [key: string]: string;
-  };
   // Add more settings here
 };

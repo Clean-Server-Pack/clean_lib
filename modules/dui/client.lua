@@ -52,17 +52,14 @@ function Dui:__check()
 
   if self.type == 'runtimeTexture' then 
     assert(self.originalTxd, 'Dui must have a originalTxd')
-    assert(self.replaceTxd, 'Dui must have a replaceTxd')
   end
 
   self.res = self.res or {x = 1280, y = 1080}
   self.url = self.url or '' 
-  self.lastUrl = self.url
   return true
 end
 
 function Dui:setUrl(url)
-  self.lastUrl = self.url
   self.url = url
   SetDuiUrl(self.object, url)
 end
@@ -139,10 +136,12 @@ function Dui:registerRenderTarget()
 end
 
 function Dui:createDui()
-  self.object = CreateDui(self.lastUrl, self.res.x or 1920, self.res.y or 1080)
+  self.object = CreateDui(self.url, self.res.x or 1920, self.res.y or 1080)
   self.handle = GetDuiHandle(self.object)
   if not self.txn then
+    print('creating self.txn', self.txd, tostring(self.id), self.handle)
     self.txn = CreateRuntimeTextureFromDuiHandle(self.txd, tostring(self.id), self.handle)
+    print('created self.txn', self.txn)
   end
 end
 
@@ -235,6 +234,8 @@ function Dui:__init()
       end
     })
   elseif self.type == 'runtimeTexture' then 
+    self:create()
+    lib.print.info('Creating runtime texture', self.id, self.originalTxd, self.originalTxn, self.txd, self.txn)
     AddReplaceTexture(self.originalTxd, self.originalTxn, self.txd, self.txn)
   end
 end

@@ -15,6 +15,7 @@ import Notifications from './Notify/main';
 import Progress from './Progress/main';
 import Quiz from './Quiz/main';
 import TextUI from './TextUI/main';
+import { LocalesProvider } from '../providers/locales/locales';
 
 
 const App: React.FC = () => {
@@ -55,17 +56,19 @@ const App: React.FC = () => {
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
       <MantineEmotionProvider>
-        <Wrapper>
-          {/* <Radial /> */}
-          <Progress />
-          <TextUI />
-          <Notifications />
-          <Menu />
-          <Quiz />
-          <Dialog />
-          <Input />
-          <KeyInputs />
-        </Wrapper>
+        <LocalesProvider>
+          <Wrapper>
+            {/* <Radial /> */}
+            <Progress />
+            <TextUI />
+            <Notifications />
+            <Menu />
+            <Quiz />
+            <Dialog />
+            <Input />
+            <KeyInputs />
+          </Wrapper>
+        </LocalesProvider>
       </MantineEmotionProvider>
     </MantineProvider>
   );

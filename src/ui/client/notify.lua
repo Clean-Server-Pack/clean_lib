@@ -18,6 +18,11 @@ local types = {
 
 local notification = nil
 lib.notify = function(data)
+
+  if lib.settings.notify == 'ox_lib' then 
+    return TriggerEvent('ox_lib:notify', data)
+  end 
+
   while notification do Wait(0) end
   notification = true
   SetTimeout(100, function() notification = nil end)
@@ -45,6 +50,19 @@ lib.notify = function(data)
 end
 
 RegisterNetEvent('clean_lib:notify', lib.notify)
+RegisterNetEvent('ox_lib:notify', lib.notify)
+RegisterNetEvent('ox_lib:defaultNotify', lib.defaultNotify)
+RegisterNetEvent('clean_lib:defaultNotify', lib.defaultNotify)
+
+lib.defaultNotify = function(data)
+  if lib.settings.notify == 'ox_lib' then 
+    return TriggerEvent('ox_lib:defaultNotify', data)
+  end
+
+  data.type = data.status
+  if data.type == 'inform' then data.type = 'info' end
+  return lib.notify(data)
+end
 
 
 -- Command to test all types of notifications
