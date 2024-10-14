@@ -28,10 +28,10 @@ lib.notify = function(data)
   SetTimeout(100, function() notification = nil end)
   local settings = lib.settings
   if not settings.notify or settings.notify == 'clean_lib' then
-    local sound = settings.notify_audio and data.sound
+    local sound = settings.notifyAudio and data.sound
 
     data.title = data.title or data.type and types[data.type].title or 'Notification'
-    data.position = data.position or settings.notify_position or 'top-right'
+    data.position = data.position or settings.notifyPosition or 'top-right'
     data.icon = data.icon or data.type and types[data.type] and types[data.type].icon or types['inform'].icon
     data.iconColor = data.iconColor or types[data.type] and types[data.type].iconColor
 
@@ -91,3 +91,43 @@ RegisterCommand('notify', function()
     sound = { name = 'NAV', set = 'HUD_LIQUOR_STORE_SOUNDSET' }
   })
 end, false)
+
+
+
+RegisterCommand('test_menus', function()
+  local options = {
+    {
+      title = 'Option 1',
+      icon = 'fas fa-rocket',
+      onSelect = function()
+        print('Option 1 selected')
+      end
+    },
+    {
+      title = 'Option 2',
+      icon = 'fas fa-rocket',
+      menu = 'back_menu',
+    }
+  
+  
+  }
+
+  lib.registerContext({
+    id = 'whippet_shop',
+    title = 'Menu 1',
+    menu = 'back_menu',
+    icon = 'fas fa-rocket',
+    options = options,
+  })
+
+  lib.registerContext({
+    id = 'back_menu',
+    title = 'Menu Back',
+    menu = 'back_menu',
+    icon = 'fas fa-rocket',
+    options = options,
+  })
+
+  Wait(0)
+  lib.openContext('whippet_shop')
+end)

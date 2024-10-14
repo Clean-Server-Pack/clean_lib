@@ -6,6 +6,7 @@ import { useEffect, useMemo } from "react";
 
 import { useAudioPlayer } from "../../providers/audio/audio";
 import colorWithAlpha from "../../utils/colorWithAlpha";
+import getImageType from "../../utils/getImagePath";
 
 
 
@@ -35,6 +36,7 @@ export function MenuItem(props: MenuItemProps) {
   const { hovered, ref } = useHover();
   const theme = useMantineTheme();
   const audio = useAudioPlayer();
+
   const handleClick = () => {
     if (props.disabled || props.readOnly) {
       return;
@@ -54,13 +56,15 @@ export function MenuItem(props: MenuItemProps) {
     }
   }, [hovered, props.disabled, props.readOnly, props.hoverSounds]);
 
-  const is_icon = useMemo(() => {
-    //  CHECK IF IS A HTTPS STRING
-    if (typeof props.icon === 'string' && props.icon.startsWith('https')) {
-      return false;
-    }
-    return true;
-  }, [props.icon]);
+
+  const iconType = useMemo(() => {
+    return getImageType(props.icon);
+  } , [props.icon]);
+
+  const imageType = useMemo(() => {
+    return getImageType(props.image);
+  } , [props.icon]);
+
 
 
   return (
@@ -82,7 +86,7 @@ export function MenuItem(props: MenuItemProps) {
         outline:  (!props.readOnly && !props.disabled && hovered) ? `2px solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '2px solid rgba(0,0,0,0.2)',
         justifyContent: 'center',
         transition: 'all ease-in-out 0.1s',
-        // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.025)' : 'scale(1)',
+        // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
       }}
 
 
@@ -94,14 +98,15 @@ export function MenuItem(props: MenuItemProps) {
         align='center'
 
       >
-        {props.icon && is_icon ? (
+        {iconType && iconType.type == 'icon' ? (
           <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
             color: 'white',
             fontSize: '2vh',
           }}  />  
-        ) : (
-          <img src={props.icon} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
+        ) : iconType && (
+          <img src={iconType.path} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
         )}
+
 
         <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
       </Flex>
@@ -113,9 +118,12 @@ export function MenuItem(props: MenuItemProps) {
         />
       }
 
-      {props.image && 
+      {imageType && imageType.type == 'image' && 
         <img src={props.image} alt='user_image'/>
       }
+
+      
+
     </Flex>
   );
 }

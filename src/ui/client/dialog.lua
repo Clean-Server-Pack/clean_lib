@@ -307,7 +307,3 @@ RegisterCommand('test_dialog', function()
   lib.openDialog(cache.ped, 'dialog_id')
 end)
 
-
-
-
-

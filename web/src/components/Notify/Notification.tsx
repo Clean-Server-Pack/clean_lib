@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { Box, Flex, Image, Text, useMantineTheme } from "@mantine/core"
 import colorWithAlpha from "../../utils/colorWithAlpha"
 import { useEffect, useMemo, useState } from "react"
+import getImageType from "../../utils/getImagePath"
 
 export type NotificationProps = {
   title?: string
@@ -26,13 +27,13 @@ export default function Notification(props: NotificationProps){
   const [display, setDisplay] = useState(false)
   const [amountEffect, setAmountEffect] = useState(false) // For the amount effect
 
-  const is_icon = useMemo(() => {
-    //  CHECK IF IS A HTTPS STRING
-    if (typeof props.icon === 'string' && props.icon.startsWith('https')) {
-      return false;
-    }
-    return true;
-  }, [props.icon]);
+
+  const imageType = useMemo(() => {
+    return getImageType(props.icon);
+  } , [props.icon]);
+
+
+
 
 
   useEffect(() => {
@@ -117,7 +118,7 @@ export default function Notification(props: NotificationProps){
           
         }} 
       >
-        {props.icon && is_icon && (
+        {imageType && imageType.type == 'icon' && (
           <FontAwesomeIcon 
             icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp} 
             color={colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.8)}
@@ -125,13 +126,12 @@ export default function Notification(props: NotificationProps){
           />
         )}
 
-        {props.icon && !is_icon && (
+        {imageType && imageType.type == 'image' && (
           <Image 
-            src={props.icon}
+            src={imageType.path}
             alt='icon'
             h='2.7em'
           />
-
         )}
 
       </Flex>

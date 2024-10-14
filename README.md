@@ -16,7 +16,7 @@ setr clean_lib:server_name CleanRP
 # Configure the resources you want to use
 setr clean_lib:framework qbx_core
 setr clean_lib:inventory clean_inventory
-setr clean_lib:item_img_path nui://clean_inventory/web/images/
+setr clean_lib:itemImgPath nui://clean_inventory/web/images/
 setr clean_lib:target ox_target
 setr clean_lib:interact sleepless_interact
 setr clean_lib:keys clean_keys
@@ -30,8 +30,8 @@ setr clean_lib:dispatch clean_dispatch
 
 
 # NOTIFICATIONS
-setr clean_lib:notify_position top-right
-setr clean_lib:notify_audio true
+setr clean_lib:notifyPosition top-right
+setr clean_lib:notifyAudio true
 
 # Context Menu 
 setr clean_lib:contextMenu clean_lib
@@ -43,11 +43,11 @@ setr clean_lib:dialogClickSounds true
 setr clean_lib:dialogHoverSounds true
 
 # showTextUI 
-setr clean_lib:showText_position bottom-center
+setr clean_lib:showTextPosition bottom-center
 
 # progressBar 
 setr clean_lib:progress clean_lib
-setr clean_lib:progbar_position bottom-center
+setr clean_lib:progBarPosition bottom-center
 
 # Theme starts at 0 and goes to 9
 # 0 is the lightest color and 9 is the darkest
@@ -57,16 +57,17 @@ setr clean_lib:progbar_position bottom-center
 setr clean_lib:primaryColor clean # Set to custom to use customTheme
 setr clean_lib:primaryShade 9 # 0-9
 setr clean_lib:customTheme [
-  "#ecf2ff",
-  "#d8e0f7",
-  "#aebeec",
-  "#819ae1",
-  "#5c7bd8",
-  "#4468d3",
-  "#385ed2",
-  "#2a4fbb",
-  "#2246a8",
-  "#153c95"
+  "#e5f8ff",
+  "#d0ecff",
+  "#a0d7fc",
+  "#6dc1fa",
+  "#47aef9",
+  "#32a2f9",
+  "#259cfa",
+  "#1888df",
+  "#0179c8",
+  "#0068b1"
 ]
+
 
 ```

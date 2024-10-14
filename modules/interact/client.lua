@@ -20,6 +20,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
       if data.network then 
         exports.sleepless_interact:addEntity(interact_data)
@@ -43,6 +44,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
       -- print('options', json.encode(interact_data.options, {indent = true}))
       exports.sleepless_interact:addGlobalModel(interact_data)
@@ -60,6 +62,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
       if data.network then 
         exports.sleepless_interact.addVehicle(options)
@@ -81,6 +84,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
       exports.sleepless_interact:addCoords(interact_data)
     elseif settings.interact == 'marker' then 
@@ -96,6 +100,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
       exports.sleepless_interact:addGlobalPlayer(interact_data)
     elseif settings.interact == 'marker' then 
@@ -111,6 +116,7 @@ lib.interact = {
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
+        offset         = data.offset,
       }
   
       exports.sleepless_interact.addGlobalPed(interact_data)

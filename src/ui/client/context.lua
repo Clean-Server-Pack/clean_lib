@@ -68,7 +68,6 @@ lib.registerContext = function(id, data)
   for i, item in ipairs(contextMenus[id].options) do
     contextMenus[id].options[i].id = string.format('%s_%s', id, i)
     local has_select = contextMenus[id].options[i].onSelect 
-
     if has_select then 
       saved_functions[contextMenus[id].options[i].id] = contextMenus[id].options[i].onSelect
     end

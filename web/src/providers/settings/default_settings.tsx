@@ -1,6 +1,8 @@
 export const defaultSettings: SettingsProps = {
   primaryColor:'clean', 
   primaryShade: 9,
+  itemImgPath: 'nui://clean_inventory/web/images/',
+  
   customTheme: [
     "#f8edff",
     "#e9d9f6",
@@ -22,5 +24,6 @@ export type SettingsProps = {
   primaryColor: MantineColor;
   primaryShade: MantineColorShade;
   customTheme: MantineColorsTuple;
+  itemImgPath: string;
   // Add more settings here
 };

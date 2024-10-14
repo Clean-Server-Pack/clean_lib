@@ -70,9 +70,14 @@ return {
     return ply.Functions.AddMoney(acc, count, reason)
   end, 
 
-  removeMoney = function(src, acc, count, reason)
+  removeMoney = function(src, acc, count, reason, force)
     local ply = lib.player.get(src)
     if not ply then return end
+    -- Check has money unless force 
+    if not force then
+      local has = ply.Functions.GetMoney(acc)
+      if has < count then return false, 'not_enough' end
+    end
     return ply.Functions.RemoveMoney(acc, count, reason)
   end,
 }

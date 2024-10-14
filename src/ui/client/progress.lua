@@ -159,7 +159,7 @@ function lib.progressBar(data)
       data = {
         label = data.label,
         duration = data.duration,
-        position = data.position or lib.settings.notify_position or 'bottom-center',
+        position = data.position or lib.settings.progBarPosition or 'bottom-center',
         icon     = data.icon,
         description = data.description
       }
@@ -179,7 +179,7 @@ function lib.progressCircle(data)
       action = 'circleProgress',
       data = {
         duration = data.duration,
-        position = data.position,
+        position = data.position or lib.settings.progBarPosition or 'bottom-center',
         label = data.label
       }
     })

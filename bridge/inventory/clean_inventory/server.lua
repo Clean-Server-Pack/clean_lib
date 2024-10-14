@@ -40,6 +40,16 @@ return {
     return item_exists and item_exists.label or false
   end,
 
+
+
+  registerStash = function(id, data)
+    return exports.clean_inventory:registerInventory(nil, {
+      type = data.type or 'stash', 
+      maxWeight = data.maxWeight or 1000,
+      maxSlots = data.maxSlots or 50,
+      
+    })
+  end,
   
 
 
