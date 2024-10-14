@@ -37,6 +37,7 @@ export default function getImageType(image: string | undefined) {
     const extensions = ['.png', '.webp', '.jpg']; // Add more as needed
     for (const ext of extensions) {
       const fullPath = `${current_settings.itemImgPath}${image}${ext}`;
+      console.log('Path is ', fullPath);
       const exists = checkImageExists(fullPath);
       if (exists) {
         console.log(`[getImageType] Image found: ${image}`);
