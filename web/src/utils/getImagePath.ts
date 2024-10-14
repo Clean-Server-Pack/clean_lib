@@ -27,7 +27,7 @@ export default function getImageType(image: string | undefined) {
   if (is_inv_image) {
     return {
       type: 'image',
-      path: `url(${current_settings.itemImgPath}${image})`,
+      path: `${current_settings.itemImgPath}${image}`,
     }
   }
 
