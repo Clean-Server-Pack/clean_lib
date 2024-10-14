@@ -1,15 +1,17 @@
 import { getSettings } from "../providers/settings/settings_manager";
 
-async function checkImageExists(url: string) {
+function checkImageExists(url: string) {
   try {
-    const response = await fetch(url);
-    return response.ok;
-  } catch (error) {
+    const http = new XMLHttpRequest();
+    http.open('HEAD', url, false);
+    http.send();
+    return http.status != 404;
+  } catch (err) {
     return false;
-  }
+  } 
 }
 
-export default async function getImageType(image: string | undefined) {
+export default function getImageType(image: string | undefined) {
   if (!image) return false;
   const current_settings = getSettings();
   const is_link = image && typeof image === 'string' && (image.startsWith('https') || image.startsWith('nui://'));
@@ -35,7 +37,7 @@ export default async function getImageType(image: string | undefined) {
     const extensions = ['.png', '.webp', '.jpg']; // Add more as needed
     for (const ext of extensions) {
       const fullPath = `${current_settings.itemImgPath}${image}${ext}`;
-      const exists = await checkImageExists(fullPath);
+      const exists = checkImageExists(fullPath);
       if (exists) {
         console.log(`[getImageType] Image found: ${image}`);
         return {
@@ -45,6 +47,10 @@ export default async function getImageType(image: string | undefined) {
       }
     }
     console.log(`[getImageType] Image not found: ${image}`);
+    return {
+      type: 'unknown',
+      path: '',
+    };
   }
 
   return {
