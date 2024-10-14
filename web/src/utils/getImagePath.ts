@@ -31,11 +31,13 @@ export default async function getImageType(image: string | undefined) {
   }
 
   if (is_inv_image) {
+    console.log(`[getImageType] Checking for image: ${image}`);
     const extensions = ['.png', '.webp', '.jpg']; // Add more as needed
     for (const ext of extensions) {
       const fullPath = `${current_settings.itemImgPath}${image}${ext}`;
       const exists = await checkImageExists(fullPath);
       if (exists) {
+        console.log(`[getImageType] Image found: ${image}`);
         return {
           type: 'image',
           path: fullPath,
