@@ -52,7 +52,8 @@ function blip:__init()
 end
 
 function blip:canRender()
-  return not self.canSee and true or self.canSee()
+  print(('canSee %s'):format(self.canSee and self.canSee()))
+  return (self.canSee and self.canSee()) or true
 end
 
 

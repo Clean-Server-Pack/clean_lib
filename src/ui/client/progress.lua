@@ -205,17 +205,14 @@ RegisterNUICallback('PROGRESS_COMPLETE', function(data, cb)
   cb(1)
   progress = nil
 end)
-print('MADE COMMAND?')
-RegisterCommand('cancelprogress', function()
-  print('CanCancel?', progress?.canCancel)
+RegisterCommand('cancel_lib_progress', function()
   if progress?.canCancel then 
-    print('Allowing Cancel?')
     progress = false 
   end
 end)
 
 if isFivem then
-  RegisterKeyMapping('cancelprogress', locale('cancel_progress'), 'keyboard', 'x')
+  RegisterKeyMapping('cancel_lib_progress', locale('cancel_progress'), 'keyboard', 'x')
 end
 
 local function deleteProgressProps(serverId)

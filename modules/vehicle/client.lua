@@ -1,3 +1,4 @@
+local settings = lib.settings
 local keys = lib.loadBridge('keys', settings.keys, 'client')
 local fuel = lib.loadBridge('fuel', settings.fuel, 'client')
 

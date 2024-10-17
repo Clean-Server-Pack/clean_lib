@@ -9,9 +9,9 @@ return {
   ---@return boolean
   addItem  = function(invId, item, count, md, slot) 
     if type(invId) ~= 'number' then 
-      return lib.print.error('TGIANN INVENTORY DOES NOT SUPPORT STRING IDS FOR STASH MANIPULATION')
-    end
-    return exports["tgiann-inventory"]:AddItem(invId, item, count, slot, md)
+      return lib.print.info(('codem-inventory does not support adding items to non-player inventories yet.'))
+    end 
+    return exports['codem-inventory']:AddItem(invId, item, count, slot, md)
   end,
 
   --- Remove Item from inventory either playerid or invId
@@ -23,9 +23,12 @@ return {
   ---@return boolean
   removeItem = function(invId, item, count, md, slot)
     if type(invId) ~= 'number' then 
-      return lib.print.error('TGIANN INVENTORY DOES NOT SUPPORT STRING IDS FOR STASH MANIPULATION')
-    end
-    return exports["tgiann-inventory"]:RemoveItem(invId, item, count, slot, md)
+      return lib.print.info(('codem-inventory does not support removing items from non-player inventories yet.'))
+    end 
+    if md then 
+      lib.print.info(('codem-inventory does not support removing items by metadata yet.'))
+    end 
+    return exports['codem-inventory']:RemoveItem(invId, item, count, slot)
   end,
 
   --- Check if player has item in inventory
@@ -36,43 +39,38 @@ return {
   ---@param md table [Optional] Item Metadata
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
   hasItem = function(invId, item, count, md, slot) 
-    local playerItems = exports["tgiann-inventory"]:GetPlayerItems(invId)
-    local hasItem, hasCount = false, 0
-    for k,v in pairs(playerItems) do 
+    if type(invId) ~= 'number' then 
+      return lib.print.info(('codem-inventory does not support checking items in non-player inventories yet.'))
+    end
+    local citizen_id = lib.player.identifier(invId)
+    local items = exports['codem-inventory']:GetInventory(citizen_id, invId)
+    for k,v in pairs(items) do 
       if v.name == item then 
         if not count or count <= v.count then 
           if not slot or slot == v.slot then
-            if not count or ((v.count and count <= v.count) or (v.amount and count <= v.amount)) then 
-              hasItem = true
-              hasCount = v.count
-              break
+            if not md or table.compare(v.metadata, md) then 
+              return v.count
             end
           end 
         end
-        break
       end
     end
-    return hasItem and hasCount or false 
+    return false
   end,
 
   
 
   getItemLabel = function(item)
-    return exports["tgiann-inventory"]:GetItemLabel(item)
+    return exports['codem-inventory']:GetItemLabel(item)
   end,
 
 
 
   registerStash = function(id, data)
-    return lib.print.info(('TGIANN INVENTORY DOES NOT SUPPORT REGISTERING STASHES [IGNORE]'))
+    return true, 'no_such_thing_on_codem_inventory'
   end,
   
-
-
-
-
 } 
-
 
 function table.compare(t1, t2)
   for k,v in pairs(t1) do 

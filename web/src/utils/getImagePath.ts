@@ -15,7 +15,7 @@ export default function getImageType(image: string | undefined) {
   if (!image) return false;
   const current_settings = getSettings();
   const is_link = image && typeof image === 'string' && (image.startsWith('https') || image.startsWith('nui://'));
-  const is_inv_image = image && typeof image === 'string' && !image.startsWith('https') && !image.startsWith('nui://');
+  const is_inv_image = image && typeof image === 'string' && !image.startsWith('https') && !image.startsWith('nui://') && !image.includes('.');
   const is_icon = image && typeof image === 'string' && !image.startsWith('https') && !image.includes('.');
 
   if (is_link) {

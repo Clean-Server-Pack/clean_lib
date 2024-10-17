@@ -1,8 +1,16 @@
 local settings = lib.settings
 
-local parse_options_for_ox = function(opts)
+local parse_options = function(opts)
   for k,v in pairs(opts) do 
-    opts[k].onSelect = v.action
+    if lib.settings.target == 'ox_target' then 
+      opts[k].onSelect = v.action
+    else 
+      opts[k].action = v.action and function(entity)
+        v.action({
+          entity = entity, 
+        })
+      end or nil 
+    end 
   end
   return opts
 end
@@ -20,7 +28,7 @@ lib.target = {
     -- assert(data.width, 'Missing width')
     -- assert(data.distance, 'Missing distance')
 
-
+    data.options = parse_options(data.options)
     if settings.target == 'qb-target' or settings.target == 'qtarget' then 
       exports[settings.target]:AddBoxZone(id, vector3(data.pos.x, data.pos.y, data.pos.z), (data.length or 1.0), (data.width or 1.0), {
         name      = id, -- This is the name of the zone recognized by PolyZone, this has to be unique so it doesn't mess up with other zones
@@ -33,7 +41,6 @@ lib.target = {
         distance = (data.distance or 1.5), -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
     elseif settings.target == 'ox_target' then 
-      local opts = parse_options_for_ox(data.options)
       local newTarget = exports[settings.target]:addBoxZone({
         coords = vector3(data.pos.x, data.pos.y, data.pos.z),
         size = vector3((data.length or 1.0), (data.width or 1.0), (data.height or 1.0)),
@@ -51,7 +58,7 @@ lib.target = {
     assert(data.height, 'Missing height')
     assert(data.options, 'Missing options')
     
-
+    data.options = parse_options(data.options)
     local temp_target_system = nil
     if settings.target == "qb-target" or settings.target == "qtarget" or settings.target == "ox_target" then
       if settings.target == "ox_target" then temp_target_system = "qb-target" else temp_target_system = settings.target;  end
@@ -71,7 +78,7 @@ lib.target = {
         minZ = minZ, -- This is the bottom of the polyzone, this can be different from the Z value in the coords, this has to be a float value
         maxZ = minZ + data.height, -- This is the top of the polyzone, this can be different from the Z value in the coords, this has to be a float value
       }, {
-        options = data.options,
+        options = parse_options(data.options),
         distance = data.distance or 1.5, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
 
@@ -93,18 +100,17 @@ lib.target = {
   entity = function(entity,data)
     assert(data.options, 'Missing options')
     assert(data.distance, 'Missing distance')
-
+    data.options = parse_options(data.options)
     if settings.target == "qb-target" or settings.target == "qtarget" then
       exports[settings.target]:AddTargetEntity(entity, {
         options = data.options,
         distance = (data.distance or 1.5)
       })
     elseif settings.target == "ox_target" then
-      local opts = parse_options_for_ox(data.options)
       if data.networked then
-        return exports[settings.target]:addEntity(entity, opts)
+        return exports[settings.target]:addEntity(entity, data.options)
       else
-        return exports[settings.target]:addLocalEntity(entity, opts)
+        return exports[settings.target]:addLocalEntity(entity, data.options)
       end
     end
   end,
@@ -123,17 +129,19 @@ lib.target = {
   end,
 
   addModels = function(data)
+    data.options = parse_options(data.options)
     if settings.target == "qb-target" or settings.target == "qtarget" then
       exports[settings.target]:AddTargetModel(data.models, {
         distance = (data.distance or 1.5),
         options  = data.options,
       })
     elseif settings.target == "ox_target" then
-      return exports.ox_target:addModel(data.models, parse_options_for_ox(data.options))
+      return exports.ox_target:addModel(data.models, data.options)
     end
   end, 
 
   addGlobalVehicle = function(data)
+    data.options = parse_options(data.options)
     if settings.target == "qb-target" then 
       exports[settings.target]:AddGlobalVehicle({
         options = data.options,
@@ -145,12 +153,13 @@ lib.target = {
         distance = (data.distance or 1.5),
       })
     elseif settings.target == "ox_target" then
-      return exports.ox_target:addGlobalVehicle(parse_options_for_ox(data.options))
+      return exports.ox_target:addGlobalVehicle(data.options)
     end
   end,
   
 
   addGlobalPed = function(data)
+    data.options = parse_options(data.options)
     if settings.target == "qb-target" then 
       exports[settings.target]:AddGlobalPed({
         options = data.options,
@@ -162,12 +171,13 @@ lib.target = {
         distance = (data.distance or 1.5),
       })
     elseif settings.target == "ox_target" then
-      return exports.ox_target:addGlobalPed(parse_options_for_ox(data.options))
+      return exports.ox_target:addGlobalPed(data.options)
     end
   end,
 
 
   addGlobalPlayer = function(data)
+    data.options = parse_options(data.options)
     if settings.target == "qb-target" then 
       exports[settings.target]:AddGlobalPlayer({
         options = data.options,
@@ -179,7 +189,7 @@ lib.target = {
         distance = (data.distance or 1.5),
       })
     elseif settings.target == "ox_target" then
-      return exports.ox_target:addGlobalPlayer(parse_options_for_ox(data.options))
+      return exports.ox_target:addGlobalPlayer(data.options)
     end
   end,
 }

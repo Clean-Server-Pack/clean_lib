@@ -35,14 +35,14 @@ return {
     else 
       local item_in_slot = exports.ox_inventory:GetSlot(invId, slot)
       if not item_in_slot then return false end 
-      if item_in_slot.name ~= item then return false end
+      if item_in_slot.name ~= item then return false, 'not_right_name' end
       if md then 
         for k,v in pairs(md) do 
-          if item_in_slot.metadata[k] ~= v then return false end 
+          if item_in_slot.metadata[k] ~= v then return false, 'metadata_mismatch' end 
         end 
       end
       if count then 
-        if item_in_slot.count < count then return false end 
+        if item_in_slot.count < count then return false, 'wrong_counnt' end 
       end
       return true
     end 

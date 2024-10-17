@@ -47,6 +47,12 @@ export default function Menu(){
       setSearch(e.target.value)
     }
 
+    useEffect(() => {
+      if (!menuOpen || menuOpen.searchBar) {
+        setSearch('')
+      }
+    }, [menuOpen])
+
     // handle escaape key press
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
@@ -75,7 +81,7 @@ export default function Menu(){
           style={{
             // backdropFilter: 'blur(2px)',
             display:'flex',
-            padding:'1rem',
+            padding:'3rem',
             flexDirection:'column',
             justifyContent:'center',
             alignItems:'center',
