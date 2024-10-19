@@ -55,8 +55,6 @@ return {
     return exports['qs-inventory']:GetItemLabel(item)
   end,
 
-
-
   registerStash = function(id, data)
     return exports['qs-inventory']:RegisterStash(0, id, data.maxSlots, data.maxWeight)
   end,
