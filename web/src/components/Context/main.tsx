@@ -218,64 +218,7 @@ const test_menu = {
       icon:'edit',
       description:'Allows you edit the classes for this player'
     },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player',
-      progress:50,
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you cheese the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      disabled:true,
-      backgroundImage: 'https://callofdutymaps.com/wp-content/uploads/MW-m16a4.png', 
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
+
   ]
 }
 

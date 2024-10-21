@@ -34,8 +34,15 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
     
     }}
   >
-      {filtered && filtered.length > 0 ? filtered : <p>No results found</p>}  
-      {!searchTerm && children}
+      {searchTerm ? (
+        filtered.length > 0 ? (
+          filtered
+        ) : (
+          <p>No results found</p>
+        )
+      ) : (
+        children
+      )}
     </Flex>
   )
 }
