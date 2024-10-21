@@ -8,7 +8,7 @@ return {
   identifier = function(src)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
-    return ply.PlayerData.identifier
+    return ply.identifier
   end, 
 
   name = function(src)
