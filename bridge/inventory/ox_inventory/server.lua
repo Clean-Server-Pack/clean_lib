@@ -30,8 +30,11 @@ return {
   ---@param md table [Optional] Item Metadata
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
   hasItem = function(invId, item, count, md, slot)
+    print(('Checking for item %s in inventory %s'):format(item, invId))
     if not slot then 
-      return exports.ox_inventory:GetItem(invId, item, md, true) 
+      local found = exports.ox_inventory:GetItem(invId, item, md, true)
+      print(('Found %s items'):format(found))
+      return not count and found or found >= count
     else 
       local item_in_slot = exports.ox_inventory:GetSlot(invId, slot)
       if not item_in_slot then return false end 
@@ -42,11 +45,12 @@ return {
         end 
       end
       if count then 
-        if item_in_slot.count < count then return false, 'wrong_counnt' end 
+        if item_in_slot.count < count then return false, 'wrong_count' end 
+        return true 
       end
-      return true
+      return item_in_slot.count
     end 
-    return exports.ox_inventory:GetItemCount(invId, itemName, slot, md)
+    return false
   end,
   
 
