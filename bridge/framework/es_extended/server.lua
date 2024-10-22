@@ -1,10 +1,10 @@
 return {
   canUseItem = function(item)
-    return exports.qbx_core:CanUseItem(item)
+    return lib.FW.UsableItemsCallbacks[item]
   end,
 
   useableItem = function(item, cb)
-    return exports.qbx_core:CreateUseableItem(item, cb)
+    return lib.FW.RegisterUsableItem(item, cb)
   end,
 
   getItemLabel = function(item)
