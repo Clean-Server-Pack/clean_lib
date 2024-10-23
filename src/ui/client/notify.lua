@@ -50,13 +50,11 @@ lib.notify = function(data)
 end
 
 RegisterNetEvent('clean_lib:notify', lib.notify)
-RegisterNetEvent('ox_lib:notify', lib.notify)
-RegisterNetEvent('ox_lib:defaultNotify', lib.defaultNotify)
 RegisterNetEvent('clean_lib:defaultNotify', lib.defaultNotify)
 
 lib.defaultNotify = function(data)
   if lib.settings.notify == 'ox_lib' then 
-    return TriggerEvent('ox_lib:defaultNotify', data)
+    return TriggerEvent('clean_lib:defaultNotify', data)
   end
 
   data.type = data.status

@@ -20,7 +20,7 @@ export type IDialogProps = {
   icon: IconProp,
   audioFile?: string,
   prevDialog?: string,
-  metadata: MetadataProps[],
+  metadata?: MetadataProps[],
   dialog: string,
   responses: ResponseProps[]
 }

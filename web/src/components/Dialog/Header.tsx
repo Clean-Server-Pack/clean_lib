@@ -7,7 +7,7 @@ type HeaderProps = {
   icon: IconProp;
   title: string;
   dialog: string;
-  metadata: MetadataProps[];
+  metadata?: MetadataProps[];
   prevDialog?: string;
 }
 
@@ -24,7 +24,7 @@ function Header(props: HeaderProps) {
         justify='space-between'
       >
         <Title  icon={props.icon as string} title={props.title.toUpperCase()}  />
-        <MetadataContainer metadata={props.metadata} />
+        {props.metadata && <MetadataContainer metadata={props.metadata} />}
       </Flex>
       <Text
         pt='xs'
