@@ -86,9 +86,9 @@ function blip:render()
   if self.route then
     SetBlipRoute(blip, self.route or true)
   end
-
-  BeginTextCommandSetBlipName("STRING")
-  AddTextComponentString(self.name or 'Blip')
+  
+  AddTextEntry(self.id, self.name or 'Blip')
+  BeginTextCommandSetBlipName(self.id)
   EndTextCommandSetBlipName(blip)
 
   self.blip = blip
