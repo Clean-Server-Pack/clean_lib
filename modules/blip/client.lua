@@ -52,8 +52,7 @@ function blip:__init()
 end
 
 function blip:canRender()
-  print(('canSee %s'):format(self.canSee and self.canSee()))
-  return (self.canSee and self.canSee()) or true
+  return ((self.canSee and self.canSee()) ~= nil) or true
 end
 
 
@@ -104,14 +103,12 @@ end
 CreateThread(function()
   while true do
     local wait_time = 1000
-    for k,v in pairs(blip) do
-      if type(v) == 'table' and v.id then
-        if v.canSee then
-          if v:canRender() then
-            v:render()
-          else
-            v:hide()
-          end
+    for k,v in pairs(blips) do
+      if v.canSee then
+        if v:canRender() then
+          v:render()
+        else
+          v:hide()
         end
       end
     end

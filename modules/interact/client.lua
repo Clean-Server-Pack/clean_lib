@@ -13,8 +13,9 @@ lib.interact = {
   entity = function(entity, data)
     if settings.interact == 'sleepless_interact' then
       local interact_data = {
-        id = ('entity_%s'):format(entity), 
+        id = data.id or ('entity_%s'):format(entity), 
         entity = entity, 
+        netId = data.networked and entity or nil,
         -- netId  = data.network and entity or nil, 
         options = parseOptions(data.options),
         renderDistance = data.renderDistance or 10.0,
@@ -22,7 +23,7 @@ lib.interact = {
         cooldown       = data.cooldown       or 1500,
         offset         = data.offset,
       }
-      if data.network then 
+      if data.networked then 
         exports.sleepless_interact:addEntity(interact_data)
       else
         exports.sleepless_interact:addLocalEntity(interact_data)
@@ -37,7 +38,7 @@ lib.interact = {
     -- print('rawOptionns', json.encode(data.options, {indent = true}))
     if settings.interact == 'sleepless_interact' then
       local interact_data = {
-        id = ('model_%s'):format(data.model),
+        id = data.id or ('model_%s'):format(data.model),
         models = data.models, 
         model  = #data.models == 1 and data.models[1] or nil,
         options = parseOptions(data.options),
@@ -56,7 +57,7 @@ lib.interact = {
   addGlobalVehicle = function(vehicle, data)
     if settings.interact == 'sleepless_interact' then
       local options = {
-        id = ('vehicle_%s'):format(vehicle), 
+        id = data.id or ('vehicle_%s'):format(vehicle), 
         vehicle = vehicle, 
         options = parseOptions(data.options),
         renderDistance = data.renderDistance or 10.0,
@@ -78,8 +79,8 @@ lib.interact = {
   addCoords = function(data)
     if settings.interact == 'sleepless_interact' then
       local interact_data = {
-        id = ('coords_%s'):format(data.coords), 
-        coords = vector3(data.coords.x, data.coords.y, data.coords.z), 
+        id = data.id or ('coords_%s'):format(data.pos), 
+        coords = vector3(data.pos.x, data.pos.y, data.pos.z), 
         options = parseOptions(data.options),
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,

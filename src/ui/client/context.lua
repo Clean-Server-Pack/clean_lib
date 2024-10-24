@@ -20,6 +20,10 @@ RegisterNuiCallback('contextClicked', function(id,cb)
   local item = get_item_by_id(id)
   
   if item then
+    if item.willClose or item.willClose == nil and not item.menu then 
+      lib.closeContext()
+    end 
+ 
     if item.onSelect then 
       local saved_function = saved_functions[item.id]
       saved_function()
@@ -32,12 +36,17 @@ RegisterNuiCallback('contextClicked', function(id,cb)
     if item.serverEvent then 
       TriggerServerEvent(item.serverEvent, item.args)
     end
+
+    if item.menu then 
+      lib.openContext(item.menu, true)
+    end
   end
 
 end)
 
+
+
 lib.registerContext = function(id, data)
-  
   -- OX COMPAT
   if type(id) == 'table' then 
     data = id
@@ -65,25 +74,45 @@ lib.registerContext = function(id, data)
     options = data.options or {},
   }
 
-  for i, item in ipairs(contextMenus[id].options) do
-    contextMenus[id].options[i].id = string.format('%s_%s', id, i)
-    local has_select = contextMenus[id].options[i].onSelect 
-    if has_select then 
-      saved_functions[contextMenus[id].options[i].id] = contextMenus[id].options[i].onSelect
+  local is_func = rawget(data.options, '__cfx_functionReference')
+  if not is_func then 
+    for i, item in ipairs(contextMenus[id].options) do
+      contextMenus[id].options[i].id = string.format('%s_%s', id, i)
+      local has_select = contextMenus[id].options[i].onSelect 
+      if has_select then 
+        saved_functions[contextMenus[id].options[i].id] = contextMenus[id].options[i].onSelect
+      end
+      
+  
+      contextMenus[id].options[i].onSelect = has_select and true or false
     end
-    
-
-    contextMenus[id].options[i].onSelect = has_select and true or false
-  end
+  end 
 
   return true 
 end
 
-lib.openContext = function(id)
-  if currentContext then lib.closeContext() end
+lib.openContext = function(id, fromMenu)
+  if currentContext and not fromMenu then lib.closeContext(fromMenu) end
   Wait(0)
   if not contextMenus[id] then error('No such context menu found') end
   local data = contextMenus[id]
+  -- Account for function type options 
+  local is_func = rawget(data.options, '__cfx_functionReference')
+  if is_func then 
+    local option_getter = data.options
+    data = lib.table.deepClone(data)
+    data.options = option_getter()
+    for i, item in ipairs(data.options) do
+      data.options[i].id = string.format('%s_%s', id, i)
+      local has_select = data.options[i].onSelect 
+      if has_select then 
+        saved_functions[data.options[i].id] = data.options[i].onSelect
+      end
+
+      data.options[i].onSelect = has_select and true or false
+    end
+  end
+
   currentContext = id
   SetNuiFocus(true, true)
   SendNuiMessage(json.encode({
@@ -92,7 +121,7 @@ lib.openContext = function(id)
       action = 'OPEN',
       menu = data
     }
-  }))
+  }, { sort_keys = true }))
 end
 
 lib.getOpenContextMenu = function()
@@ -104,19 +133,19 @@ lib.showContext = lib.openContext
 
 RegisterNuiCallback('openContext', function(data,cb)
   if data.back and contextMenus[currentContext].onBack then contextMenus[currentContext].onBack(); end 
-  lib.openContext(data.id)
+  lib.openContext(data.id, true)
 end)
 
 
 lib.closeContext = function()
   if not currentContext then return end
-  SetNuiFocus(false, false)
+
 
   if contextMenus[currentContext].onExit then 
     contextMenus[currentContext].onExit(); 
   end
   currentContext = nil
-
+  SetNuiFocus(false, false)
   SendNuiMessage(json.encode({
     action = 'CONTEXT_MENU_STATE',
     data   = {
@@ -135,3 +164,28 @@ RegisterNuiCallback('openDialog', function(data,cb)
   lib.closeContext()
   exports['clean_dialog']:openDialog(data.id)
 end)
+
+
+-- CreateThread(function()
+--   lib.registerContext('test_menu_1', {
+--     title = 'Default Context Menu',
+--     icon = 'cog',
+--     options = {
+--       { title = 'Menu 2', menu = 'test_menu_2' },
+--     }
+--   })
+
+
+--   lib.registerContext('test_menu_2', {
+--     title = 'Menu 2',
+--     icon = 'cog',
+--     menu = 'test_menu_1',
+--     options = {
+--       { title = 'Test Option', onSelect = function() print('Test Option Selected') end },
+--     }
+--   })
+-- end)
+
+-- RegisterCommand('test_menus', function()
+--   lib.openContext('test_menu_1')
+-- end)

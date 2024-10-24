@@ -1,14 +1,13 @@
-import { useState, useEffect } from 'react'
-import { Flex, Text, Button} from '@mantine/core'
-import SideBar from '../Generic/SideBar'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { IconName } from '@fortawesome/fontawesome-svg-core'
-import InfoBox from './InfoBox'
-import { QuizInfoProps } from './types'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button, Flex, Text } from '@mantine/core'
+import { useState } from 'react'
 import { useNuiEvent } from '../../hooks/useNuiEvent'
-import Questions from './Questions'
 import { fetchNui } from '../../utils/fetchNui'
-import { internalEvent } from '../../utils/internalEvent'
+import SideBar from '../Generic/SideBar'
+import InfoBox from './InfoBox'
+import Questions from './Questions'
+import { QuizInfoProps } from './types'
 
 function QuizTitle(props: {title: string, icon: string}){
   return ( 
@@ -160,7 +159,7 @@ function Quiz(){
 
   return (
     <SideBar w='30vw' h='100vh' 
-      menuOpen={open}
+      menuOpen={false}
       setMenuOpen={setOpen}
       escapeClose={true}
       style={{

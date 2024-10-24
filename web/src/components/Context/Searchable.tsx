@@ -1,12 +1,9 @@
 import { Flex } from '@mantine/core';
 import React from 'react';
 
-export default function SearchableContent({children, searchTerm}: {children: React.ReactNode, searchTerm: string}) {
-
+export default function SearchableContent({ children, searchTerm }: { children: React.ReactNode, searchTerm: string }) {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const filtered = React.Children.toArray(children).filter((child: any) => {
-
-    //  CHECK AGAINST DESCRIPTION AND TITLE AND METADATA?
     if (child.props.title && child.props.title.toLowerCase().includes(searchTerm.toLowerCase())) {
       return true;
     }
@@ -21,19 +18,18 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
 
   return (
     <Flex
-    w='100%'
-    p='1rem'
-    flex={1}
-    direction={'column'}
-    align='center'
-    gap='xs'
-    style={{
-      overflowX:'hidden',
-      overflowY:'auto',
-      maxHeight:'60vh',
-    
-    }}
-  >
+      w='100%'
+      p='1rem'
+      flex={1}
+      direction={'column'}
+      align='center'
+      gap='xs'
+      style={{
+        overflowX: 'hidden',
+        overflowY: 'auto',
+        maxHeight: '60vh',
+      }}
+    >
       {searchTerm ? (
         filtered.length > 0 ? (
           filtered
@@ -44,5 +40,5 @@ export default function SearchableContent({children, searchTerm}: {children: Rea
         children
       )}
     </Flex>
-  )
+  );
 }

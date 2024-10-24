@@ -1,4 +1,5 @@
-import { Box, Transition } from '@mantine/core'
+import { Box } from '@mantine/core'
+import { useEffect, useState } from 'react'
 
 
 
@@ -20,56 +21,58 @@ type SideBarProps = {
 
 function SideBar(props:SideBarProps){
   const setMenuOpen = props.setMenuOpen
+  const [slideIn, setSlideIn] = useState(false)
+  const [rawDisplay, setRawDisplay] = useState(false)
+
     //  Listen for escape key if menu can close
-  window.onkeydown = (e) => {
-    if (props.menuOpen && props.escapeClose && e.key === 'Escape') {
-      setMenuOpen(false)
-      props.onClose()
+  useEffect(() => {
+    if (props.menuOpen){
+      setRawDisplay(true)
+      setTimeout(() => {
+        setSlideIn(true)
+      }, 100)
+    } else {
+      setSlideIn(false)
+      setTimeout(() => {
+        setRawDisplay(false)
+      }, 300)
     }
-  }
+  }, [props.menuOpen])
 
-  // insert transtion to style if exists or creatre style with transtion if not   
 
-  return (
-    <Transition
-      mounted={props.menuOpen}
-      transition='slide-left'
-      duration={300}
-      timingFunction='ease'
+  useEffect(() => {
+    console.log('Menu open changed: ', props.menuOpen)
+    // listen for key here instead 
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (e.key === 'Escape' && props.menuOpen && props.escapeClose) {
+        if (props.onClose){
+          props.onClose()
+        }
+        if (setMenuOpen){
+          setMenuOpen(false)
+        }
+      }
+    } 
+
+    window.addEventListener('keydown', handleKeyPress)
+    return () => window.removeEventListener('keydown', handleKeyPress)
+  }, [props, setMenuOpen])
+
+  return rawDisplay && (
+    <Box
+      pos='absolute'
+      right={slideIn ? 0 : '-100%'}
+      bg='linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 77%, rgba(36,36,36,0.4) 88%, rgba(0,0,0,0) 100%)'
+      w={props.w}
+      h={props.h}
+      style={{
+        transition: 'all ease-in-out 0.3s',
+        ...props.style,
+      }}
     >
-      {(transitionStyles) => (
-        <Box
-          pos='absolute'
-          right={0}
-          //bg={getGradient({ from: 'rgba(0,0,0,0.3)', to: colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.2), deg: 360 }, theme)}
-          bg='linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 77%, rgba(36,36,36,0.4) 88%, rgba(0,0,0,0) 100%)'
-          w={props.w}
-          h={props.h}
-          style={{
-            ...props.style,
-            ...transitionStyles,
-          }}
-        >
-    
-          {props.children}
-        </Box>
-      )}
-    </Transition>
+      {props.children}
+    </Box>
   ) 
 }
 
 export default SideBar
-
-// w='23vw'
-// h='100vh'  
-// // {
-//   background:`linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.302621947216386) 16%, rgba(0,0,0,0.6) 46%, rgba(0,0,0,0.8) 100%)`,
-//   // backdropFilter: 'blur(2px)',
-//   display:'flex',
-//   flexDirection:'column',
-//   justifyContent:'center',
-//   alignItems:'center',
-//   gap:'1rem',
-//   userSelect:'none',
-//   transition : 'all ease-in-out 0.2s',
-// }

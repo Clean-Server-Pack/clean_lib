@@ -1,6 +1,6 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
 import { Image, Input, useMantineTheme } from "@mantine/core";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
 import { internalEvent } from "../../utils/internalEvent";
@@ -30,6 +30,9 @@ export type MenuProps = {
 
 export default function Menu(){
     const [menuOpen, setMenuOpen] = useState<MenuProps | false>(false)
+    useEffect(() => {
+      console.log('Menu open changed: ', menuOpen)
+    }, [menuOpen])
     const [search, setSearch] = useState<string>('')
     const theme = useMantineTheme();
     
@@ -60,10 +63,19 @@ export default function Menu(){
           fetchNui('closeContext')
         }
       }
-
+      console.log('Menu open, ', menuOpen)
       window.addEventListener('keydown', handleKeyPress)
       return () => window.removeEventListener('keydown', handleKeyPress)
     }, [menuOpen])
+
+
+    // memoise options to prevent weird re-renders
+    const options = useMemo(() => {
+      if (!menuOpen) return []
+      return menuOpen?.options.map((option, index) => (
+        <ContextItem key={index} {...option} clickSounds={menuOpen.clickSounds} hoverSounds={menuOpen.hoverSounds}/>
+      ))
+    } , [menuOpen])
 
 
     return (
@@ -138,9 +150,7 @@ export default function Menu(){
               }
 
               <SearchableContent searchTerm={search}>
-                {menuOpen.options.map((option, index) => (
-                  <ContextItem key={index} {...option} clickSounds={menuOpen.clickSounds} hoverSounds={menuOpen.hoverSounds}/>
-                ))}
+                {options}
               </SearchableContent>
             </>
           }

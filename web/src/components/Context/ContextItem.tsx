@@ -38,25 +38,16 @@ export function ContextItem(props: ContextItemProps) {
       return;
     }
 
-    if (props.onSelect || props.serverEvent || props.clientEvent) {
+    if (props.onSelect || props.serverEvent || props.clientEvent || props.menu) {
       fetchNui('contextClicked', props.id) 
-    }
-
-    if (props.menu) {
-      fetchNui('openContext', {
-        back: false,
-        id: props.menu,
-      })
+      return 
     }
 
     if (props.dialog) { 
       fetchNui('openDialog', {
         id: props.dialog,
       })
-    }
-
-    if (props.willClose == null || props.willClose && !props.disabled && !props.readOnly) {
-      fetchNui('closeContext')
+      return 
     }
   };
 
