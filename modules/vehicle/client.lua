@@ -30,19 +30,23 @@ local vehClasses = {
 
 lib.vehicle = {
   addKeys = function(veh,plate)
-    return keys.addKeys and keys.addKeys(veh,plate) or lib.print.error(('No bridge found for adding keys for %s'):format(settings.keys))
+    if not keys.addKeys then return lib.print.error(('No bridge found for adding keys for %s'):format(settings.keys)) end 
+    return keys.addKeys(veh,plate)
   end, 
 
   removeKeys = function(veh,plate)
-    return keys.removeKeys and keys.removeKeys(veh,plate) or lib.print.error(('No bridge found for removing keys for %s'):format(settings.keys))
+    if not keys.removeKeys then return lib.print.error(('No bridge found for removing keys for %s'):format(settings.keys)) end
+    return keys.removeKeys(veh,plate)
   end,
 
   setFuel = function(veh,val,_type)
-    return fuel.setFuel and fuel.setFuel(veh,val,_type) or lib.print.error(('No bridge found for setting fuel for %s'):format(settings.fuel))
+    if not fuel.setFuel then return lib.print.error(('No bridge found for setting fuel for %s'):format(settings.fuel)) end
+    return fuel.setFuel(veh,val,_type)
   end,
 
   getFuel = function(veh)
-    return fuel.getFuel and fuel.getFuel(veh) or lib.print.error(('No bridge found for getting fuel for %s'):format(settings.fuel))
+    if not fuel.getFuel then return lib.print.error(('No bridge found for getting fuel for %s'):format(settings.fuel)) end
+    return fuel.getFuel(veh)
   end,
 
   getClass = function(veh)
