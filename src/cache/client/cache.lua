@@ -21,8 +21,8 @@ local GetCurrentPedWeapon = GetCurrentPedWeapon
 
 
 CreateThread(function()
+  local wait_time = 100
   while true do
-    local wait_time = 100
     local ped = PlayerPedId()
     cache:set('ped', ped)
 
@@ -44,9 +44,8 @@ CreateThread(function()
       cache:set('seat', false)
     end
 
-    local _, weapon = GetCurrentPedWeapon(ped)
-    if not weapon then weapon = false end
-    cache:set('weapon', weapon)
+    local armed, weapon = GetCurrentPedWeapon(ped)
+    cache:set('weapon', armed and weapon or false)
 
     Wait(wait_time)
   end
