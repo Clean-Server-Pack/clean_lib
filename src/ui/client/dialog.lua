@@ -31,20 +31,23 @@ end
 
 function dialog:__init()
   self.formatted_responses = {}
-  
-  for k,v in ipairs(self.responses) do 
-    local action_id = v.actionid or generate_action_id(self.responses)
-    table.insert(self.formatted_responses, {
-      label = v.label,
-      icon = v.icon,
-      description = v.description,
-      dontClose = v.dontClose,
-      disabled = v.disabled,
-      actionid = action_id,
-      dialog = v.dialog,
-    })
-    v.actionid = action_id
-  end
+  print(type(self.responses))
+  local is_func = type(self.responses) == 'function' or rawget(self.responses, '__cfx_functionReference')
+  if not is_func then 
+    for k,v in ipairs(self.responses) do 
+      local action_id = v.actionid or generate_action_id(self.responses)
+      table.insert(self.formatted_responses, {
+        label = v.label,
+        icon = v.icon,
+        description = v.description,
+        dontClose = v.dontClose,
+        disabled = v.disabled,
+        actionid = action_id,
+        dialog = v.dialog,
+      })
+      v.actionid = action_id
+    end
+  end 
 
   return true 
 end
@@ -80,11 +83,30 @@ function dialog:open(another_menu, entity)
   end
 
   CreateThread(function()
-    while self.isOpen do
+    while self.isOpen and self.entity ~= cache.ped do
       Wait(0)
       SetEntityLocallyInvisible(cache.ped)
     end
   end)
+
+  local is_func = type(self.responses) == 'function' or rawget(self.responses, '__cfx_functionReference')
+  if is_func then 
+    print('is func')
+    self.responses = self.responses()
+    for k,v in ipairs(self.responses) do 
+      local action_id = v.actionid or generate_action_id(self.responses)
+      table.insert(self.formatted_responses, {
+        label = v.label,
+        icon = v.icon,
+        description = v.description,
+        dontClose = v.dontClose,
+        disabled = v.disabled,
+        actionid = action_id,
+        dialog = v.dialog,
+      })
+      v.actionid = action_id
+    end 
+  end 
 
   SetNuiFocus(true, true)
   SendNuiMessage(json.encode({
@@ -212,12 +234,8 @@ lib.closeDialog    = function(id, keep_cam)
   end
 end
 
-
-
-
-
-RegisterCommand('test_dialog', function()
-  print('test')
+local var = 0
+CreateThread(function()
   lib.registerDialog('dialog_id', {
     dialog = "Is there anything I can do to postpone this?",
     title = "Officer",
@@ -230,7 +248,7 @@ RegisterCommand('test_dialog', function()
         label = "Officer",
         data = "Grade 4",
         type = 'text',
-        progress = 75
+        progress = var
       },
       {
         icon = "fa-user-tie",
@@ -247,63 +265,76 @@ RegisterCommand('test_dialog', function()
       }
     },
 
-    responses = {
-      {
-        label = "Yes",
-        icon = "fa-user-tie",
-        description = "This is a description",
-        dontClose = true,
-        action = function()
-          print('yes')
-        end, 
-        colorScheme = "#ff0000"
-      },
-      {
-        label = "No",
-        icon = "fa-user-tie",
-        dontClose = true,
-        action = function()
-          print('no')
-        end
-      },
-      {
-        label = "Maybe So",
-        icon = "fa-user-tie",
-        dontClose = true,
-        action = function()
-          print('maybe so')
-        end
-      },
-      {
-        label = "Yes",
-        icon = "fa-user-tie",
-        description = "This is a description",
-        dontClose = true,
-        action = function()
-          print('yes')
-        end,
-      },
-      {
-        label = "No",
-        icon = "fa-user-tie",
-        dontClose = true,
-        action = function()
-          print('no')
-        end
-      },
-      {
-        label = "Maybe So",
-        icon = "fa-user-tie",
-        dontClose = true,
-        action = function()
-          print('maybe so')
-        end
+    responses = function()
+      return {
+        {
+          label = "Yes",
+          icon = "fa-user-tie",
+          description = "This is a description",
+          dontClose = true,
+          action = function()
+            print('yes')
+          end, 
+          colorScheme = "#ff0000"
+        },
+        {
+          label = "No",
+          icon = "fa-user-tie",
+          dontClose = true,
+          action = function()
+            print('no')
+          end
+        },
+        {
+          label = "Maybe So",
+          icon = "fa-user-tie",
+          dontClose = true,
+          action = function()
+            print('maybe so')
+          end
+        },
+        {
+          label = "Yes",
+          icon = "fa-user-tie",
+          description = "This is a description",
+          dontClose = true,
+          action = function()
+            print('yes')
+          end,
+        },
+        {
+          label = "No",
+          icon = "fa-user-tie",
+          dontClose = true,
+          action = function()
+            print('no')
+          end
+        },
+        {
+          label = "Maybe So",
+          icon = "fa-user-tie",
+          dontClose = true,
+          action = function()
+            print('maybe so')
+          end
+        },
       }
-    }
+    end
   })
+end)
+
+RegisterCommand('test_dialog', function()
+  print('test')
+
 
 
   Wait(0)
   lib.openDialog(cache.ped, 'dialog_id')
 end)
 
+RegisterCommand('update_dialog', function()
+  var = var + 10
+  print('update')
+  lib.openDialog(cache.ped, 'dialog_id')
+
+end)

@@ -41,7 +41,6 @@ function SideBar(props:SideBarProps){
 
 
   useEffect(() => {
-    console.log('Menu open changed: ', props.menuOpen)
     // listen for key here instead 
     const handleKeyPress = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && props.menuOpen && props.escapeClose) {
