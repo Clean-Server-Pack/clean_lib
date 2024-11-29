@@ -114,21 +114,21 @@ export default function KeyInputs(){
 }
 
 
-internalEvent([
-  {
-    action: 'SET_KEY_INPUTS',
-    data: {
-      direction: 'row',
-      inputs: [
+// internalEvent([
+//   {
+//     action: 'SET_KEY_INPUTS',
+//     data: {
+//       direction: 'row',
+//       inputs: [
         
-        { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
-        { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
-      ],
+//         { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
+//         { qwerty: 'F1', label: 'Open Menu', icon: 'fa fa-bars', delay: 1000 },
+//       ],
 
-      position: 'bottom-center'
-    }
-  }
-])
+//       position: 'bottom-center'
+//     }
+//   }
+// ])
 
 // setTimeout(() => {
 

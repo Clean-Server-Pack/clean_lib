@@ -183,11 +183,11 @@ lib.table = {
     return t1
   end,
 
-  includes = function(table, value, recursive)
+  includes = function(table, value)
     for k,v in pairs(table) do
       if v == value then return true; end
-      if type(v) == 'table' and recursive then
-        if lib.table.includes(v, value, recursive) then return true; end
+      if type(v) == 'table' then
+        if lib.table.includes(v, value) then return true; end
       end
     end
     return false

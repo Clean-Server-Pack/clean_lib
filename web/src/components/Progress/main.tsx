@@ -137,26 +137,26 @@ export default function Progress() {
   )
 }
 
-internalEvent([
-  {
-    action : 'SHOW_PROGRESS',
-    data : {
-      position: 'top-center',
-      icon: 'fa fa-bars',
-      description: 'This is a progress bar',
-      label: 'Progress',
-      duration: 8000
-    }
-  }
-])
+// internalEvent([
+//   {
+//     action : 'SHOW_PROGRESS',
+//     data : {
+//       position: 'top-center',
+//       icon: 'fa fa-bars',
+//       description: 'This is a progress bar',
+//       label: 'Progress',
+//       duration: 8000
+//     }
+//   }
+// ])
 
-setTimeout(() => {
-  internalEvent([
-    {
-      action : 'CANCEL_PROGRESS',
-    }
-  ])
-}, 4000)
+// setTimeout(() => {
+//   internalEvent([
+//     {
+//       action : 'CANCEL_PROGRESS',
+//     }
+//   ])
+// }, 4000)
 
 type CustomProgressProps = {
   value: number // Progress value in percentage

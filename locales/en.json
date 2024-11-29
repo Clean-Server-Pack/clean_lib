@@ -1,4 +1,5 @@
 {
   "progress_cancelled": "Cancelled", 
-  "cancel_progress": "Cancel Progress"
+  "cancel_progress": "Cancel Progress", 
+  "status_time_over": "Time's Up"
 }

@@ -91,81 +91,81 @@ export default function Dialog(){
   );
 }
 
-internalEvent([
-  {
-    action: "DIALOG_STATE",
-    data: {
-      dialog       : "Is there anything I can do to postpone this?",
-      id           : "my_dialogue",
-      title        : "Officer",
-      icon         : "fa-user-tie",
-      audioFile    : "audio.mp3",
+// internalEvent([
+//   {
+//     action: "DIALOG_STATE",
+//     data: {
+//       dialog       : "Is there anything I can do to postpone this?",
+//       id           : "my_dialogue",
+//       title        : "Officer",
+//       icon         : "fa-user-tie",
+//       audioFile    : "audio.mp3",
 
-      metadata    : [
-        {
-          icon : "fa-user-tie",
-          label : "Officer",
-          data  : "Grade 4",
-          type  : 'text',
-          progress : 75,
-        },
-        {
-          icon : "fa-user-tie",
-          label : "Officer",
-          data  : "Grade 4",
-          type  : 'text',
-          progress : 75,
-        },
-        {
-          icon : "fa-user-tie",
-          label : "Officer",
-          data  : "Grade 4",
-          type  : 'text',
-        },
-      ],
+//       metadata    : [
+//         {
+//           icon : "fa-user-tie",
+//           label : "Officer",
+//           data  : "Grade 4",
+//           type  : 'text',
+//           progress : 75,
+//         },
+//         {
+//           icon : "fa-user-tie",
+//           label : "Officer",
+//           data  : "Grade 4",
+//           type  : 'text',
+//           progress : 75,
+//         },
+//         {
+//           icon : "fa-user-tie",
+//           label : "Officer",
+//           data  : "Grade 4",
+//           type  : 'text',
+//         },
+//       ],
 
 
-      responses : [
-        {
-          label     : "Yes",
-          icon      : "fa-user-tie",
-          description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
-          dontClose : true,
-          actionid : "111",
-          colorScheme: "#ff0000"
-        },
-        {
-          label     : "No",
-          icon      : "fa-user-tie",
-          dontClose : true,
-          actionid : "222"
-        },
-        {
-          label     : "Maybe So",
-          icon      : "fa-user-tie",
-          dontClose : true,
-          actionid : "333"
-        },
-        {
-          label     : "Yesd",
-          icon      : "fa-user-tie",
-          description : "This is a description",
-          dontClose : true,
-          actionid : "444"
-        },
-        {
-          label     : "No",
-          icon      : "fa-user-tie",
-          dontClose : true,
-          actionid : "555"
-        },
-        {
-          label     : "Maybe So",
-          icon      : "fa-user-tie",
-          dontClose : true,
-          actionid : "666"
-        },
-      ]
-    }
-  },
-]);
+//       responses : [
+//         {
+//           label     : "Yes",
+//           icon      : "fa-user-tie",
+//           description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
+//           dontClose : true,
+//           actionid : "111",
+//           colorScheme: "#ff0000"
+//         },
+//         {
+//           label     : "No",
+//           icon      : "fa-user-tie",
+//           dontClose : true,
+//           actionid : "222"
+//         },
+//         {
+//           label     : "Maybe So",
+//           icon      : "fa-user-tie",
+//           dontClose : true,
+//           actionid : "333"
+//         },
+//         {
+//           label     : "Yesd",
+//           icon      : "fa-user-tie",
+//           description : "This is a description",
+//           dontClose : true,
+//           actionid : "444"
+//         },
+//         {
+//           label     : "No",
+//           icon      : "fa-user-tie",
+//           dontClose : true,
+//           actionid : "555"
+//         },
+//         {
+//           label     : "Maybe So",
+//           icon      : "fa-user-tie",
+//           dontClose : true,
+//           actionid : "666"
+//         },
+//       ]
+//     }
+//   },
+// ]);

@@ -16,6 +16,7 @@ import Progress from './Progress/main';
 import Quiz from './Quiz/main';
 import TextUI from './TextUI/main';
 import { LocalesProvider } from '../providers/locales/locales';
+import StatusInfo from './StatusInfo/main';
 
 
 const App: React.FC = () => {
@@ -67,6 +68,7 @@ const App: React.FC = () => {
             <Dialog />
             <Input />
             <KeyInputs />
+            <StatusInfo />
           </Wrapper>
         </LocalesProvider>
       </MantineEmotionProvider>

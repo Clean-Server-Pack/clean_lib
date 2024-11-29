@@ -13,7 +13,7 @@ const LocalesContext = createContext<localeType>(() => '');
 const LocalesProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [rawLocales, setRawLocales] = useState<LocalesProps>({
     'title': 'Title',
-    'subtitle': 'Subtitle',
+    'status_time_over': 'Time\'s up!',
     'theme_color': 'Theme Color is %s',
   });
 
