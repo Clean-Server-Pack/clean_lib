@@ -1,11 +1,13 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Flex, Text, useMantineTheme } from "@mantine/core";
+import { Button, Checkbox, ColorInput, Flex, MultiSelect, NumberInput, Select, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import SideBar from "../Generic/SideBar";
 import { Title } from "../Generic/Title";
+import { internalEvent } from "../../utils/internalEvent";
+import { fetchNui } from "../../utils/fetchNui";
 
 
 
@@ -141,8 +143,9 @@ type InfoProps = {
   title: string;
   description?: string;
   icon: string;
-  backButton?: string;
-  canClose?: boolean;
+  fromDialog?: string;
+  fromMenu?: string;
+  allowCancel?: boolean;
 }
 
 export default function Input(){
@@ -151,14 +154,15 @@ export default function Input(){
     title: 'Input',
     description: 'Enter the description for this input?',
     icon: 'user',
-    backButton: 'menu_to_return_to',
-    canClose: true,
+    fromDialog: 'dialog_to_return_to',
+    fromMenu: 'menu_to_return_to',
+    allowCancel: true,
   })
 
   const [inputs, setInputs] = useState<InputProps[]>([])
 
 
-  useNuiEvent('OPEN_INPUT', (data: {info: InfoProps, inputs: InputProps[]}) => {
+  useNuiEvent('OPEN_INPUT_DIALOG', (data: {info: InfoProps, inputs: InputProps[]}) => {
     setMainInfo(data.info)
     setInputs(data.inputs)
     setOpened(true)
@@ -176,7 +180,10 @@ export default function Input(){
     <SideBar
       menuOpen={opened}
       setMenuOpen={() => {setOpened(!opened)}}
-      escapeClose={mainInfo.canClose}
+      escapeClose={mainInfo.allowCancel}
+      onClose={() => {
+        fetchNui('INPUT_DIALOG_RESOLVE')
+      }}
       w='28vw'
       h='100vh'
       style={{
@@ -194,7 +201,20 @@ export default function Input(){
         title={mainInfo.title}
         description={mainInfo.description || ''}
         icon={mainInfo.icon}
-        backButton={true} closeButton={true}
+        backButton={
+          mainInfo.fromDialog || mainInfo.fromMenu ? true : false
+        } 
+
+        onBack={() => {
+          fetchNui('INPUT_DIALOG_RESOLVE')
+        }}
+
+        
+        closeButton={mainInfo.allowCancel}
+        onClose={() => {
+          setOpened(false)
+          fetchNui('INPUT_DIALOG_RESOLVE')
+        }}
       />
 
       <form
@@ -233,6 +253,9 @@ export default function Input(){
             type='submit'
             variant='filled'
             flex={1}
+            onClick={() => {
+              console.log(form.values)
+            }}
           >Submit</Button>
         </Flex>
       </form>
@@ -286,7 +309,7 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         align='center'
 
       >
-        {/* {isSimple(props) ? 
+        {isSimple(props) ? 
           <TextInput/>
         : props.type === 'input' ?
           <TextInput w='100%' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} type={props.password ? 'password' : 'text'} min={props.min} max={props.max} />
@@ -296,10 +319,10 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
           <Checkbox checked={props.checked} disabled={props.disabled} required={props.required} />
         : props.type === 'color' ?
           <ColorInput placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} format={props.format} />
-        : props.type === 'select' ?
-          <Select placeholder={props.placeholder} required={props.required} disabled={props.disabled} data={props.options} searchable={props.searchable} clearable={props.clearable} maxSelectedValues={props.maxSelectedValues} />
-        : props.type === 'multi-select' ?
-          <MultiSelect placeholder={props.placeholder} required={props.required} disabled={props.disabled} data={props.options} searchable={props.searchable} clearable={props.clearable} maxSelectedValues={props.maxSelectedValues} />
+        // : props.type === 'select' ?
+        //   <Select placeholder={props.placeholder} required={props.required} disabled={props.disabled} data={props.options} searchable={props.searchable} clearable={props.clearable} maxSelectedValues={props.maxSelectedValues} />
+        // : props.type === 'multi-select' ?
+        //   <MultiSelect placeholder={props.placeholder} required={props.required} disabled={props.disabled} data={props.options} searchable={props.searchable} clearable={props.clearable} maxSelectedValues={props.maxSelectedValues} />
         : props.type === 'textarea' ?
           <Textarea placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} autosize={props.autosize} resize={'both'} />
         // : props.type === 'date-range' ?
@@ -323,40 +346,40 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         //   />
         : props.type === 'slider' ?
           <Slider w='100%' defaultValue={props.default} min={props.min} max={props.max} />
-        : null} */}
+        : null}
       </Flex>
 
     </Flex>
   )
 }
 
-// internalEvent([
-//   {
-//     action: 'OPEN_INPUT',
-//     data: {
-//       inputs: [
-//         'Username',
-//         'Password',
-//         {icon:'user', type: 'checkbox', label: 'Remember Me', description: 'Check this box to remember your login information', checked: true},
-//         {type: 'slider', label: 'Volume', description: 'Adjust the volume of the game', min: 0, max: 100, default: 50},
-//         {type: 'date', label: 'Date of Birth', description: 'Enter your date of birth', default: true, format: 'MM/DD/YYYY', returnString: true, clearable: true},
-//         {type: 'color', label: 'Primary Color', description: 'Select your primary color', default: '#7ac61f', format: 'hex'},
-//         {type: 'select', label: 'Language', description: 'Select your preferred language', options: [{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}], placeholder: 'Select a language', required: true},
-//         {type: 'multi-select', label: 'Favourite Foods', description: 'Select your favourite foods', options: [{value: 'pizza', label: 'Pizza'}, {value: 'burger', label: 'Burger'}, {value: 'pasta', label: 'Pasta'}, {value: 'salad', label: 'Salad'}], placeholder: 'Select your favourite foods', required: true, clearable: true, maxSelectedValues: 2},
-//         {type: 'textarea', label: 'Bio', description: 'Enter a short bio about yourself', placeholder: 'Enter your bio here', required: true, autosize: false},
-//         {type: 'time', label: 'Time', description: 'Select the time', default: '12:00', format: '12', clearable: true},
-//         {type: 'date-range', label: 'Date Range', description: 'Select a date range', default: ['01/01/2022', '01/02/2022'], format: 'MM/DD/YYYY', returnString: true, clearable: true},
-//         {type: 'number', label: 'Age', description: 'Enter your age', placeholder: 'Enter your age', required: true, min: 18, max: 100, default: 18, precision: 0, step: 1},
-//         {type: 'input', label: 'Email', description: 'Enter your email address', placeholder: 'Enter your email address', required: true},
+internalEvent([
+  {
+    action: 'OPEN_INPUT',
+    data: {
+      inputs: [
+        'Username',
+        'Password',
+        {icon:'user', type: 'checkbox', label: 'Remember Me', description: 'Check this box to remember your login information', checked: true},
+        {type: 'slider', label: 'Volume', description: 'Adjust the volume of the game', min: 0, max: 100, default: 50},
+        {type: 'date', label: 'Date of Birth', description: 'Enter your date of birth', default: true, format: 'MM/DD/YYYY', returnString: true, clearable: true},
+        {type: 'color', label: 'Primary Color', description: 'Select your primary color', default: '#7ac61f', format: 'hex'},
+        {type: 'select', label: 'Language', description: 'Select your preferred language', options: [{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}], placeholder: 'Select a language', required: true},
+        {type: 'multi-select', label: 'Favourite Foods', description: 'Select your favourite foods', options: [{value: 'pizza', label: 'Pizza'}, {value: 'burger', label: 'Burger'}, {value: 'pasta', label: 'Pasta'}, {value: 'salad', label: 'Salad'}], placeholder: 'Select your favourite foods', required: true, clearable: true, maxSelectedValues: 2},
+        {type: 'textarea', label: 'Bio', description: 'Enter a short bio about yourself', placeholder: 'Enter your bio here', required: true, autosize: false},
+        {type: 'time', label: 'Time', description: 'Select the time', default: '12:00', format: '12', clearable: true},
+        {type: 'date-range', label: 'Date Range', description: 'Select a date range', default: ['01/01/2022', '01/02/2022'], format: 'MM/DD/YYYY', returnString: true, clearable: true},
+        {type: 'number', label: 'Age', description: 'Enter your age', placeholder: 'Enter your age', required: true, min: 18, max: 100, default: 18, precision: 0, step: 1},
+        {type: 'input', label: 'Email', description: 'Enter your email address', placeholder: 'Enter your email address', required: true},
       
-//       ],
-//       info: {
-//         title: 'Login',
-//         description: 'Enter your login information below',
-//         icon: 'user',
-//         backButton: 'menu_to_return_to',
-//         canClose: true,
-//       }
-//     }
-//   }
-// ])
+      ],
+      info: {
+        title: 'Login',
+        description: 'Enter your login information below',
+        icon: 'user',
+        backButton: 'menu_to_return_to',
+        allowCancel: true,
+      }
+    }
+  }
+])

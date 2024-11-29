@@ -2,6 +2,7 @@ local settings = lib.settings
 local dialogs = {}
 local dialog = {}
 dialog.__index = dialog
+local clean_hud = exports['clean_hud']
 
 dialog.register = function(id,data)
   assert(id, 'Dialog ID is required')
@@ -82,6 +83,9 @@ function dialog:open(another_menu, entity)
     self:viewCamera()
   end
 
+  if clean_hud then 
+    clean_hud:toggleAllHud(false)
+  end
   CreateThread(function()
     while self.isOpen and self.entity ~= cache.ped do
       Wait(0)
@@ -129,6 +133,11 @@ end
 function dialog:close(keep_cam)
   self.isOpen = false
   SetNuiFocus(false, false)
+
+  if clean_hud then 
+    clean_hud:toggleAllHud(true)
+  end
+
   SendNuiMessage(json.encode({
     action = 'DIALOG_STATE'
   }))

@@ -2,6 +2,7 @@ local settings = lib.settings
 local contextMenus   = {}
 local saved_functions = {}
 local currentContext = nil
+local clean_hud = exports['clean_hud']
 
 local get_item_by_id = function(id)
   if not currentContext then return end
@@ -114,6 +115,10 @@ lib.openContext = function(id, fromMenu)
   end
 
   currentContext = id
+  
+
+  if clean_hud then clean_hud:toggleAllHud(false) end
+
   SetNuiFocus(true, true)
   SendNuiMessage(json.encode({
     action = 'CONTEXT_MENU_STATE',
@@ -144,6 +149,9 @@ lib.closeContext = function()
   if contextMenus[currentContext].onExit then 
     contextMenus[currentContext].onExit(); 
   end
+
+  if clean_hud then clean_hud:toggleAllHud(true) end
+
   currentContext = nil
   SetNuiFocus(false, false)
   SendNuiMessage(json.encode({

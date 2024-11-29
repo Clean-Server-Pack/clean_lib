@@ -61,7 +61,7 @@ function SideBar(props:SideBarProps){
     <Box
       pos='absolute'
       right={slideIn ? 0 : '-100%'}
-      bg='linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 77%, rgba(36,36,36,0.4) 88%, rgba(0,0,0,0) 100%)'
+      bg='linear-gradient(270deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.5) 77%, rgba(36,36,36,0.4) 94%, rgba(0,0,0,0) 100%)'
       w={props.w}
       h={props.h}
       style={{

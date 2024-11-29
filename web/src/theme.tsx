@@ -32,54 +32,6 @@ const theme = createTheme({
     ],
   },
   components: {
-    Fieldset:{
-      styles:{
-        legend : { textAlign:'left', transition:'all 0.3s ease-in-out', fontSize:'1.5rem'},
-        root:{
-          border:'2px solid var(--mantine-color-dark-7)',
-          background:alpha('var(--mantine-color-dark-9)', 0.4),
-        } 
-      }
-    },
-
-    TextInput:{
-      styles:{
-        input:{
-          border:'2px solid var(--mantine-color-dark-7)',
-          background:alpha('var(--mantine-color-dark-9)', 0.4),
-        },
-        
-      },
-    },
-
-
-
-    
-
-    DatePickerInput:{
-      defaultProps:{
-        
-
-      },
-      styles:{
-        
-        root:{bg:'red'},
-        body:{bg:'blue'},
-        day:{bg:'green'},
-        month:{bg:'green'},
-        calendarHeader:{
-
-          background:alpha('var(--mantine-color-dark-9)', 0.8),
-        },
-        input:{
-          border:'2px solid var(--mantine-color-dark-7)',
-          background:alpha('var(--mantine-color-dark-9)', 0.4),
-          cursor:'pointer',
-        },
-        
-        
-      },
-    }
   },
 });
 
