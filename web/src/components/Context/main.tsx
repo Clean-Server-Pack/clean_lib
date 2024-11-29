@@ -30,9 +30,6 @@ export type MenuProps = {
 
 export default function Menu(){
     const [menuOpen, setMenuOpen] = useState<MenuProps | false>(false)
-    useEffect(() => {
-      console.log('Menu open changed: ', menuOpen)
-    }, [menuOpen])
     const [search, setSearch] = useState<string>('')
     const theme = useMantineTheme();
     
@@ -63,7 +60,6 @@ export default function Menu(){
           fetchNui('closeContext')
         }
       }
-      console.log('Menu open, ', menuOpen)
       window.addEventListener('keydown', handleKeyPress)
       return () => window.removeEventListener('keydown', handleKeyPress)
     }, [menuOpen])

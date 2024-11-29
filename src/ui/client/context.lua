@@ -165,27 +165,3 @@ RegisterNuiCallback('openDialog', function(data,cb)
   exports['clean_dialog']:openDialog(data.id)
 end)
 
-
--- CreateThread(function()
---   lib.registerContext('test_menu_1', {
---     title = 'Default Context Menu',
---     icon = 'cog',
---     options = {
---       { title = 'Menu 2', menu = 'test_menu_2' },
---     }
---   })
-
-
---   lib.registerContext('test_menu_2', {
---     title = 'Menu 2',
---     icon = 'cog',
---     menu = 'test_menu_1',
---     options = {
---       { title = 'Test Option', onSelect = function() print('Test Option Selected') end },
---     }
---   })
--- end)
-
--- RegisterCommand('test_menus', function()
---   lib.openContext('test_menu_1')
--- end)

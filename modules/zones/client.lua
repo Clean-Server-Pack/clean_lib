@@ -35,7 +35,6 @@ function zone:__init()
     self.center_pos = self.pos
   end
 
-
   if self.type == 'poly' then 
     assert(self.points, 'poly zone must have points')
     self.polygon = glm.polygon.new(self.points)
