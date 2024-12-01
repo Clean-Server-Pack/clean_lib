@@ -1,14 +1,8 @@
-local clean_hud = exports['clean_hud']
-
 lib.inputDialog = function(title, inputs, options)
   local icon = 'keyboard'
   if input then return end
   input = promise.new()
   options = options or {}
-
-  if clean_hud then 
-    clean_hud:toggleAllHud(false)
-  end 
 
 
   SetNuiFocus(true, true)
@@ -19,6 +13,8 @@ lib.inputDialog = function(title, inputs, options)
         title = title,
         icon  = icon,
         allowCancel = options.allowCancel ~= nil and options.allowCancel or true,
+        fromContext = options.fromContext,
+        fromDialog = options.fromDialog
       },
       inputs  = inputs,
     },
@@ -30,12 +26,6 @@ end
 lib.closeInputDialog = function()
   if not input then return end
 
-
-  if clean_hud then 
-    print('clean_hud')
-    clean_hud:toggleAllHud(true)
-  end
-
   SendNuiMessage(json.encode({
     action = 'CLOSE_INPUT_DIALOG',
   }))
@@ -46,12 +36,23 @@ lib.closeInputDialog = function()
 end
 
 RegisterNuiCallback('INPUT_DIALOG_RESOLVE', function(data, cb)
+  print('INPUT_DIALOG_RESOLVE', json.encode(data, {indent = true}))
+  if data and type(data) == 'table' and (data.fromContext or data.fromDialog) then 
+    print('GOIGN BACK TO CONTEXT or DIALOG', data.fromContext, data.fromDialog)
+    input:resolve(nil)
+    input = nil
+    cb({})
+    if data.fromContext then 
+      lib.openContext(data.fromContext)
+    elseif data.fromDialog then 
+      lib.openDialog(data.fromDialog)
+    end 
+    return
+  end 
+
+
   input:resolve(data)
   input = nil
-  if clean_hud then 
-    print('clean_hud')
-    clean_hud:toggleAllHud(true)
-  end
 
   SetNuiFocus(false, false)
   cb({})

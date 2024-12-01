@@ -4,7 +4,6 @@ local placeEntity = function(_type, model_name, bounds, networked)
   assert(model_name, 'model_name is required')
   lib.print.info(('Placing entity %s with model %s'):format(_type, model_name))
   local loaded_model = lib.request.model(model_name) 
-  print(loaded_model)
   if not loaded_model then
     lib.print.error(('Model %s not loaded in placeEntity'):format(model_name))
     return false, 'model_not_loaded'

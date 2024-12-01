@@ -1,6 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Flex, Text, useMantineTheme } from "@mantine/core";
 import Progress from "./Progress";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 export type MetadataProps = {
@@ -35,10 +36,15 @@ function Metadata(props: MetadataProps) {
         <Flex
           p='xs'
           bg='rgba(77,77,77,0.8)'
-          direction='column'
+          direction='row'
+          gap='xs'
           justify='center'
           align='center'
+
         >
+          {props.icon && (
+            <FontAwesomeIcon icon={props.icon} size='1x' color='rgba(255,255,255,0.6)' />
+          )}
           <Text c='lightgrey' size='1.3vh'
             style={{
               fontFamily: 'Akrobat Bold'

@@ -50,10 +50,6 @@ lib.hideTextUI = function()
   }))
 end
 
-
-
-
-
 lib.isTextUIOpen = function()
   return isOpen
 end

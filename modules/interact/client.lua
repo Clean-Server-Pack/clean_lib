@@ -35,7 +35,6 @@ lib.interact = {
   end,
 
   addModels = function(data)
-    -- print('rawOptionns', json.encode(data.options, {indent = true}))
     if settings.interact == 'sleepless_interact' then
       local interact_data = {
         id = data.id or ('model_%s'):format(data.model),
@@ -47,7 +46,6 @@ lib.interact = {
         cooldown       = data.cooldown       or 1500,
         offset         = data.offset,
       }
-      -- print('options', json.encode(interact_data.options, {indent = true}))
       exports.sleepless_interact:addGlobalModel(interact_data)
     elseif settings.interact == 'marker' then 
 

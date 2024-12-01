@@ -1,8 +1,8 @@
-import { createTheme, alpha } from "@mantine/core";
+import { createTheme } from "@mantine/core";
 
 const theme = createTheme({
   primaryColor: "clean",
-  primaryShade: 7,
+  primaryShade: 9,
   defaultRadius: "sm",
   fontFamily: "Akrobat, sans-serif",
   colors: {
@@ -30,8 +30,6 @@ const theme = createTheme({
       "#29420a",
       "#446e11",
     ],
-  },
-  components: {
   },
 });
 

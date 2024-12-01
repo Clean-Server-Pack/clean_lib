@@ -43,7 +43,7 @@ export default function StatusInfo(){
 
   useNuiEvent('UPDATE_STATUS', (status: Status) => {
     setStatuses((prev) => prev.map((s) => s.id === status.id ? status : s));
-  });
+  }); 
 
 
   return (
@@ -59,6 +59,7 @@ export default function StatusInfo(){
       style={{
         transform: 'translate(2%, -50%)',
         overflow: 'hidden',
+        userSelect: 'none',
       }}
     >
       {statuses.map((status) => (

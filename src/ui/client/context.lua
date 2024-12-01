@@ -2,10 +2,11 @@ local settings = lib.settings
 local contextMenus   = {}
 local saved_functions = {}
 local currentContext = nil
-local clean_hud = exports['clean_hud']
 
 local get_item_by_id = function(id)
   if not currentContext then return end
+  local menu = contextMenus[currentContext]
+
   for i, item in ipairs(contextMenus[currentContext].options) do
     if item.id == id then
       return item
@@ -101,7 +102,7 @@ lib.openContext = function(id, fromMenu)
   local is_func = rawget(data.options, '__cfx_functionReference')
   if is_func then 
     local option_getter = data.options
-    data = lib.table.deepClone(data)
+    -- data = lib.table.deepClone(data)
     data.options = option_getter()
     for i, item in ipairs(data.options) do
       data.options[i].id = string.format('%s_%s', id, i)
@@ -116,8 +117,6 @@ lib.openContext = function(id, fromMenu)
 
   currentContext = id
   
-
-  if clean_hud then clean_hud:toggleAllHud(false) end
 
   SetNuiFocus(true, true)
   SendNuiMessage(json.encode({
@@ -149,8 +148,6 @@ lib.closeContext = function()
   if contextMenus[currentContext].onExit then 
     contextMenus[currentContext].onExit(); 
   end
-
-  if clean_hud then clean_hud:toggleAllHud(true) end
 
   currentContext = nil
   SetNuiFocus(false, false)
