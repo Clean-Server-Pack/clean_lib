@@ -43,6 +43,15 @@ lib.showTextUI = function(text, options)
   }))
 end
 
+lib.updateTextUI = function(text)
+  assert(text and type(text) == 'string', 'text must be a string')
+  if not isOpen then return end
+  SendNuiMessage(json.encode({
+    action = 'UPDATE_TEXT_UI',
+    data = text,
+  }))
+end
+
 lib.hideTextUI = function()
   isOpen = false
   SendNuiMessage(json.encode({

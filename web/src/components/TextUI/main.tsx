@@ -1,7 +1,7 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, Transition, useMantineTheme } from "@mantine/core";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { getPositionProps, getTranslate, PositionProps } from "../../utils/positioning";
 
@@ -17,6 +17,7 @@ type TextUIOptions = {
 export default function TextUI(){
   const theme = useMantineTheme()
   const [opened, setOpened] = useState(false)
+  const [formattedText, setFormattedText] = useState<string>('')
   const [currentText, setCurrentText] = useState<string>('')
   const [options, setOptions] = useState<TextUIOptions>({
     icon: 'fa fa-bars',
@@ -24,6 +25,13 @@ export default function TextUI(){
     iconAnimation: 'pulse',
     alignIcon: 'center',
   })
+
+
+  useEffect(() => {
+    // repalace any instance of /n witha break in the line 
+    setFormattedText(currentText.replace(/\\n/g, '\n')) 
+  }, [currentText])
+
 
 
   useNuiEvent('SHOW_TEXT_UI', (data:{
@@ -38,6 +46,10 @@ export default function TextUI(){
 
   useNuiEvent('HIDE_TEXT_UI', () => {
     setOpened(false)
+  })
+
+  useNuiEvent('UPDATE_TEXT_UI', (text: string) => {
+    setCurrentText(text)
   })
 
   return (
@@ -80,7 +92,9 @@ export default function TextUI(){
 
             <Text
               size="1.8vh"
-            >{currentText}</Text>
+              aria-multiline  
+              contentEditable
+            >{formattedText}</Text>
           </Flex>
 
         </Flex>

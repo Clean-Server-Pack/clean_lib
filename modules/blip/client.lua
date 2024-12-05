@@ -80,7 +80,7 @@ function blip:render()
   SetBlipAsShortRange(blip, self.shortRange or false)
   SetBlipCategory(blip, self.category or 1)
   SetBlipAlpha(blip, self.alpha or 255)
-  SetBlipRotation(blip, self.rotation or 0)
+  if self.rotation then SetBlipRotation(blip, self.rotation or 0) end
 
   if self.route then
     SetBlipRoute(blip, self.route or true)
@@ -144,3 +144,4 @@ lib.blip = {
 }
 
 return lib.blip
+
