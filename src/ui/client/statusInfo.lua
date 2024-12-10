@@ -28,15 +28,22 @@ end
 
 function StatusInfo:__init()
   -- Display it. 
+  self.resource = GetInvokingResource() or GetCurrentResourceName() or 'unknown'
   SendNuiMessage(json.encode({
     action = 'ADD_STATUS',
     data   = self:serialize()
   }))
+  
+  AddEventHandler('onResourceStop', function(resource)
+    if resource == self.resource then
+      StatusInfo.destroy(self.id)
+    end
+  end)
+
 end
 
 function StatusInfo:__destroy()
-  print('Destroying status', self.id)
-  -- Remove it. 
+  self.open = false
   SendNuiMessage(json.encode({
     action = 'REMOVE_STATUS',
     data     = self.id
@@ -99,6 +106,21 @@ StatusInfo.update = function(id, data)
     status:update(data)
   end
 end
+
+local statusDisplayState = true
+StatusInfo.hideAllStatus = function(toggle)
+  if statusDisplayState == toggle then return end
+  statusDisplayState = toggle
+  SendNuiMessage(json.encode({
+    action = 'HIDE_ALL_STATUS',
+    data   = toggle
+  }))
+end
+
+AddStateBagChangeHandler('hiddenHud', ('player:%s'):format(cache.serverId), function(_, _, value)
+  if value == nil then return end
+  StatusInfo.hideAllStatus(value)
+end)
 
 RegisterCommand('test_status', function()
   StatusInfo.register('test', {

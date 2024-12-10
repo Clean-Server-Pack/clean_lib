@@ -18,7 +18,7 @@ local types = {
 
 local notification = nil
 lib.notify = function(data)
-  if not cache.playerLoaded then return end
+  -- if not cache.playerLoaded then return end
   if lib.settings.notify == 'ox_lib' then 
     return TriggerEvent('ox_lib:notify', data)
   end 
