@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useMantineTheme, Flex, Text } from "@mantine/core";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import Button from "../Generic/Button";
+import BorderedIcon from "../Generic/BorderedIcon";
 
 
 
@@ -24,7 +25,7 @@ export function Title(props: TitleProps) {
   return (
     <Flex
       align='center'
-      gap='xs'
+      gap='1vh'
     >
       {props.backButton && (
         <Button icon='fa-arrow-left' onClick={props.onBack} />
@@ -32,17 +33,11 @@ export function Title(props: TitleProps) {
 
       <Flex
         align='center'
-        gap='xs'
+        gap='1vh'
       >
-        <FontAwesomeIcon
+        <BorderedIcon
           icon={props.icon as IconName}
-          style={{
-            backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5),
-            padding: theme.spacing.xs,
-            borderRadius: theme.radius.xs,
-            fontSize: props.fontSize || '2vh',
-            border: `1px solid var(--mantine-primary-color-9)`,
-          }} 
+          fontSize={props.fontSize}
         />
         <Flex
           direction='column'

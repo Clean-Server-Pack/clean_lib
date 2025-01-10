@@ -24,7 +24,7 @@ local load_module = function(self,module)
   local chunk = LoadResourceFile(clean_lib, ('%s/%s.lua'):format(dir, context))
   local shared = LoadResourceFile(clean_lib, ('%s/shared.lua'):format(dir))
 
-
+  
   if shared then 
     chunk = (chunk and ('%s\n%s'):format(shared, chunk)) or shared
   end

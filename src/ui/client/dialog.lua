@@ -10,41 +10,29 @@ dialog.register = function(id,data)
   assert(data.title, 'Dialog title is required')
   local self = setmetatable(data, dialog)
   self.id = id  
+  self.resource = GetInvokingResource() or GetCurrentResourceName() or 'unknown'
   dialogs[id] = self
   self:__init()
   return self
 end
 
+AddEventHandler('onResourceStop', function(resource)
+  for k,v in pairs(dialogs) do 
+    if v.resource == resource then
+      v:close()
+    end 
+  end
+end)
+
 dialog.get = function(id)
   return dialogs[id]
 end
   
-local generate_action_id = function(to_check)
-  local id = string.format('dialog_action-%s', math.random(1000,9999))
-  if to_check[id] then
-    Wait(0)
-    return generate_action_id(to_check)
-  end
-  return id
-end
-
-
 function dialog:__init()
-  self.formatted_responses = {}
   local is_func = type(self.responses) == 'function' or rawget(self.responses, '__cfx_functionReference')
   if not is_func then 
     for k,v in ipairs(self.responses) do 
-      local action_id = v.actionid or generate_action_id(self.responses)
-      table.insert(self.formatted_responses, {
-        label = v.label,
-        icon = v.icon,
-        description = v.description,
-        dontClose = v.dontClose,
-        disabled = v.disabled,
-        actionid = action_id,
-        dialog = v.dialog,
-      })
-      v.actionid = action_id
+      v.action      = msgpack.unpack(msgpack.pack(v.action))
     end
   end 
 
@@ -63,7 +51,7 @@ function dialog:viewCamera()
   SetCamFov(cam, 40.0)
   self.cam = cam
 end
-
+ 
 function dialog:closeCamera()
   if not self.cam then return; end 
   RenderScriptCams(false, true, 500, true, true)
@@ -159,8 +147,13 @@ function dialog:trigger_action(actionid)
 
   local response = self:get_response_by_actionid(actionid)
   if response then
-
-    if not response.dontClose and not response.dialog then
+    print('theresa response')
+    print('dont close', response.dontClose)
+    print('dialog', response.dialog)
+    print('prevDialog', self.prevDialog)
+    
+    if not response.dontClose and not response.dialog and not self.prevDialog then
+      print('closing')
       self:close()
     end
 
@@ -174,6 +167,10 @@ function dialog:trigger_action(actionid)
         dialog:open(true)
       end
     end
+
+    if response.context then 
+      lib.openContext(response.context)
+    end 
   end
 end
 
@@ -186,7 +183,7 @@ local get_open_dialog = function()
   return nil
 end
 
-RegisterNUICallback('dialogSelected', function(data, cb)
+RegisterNUICallback('DIALOG_SELECTED', function(data, cb)
   local current_dialog = get_open_dialog()
   if not current_dialog then
     return
@@ -198,19 +195,25 @@ RegisterNUICallback('dialogSelected', function(data, cb)
   end
 end)  
 
-RegisterNuiCallback('prevDialog', function(data,cb)
-  local current_dialog = get_open_dialog()
+RegisterNuiCallback('DIALOG_GO_BACK', function(data,cb)
+  local current_dialog = get_open_dialog()  
 
   --\\ Close last one 
-  if current_dialog then
+  if not current_dialog then
+    return
+  end
+
+  local prevDialog, prevContext = current_dialog.prevDialog, current_dialog.prevContext
+
+  if prevDialog and dialogs[prevDialog] then
     dialogs[current_dialog.id].isOpen = false
+    dialogs[prevDialog]:open(true)
   end
 
-  local id = data.dialog
-  if dialogs[id] then
-    dialogs[id]:open(true)
+  if prevContext then
+    dialogs[current_dialog.id]:close()
+    lib.openContext(prevContext)
   end
-
 end)
 
 
@@ -231,107 +234,103 @@ lib.closeDialog    = function(id, keep_cam)
   end
 end
 
-local var = 0
-CreateThread(function()
-  lib.registerDialog('dialog_id', {
-    dialog = "Is there anything I can do to postpone this?",
-    title = "Officer",
-    icon = "fa-user-tie",
-    audioFile = "audio.mp3",
+-- local var = 0
+-- CreateThread(function()
+--   lib.registerDialog('dialog_id', {
+--     dialog = "Is there anything I can do to postpone this?",
+--     title = "Officer",
+--     icon = "fa-user-tie",
+--     audioFile = "audio.mp3",
 
-    metadata = {
-      {
-        icon = "fa-user-tie",
-        label = "Officer",
-        data = "Grade 4",
-        type = 'text',
-        progress = var
-      },
-      {
-        icon = "fa-user-tie",
-        label = "Officer",
-        data = "Grade 4",
-        type = 'text',
-        progress = 75
-      },
-      {
-        icon = "fa-user-tie",
-        label = "Officer",
-        data = "Grade 4",
-        type = 'text'
-      }
-    },
+--     metadata = {
+--       {
+--         icon = "fa-user-tie",
+--         label = "Officer",
+--         data = "Grade 4",
+--         progress = 0
+--       },
+--       {
+--         icon = "fa-user-tie",
+--         label = "Officer",
+--         data = "Grade 4",
+--         progress = 75
+--       },
+--       {
+--         icon = "fa-user-tie",
+--         label = "Officer",
+--         data = "Grade 4",
+--       }
+--     },
 
-    responses = function()
-      return {
-        {
-          label = "Yes",
-          icon = "fa-user-tie",
-          description = "This is a description",
-          dontClose = true,
-          action = function()
-            print('yes')
-          end, 
-          colorScheme = "#ff0000"
-        },
-        {
-          label = "No",
-          icon = "fa-user-tie",
-          dontClose = true,
-          action = function()
-            print('no')
-          end
-        },
-        {
-          label = "Maybe So",
-          icon = "fa-user-tie",
-          dontClose = true,
-          action = function()
-            print('maybe so')
-          end
-        },
-        {
-          label = "Yes",
-          icon = "fa-user-tie",
-          description = "This is a description",
-          dontClose = true,
-          action = function()
-            print('yes')
-          end,
-        },
-        {
-          label = "No",
-          icon = "fa-user-tie",
-          dontClose = true,
-          action = function()
-            print('no')
-          end
-        },
-        {
-          label = "Maybe So",
-          icon = "fa-user-tie",
-          dontClose = true,
-          action = function()
-            print('maybe so')
-          end
-        },
-      }
-    end
-  })
-end)
+--     responses = function()
+--       return {
+--         {
+--           label = "Yes",
+--           icon = "fa-user-tie",
+--           -- description = "This is a description of the response lets make the length of this response longer to see how it looks on the screen and if it will wrap around",    
+--           dontClose = true,
+--           action = function()
+--             print('yes')
+--           end, 
+--         },
+--         {
+--           label = "No",
+--           icon = "fa-user-tie",
+--           dontClose = true,
+--           action = function()
+--             print('no')
+--           end
+--         },
+--         {
+--           label = "Maybe So",
+--           icon = "fa-user-tie",
+--           dontClose = true,
+--           action = function()
+--             print('maybe so')
+--           end
+--         },
+--         {
+--           label = "Yes",
+--           icon = "fa-user-tie",
+--           description = "This is a description",
+--           dontClose = true,
+--           action = function()
+--             print('yes')
+--           end,
+--         },
+--         {
+--           label = "No",
+--           icon = "fa-user-tie",
+--           dontClose = true,
+--           action = function()
+--             print('no')
+--           end
+--         },
+--         {
+--           label = "Maybe So",
+--           icon = "fa-user-tie",
+--           dontClose = true,
+--           action = function()
+--             print('maybe so')
+--           end
+--         },
+--       }
+--     end
+--   })
+-- end)
 
-RegisterCommand('test_dialog', function()
-  print('test')
+-- RegisterCommand('test_dialog', function()
+--   print('test')
 
 
 
-  Wait(0)
-  lib.openDialog(cache.ped, 'dialog_id')
-end)
+--   Wait(0)
+--   lib.openDialog(cache.ped, 'dialog_id')
+-- end)
 
-RegisterCommand('update_dialog', function()
-  var = var + 10
-  print('update')
-  lib.openDialog(cache.ped, 'dialog_id')
+-- RegisterCommand('update_dialog', function()
+--   var = var + 10
+--   print('update')
+--   lib.openDialog(cache.ped, 'dialog_id')
 
-end)
+-- end)

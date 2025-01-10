@@ -24,7 +24,7 @@ function Metadata(props: MetadataProps) {
       style={{
         borderRadius: theme.radius.xs,
         overflow: 'hidden',
-        border: `1px solid rgba(77,77,77,0.9)`
+        border: `0.1vh solid rgba(77,77,77,0.3)`
       }}
       align='center'
       direction='column'
@@ -34,16 +34,21 @@ function Metadata(props: MetadataProps) {
       align='center'
       >
         <Flex
-          p='xs'
+          h='100%'
+          p='0.5vh'
           bg='rgba(77,77,77,0.8)'
           direction='row'
-          gap='xs'
+          gap='1vh'
           justify='center'
           align='center'
 
         >
           {props.icon && (
-            <FontAwesomeIcon icon={props.icon} size='1x' color='rgba(255,255,255,0.6)' />
+            <FontAwesomeIcon icon={props.icon} color='rgba(255,255,255,0.6)' 
+              style={{
+                fontSize: '1.3vh'
+              }}
+            />
           )}
           <Text c='lightgrey' size='1.3vh'
             style={{
@@ -52,7 +57,9 @@ function Metadata(props: MetadataProps) {
         </Flex>
 
         <Flex
-          p='xs'
+          h='100%'
+          flex={1}
+          p='0.5vh'
           bg='rgba(77,77,77,0.6)'
           direction='column'
           align='center'
@@ -67,10 +74,8 @@ function Metadata(props: MetadataProps) {
 
       </Flex>
 
-      {
-        props.progress && (
-          <Progress value={props.progress} />
-        )
+      {props.progress != null && 
+        <Progress value={props.progress} />
       }
 
     </Flex>

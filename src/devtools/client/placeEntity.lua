@@ -44,12 +44,12 @@ local placeEntity = function(_type, model_name, bounds, networked)
   local rotation = GetEntityRotation(entity)
   local min, max = GetModelDimensions(loaded_model)
   while true do 
-    SetFollowPedCamViewMode(4)
     local hit, endCoords, entityHit, surfaceNormal, materialHash = lib.raycast.fromCamera(nil, entity, type(bounds) == 'number' and bounds)
     SetEntityAlpha(entity, 100, false)
     if endCoords and entityHit ~= entity and isValidPos(endCoords) then 
       SetEntityCoords(entity, endCoords.x, endCoords.y, endCoords.z)
       SetEntityRotation(entity, rotation.x, rotation.y, rotation.z)
+      DrawSphere(endCoords.x, endCoords.y, endCoords.z, 0.1, 255, 0, 0, 100)
     else 
       SetEntityAlpha(entity, 0, false)
     end 
@@ -83,19 +83,11 @@ local placeEntity = function(_type, model_name, bounds, networked)
 
 end
 
-DevTool.register('vector3', {
-  label = 'Vector3',
-  command = true, 
-  description = 'Copy the current position to the clipboard',
-  icon = 'paste',
-  action = function()
-    local coords = GetEntityCoords(cache.ped)
-    local vec = vector3(coords.x, coords.y, coords.z)
-    local vecString = ('vector3(%s, %s, %s)'):format(vec.x, vec.y, vec.z)
-    lib.copyToClipboard(vecString)
-  end
-})
 
-
+RegisterCommand('placeEntity', function(source, args)
+  local _type = args[1]
+  local model_name = args[2]
+  placeEntity(_type, model_name, false, true)
+end)
 
 lib.placeEntity = placeEntity

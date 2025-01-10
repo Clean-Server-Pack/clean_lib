@@ -6,6 +6,7 @@ lib.player = {
   identifier = bridge.identifier,
   getInventory = bridge.getInventory,
   getPlayerData = bridge.getPlayerData,
+  getMetadata   = bridge.getMetadata,
 }
 
 return lib.player

@@ -11,6 +11,7 @@ lib.inputDialog = function(title, inputs, options)
     data   = {
       info    = {
         title = title,
+        description = options.description,     
         icon  = icon,
         allowCancel = options.allowCancel ~= nil and options.allowCancel or true,
         fromContext = options.fromContext,

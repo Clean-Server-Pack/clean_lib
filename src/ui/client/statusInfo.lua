@@ -144,8 +144,9 @@ RegisterCommand('test_status', function()
   })
 end)
 
+
 lib.registerStatusInfo = StatusInfo.register
-lib.getStatusInfo = StatusInfo.get
-lib.getStatusInfos = StatusInfo.getAll
-lib.updateStatusInfo = StatusInfo.update
-lib.destroyStatusInfo = StatusInfo.destroy
+lib.getStatusInfo      = StatusInfo.get
+lib.getStatusInfos     = StatusInfo.getAll
+lib.updateStatusInfo   = StatusInfo.update
+lib.destroyStatusInfo  = StatusInfo.destroy

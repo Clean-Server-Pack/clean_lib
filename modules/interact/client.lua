@@ -75,6 +75,7 @@ lib.interact = {
   end,
 
   addCoords = function(data)
+    lib.print.info(('Adding sleepless interact coords: %s'):format(data.id))
     if settings.interact == 'sleepless_interact' then
       local interact_data = {
         id = data.id or ('coords_%s'):format(data.pos), 
@@ -159,6 +160,5 @@ lib.interact = {
 
   
 }
-
 
 return lib.interact

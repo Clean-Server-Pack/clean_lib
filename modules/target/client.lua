@@ -123,7 +123,7 @@ lib.target = {
       if net then
         exports.ox_target:removeEntity(entity)
       else
-        exports.ox_target:removeLocalEntity(entity)       
+        exports.ox_target:removeLocalEntity(entity)
       end
     end
   end,

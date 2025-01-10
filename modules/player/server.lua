@@ -73,6 +73,21 @@ return  {
   ---@param data table
   setPlayerData = bridge.setPlayerData,
 
+  ---@param src number
+  ---@param _key string
+  ---@return table
+  getPlayerData = bridge.getPlayerData,
+
+  ---@param src number
+  ---@param _key string
+  ---@param data table
+  setMetadata = bridge.setMetadata,
+
+  ---@param src number
+  ---@param _key string
+  ---@return table
+  getMetadata = bridge.getMetadata,
+
   ---@param identifier string|number
   ---@return boolean
   checkOnline = function(identifier)

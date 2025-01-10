@@ -106,18 +106,24 @@ function zone:handleGameZone(current_zone)
   self.onChange(current_zone)
 end
 
+local DrawPoly = DrawPoly 
+local DrawLine = DrawLine
 
-local drawWall = function(pos1,pos2,height, col)
-  col = col or {}
-  local r,g,b,a = col.R or 0, col.G or 255, col.B or 0 , col.A or 80
-  local topLeft     = vector3(pos1.x, pos1.y, pos1.z + height)
-  local bottomLeft  = vector3(pos1.x,pos1.y,pos1.z)
-  local topRight    = vector3(pos2.x,pos2.y,pos2.z + height)
-  local bottomRight = vector3(pos2.x,pos2.y,pos2.z)
-  DrawPoly(bottomLeft,topLeft,bottomRight,r,g,b,a)
-  DrawPoly(topLeft,topRight,bottomRight,r,g,b,a)
-  DrawPoly(bottomRight,topRight,topLeft,r,g,b,a)
-  DrawPoly(bottomRight,topLeft,bottomLeft,r,g,b,a)
+local drawPolygon = function(polygon, height, color)
+  for i = 1, #polygon do
+    local thickness = vec(0, 0, height)
+    local a = polygon[i] + thickness
+    local b = polygon[i] - thickness
+    local c = (polygon[i + 1] or polygon[1]) + thickness
+    local d = (polygon[i + 1] or polygon[1]) - thickness
+    DrawLine(a.x, a.y, a.z, b.x, b.y, b.z, color.r, color.g, color.b, 225)
+    DrawLine(a.x, a.y, a.z, c.x, c.y, c.z, color.r, color.g, color.b, 225)
+    DrawLine(b.x, b.y, b.z, d.x, d.y, d.z, color.r, color.g, color.b, 225)
+    DrawPoly(a.x, a.y, a.z, b.x, b.y, b.z, c.x, c.y, c.z, color.r, color.g, color.b, color.a)
+    DrawPoly(c.x, c.y, c.z, b.x, b.y, b.z, a.x, a.y, a.z, color.r, color.g, color.b, color.a)
+    DrawPoly(b.x, b.y, b.z, c.x, c.y, c.z, d.x, d.y, d.z, color.r, color.g, color.b, color.a)
+    DrawPoly(d.x, d.y, d.z, c.x, c.y, c.z, b.x, b.y, b.z, color.r, color.g, color.b, color.a)
+  end
 end
 
 function zone:draw(data)
@@ -148,11 +154,7 @@ function zone:draw(data)
       0, 
       0)
   elseif self.type == 'poly' then
-    local points = self.points
-    for i = 1, #points do 
-      local next_point = points[i + 1] or points[1]
-      drawWall(points[i], next_point, self.height, {R = 0, G = 255, B = 0, A = 80})
-    end
+    drawPolygon(self.points, self.height, {r = 255, g = 0, b = 0, a = 200})
   elseif self.type == 'box' then 
 
   end

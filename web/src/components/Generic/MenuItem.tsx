@@ -13,8 +13,8 @@ import getImageType from "../../utils/getImagePath";
 export type MenuItemProps = {
 
 
-  clickSounds: boolean;
-  hoverSounds: boolean;
+  clickSounds?: boolean;
+  hoverSounds?: boolean;
   title: string;
   backgroundImage?: string;
   disabled?: boolean;
@@ -113,10 +113,11 @@ export function MenuItem(props: MenuItemProps) {
       {props.description && <Text size='1.5vh' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
         {props.description}
       </Text>}
-      {props.progress && 
+
+      {typeof(props.progress) == 'number' ? 
         <Progress value={props.progress} 
         />
-      }
+      : null}
 
       {imageType && imageType.type == 'image' && 
         <img src={props.image} alt='user_image'/>

@@ -46,7 +46,7 @@ export default function Dialog(){
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && openMenu && !data.cantClose) {
         setOpenMenu(false);
-        fetchNui("dialogSelected", {actionid: "close"})
+        fetchNui("DIALOG_SELECTED", {actionid: "close"})
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -63,17 +63,15 @@ export default function Dialog(){
 
   const { title, icon, dialog, responses, hoverSounds, clickSounds }:IDialogProps = data;
 
-  // useEffect(() => {
-  //   const audio = new Audio(audioFile);
-  //   audio.play();
+  useEffect(() => {
+   if (responses.length % 4 !== 0) {
+      const emptyResponses = 4 - (responses.length % 4);
+      for (let i = 0; i < emptyResponses; i++) {
+        responses.push({ label: " ", actionid: "empty" });
+      }
+    }
 
-  //   return () => {
-  //     audio.pause();
-  //     audio.currentTime = 0;
-  //   };
-  // }, [audioFile]);
-
-  while (responses.length % 4 !== 0) responses.push({ label: " ", actionid: "empty" });
+  }, [responses]);
 
 
   return (
@@ -83,6 +81,7 @@ export default function Dialog(){
       <Flex
         direction='column'
         w='50%'
+        h='100%'
       >
         <Header title={title} dialog={dialog} icon={icon} prevDialog={data.prevDialog} metadata={data.metadata} />
         <ResponsesContainer responses={responses} hoverSounds={hoverSounds} clickSounds={clickSounds} />
@@ -91,81 +90,78 @@ export default function Dialog(){
   );
 }
 
-// internalEvent([
-//   {
-//     action: "DIALOG_STATE",
-//     data: {
-//       dialog       : "Is there anything I can do to postpone this?",
-//       id           : "my_dialogue",
-//       title        : "Officer",
-//       icon         : "fa-user-tie",
-//       audioFile    : "audio.mp3",
+internalEvent([
+  {
+    action: "DIALOG_STATE",
+    data: {
+      dialog       : "Is there anything I can do to postpone this?",
+      id           : "my_dialogue",
+      title        : "Officer",
+      icon         : "fa-user-tie",
+      audioFile    : "audio.mp3",
 
-//       metadata    : [
-//         {
-//           icon : "fa-user-tie",
-//           label : "Officer",
-//           data  : "Grade 4",
-//           type  : 'text',
-//           progress : 75,
-//         },
-//         {
-//           icon : "fa-user-tie",
-//           label : "Officer",
-//           data  : "Grade 4",
-//           type  : 'text',
-//           progress : 75,
-//         },
-//         {
-//           icon : "fa-user-tie",
-//           label : "Officer",
-//           data  : "Grade 4",
-//           type  : 'text',
-//         },
-//       ],
+      metadata    : [
+        {
+          icon : "fa-user-tie",
+          label : "Officer",
+          data  : "Grade 4",
+          progress : 0,
+        },
+        {
+          icon : "fa-user-tie",
+          label : "Officer",
+          data  : "Grade 4",
+          progress : 75,
+        },
+        {
+          icon : "fa-user-tie",
+          label : "Officer",
+          data  : "Grade 4",
+        },
+      ],
 
 
-//       responses : [
-//         {
-//           label     : "Yes",
-//           icon      : "fa-user-tie",
-//           description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
-//           dontClose : true,
-//           actionid : "111",
-//           colorScheme: "#ff0000"
-//         },
-//         {
-//           label     : "No",
-//           icon      : "fa-user-tie",
-//           dontClose : true,
-//           actionid : "222"
-//         },
-//         {
-//           label     : "Maybe So",
-//           icon      : "fa-user-tie",
-//           dontClose : true,
-//           actionid : "333"
-//         },
-//         {
-//           label     : "Yesd",
-//           icon      : "fa-user-tie",
-//           description : "This is a description",
-//           dontClose : true,
-//           actionid : "444"
-//         },
-//         {
-//           label     : "No",
-//           icon      : "fa-user-tie",
-//           dontClose : true,
-//           actionid : "555"
-//         },
-//         {
-//           label     : "Maybe So",
-//           icon      : "fa-user-tie",
-//           dontClose : true,
-//           actionid : "666"
-//         },
-//       ]
-//     }
-//   },
-// ]);
+      responses : [
+        {
+          label     : "Yes",
+          icon      : "fa-user-tie",
+          description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
+          dontClose : true,
+          actionid : "111",
+          colorScheme: "#ff0000"
+        },
+        {
+          label     : "No",
+          icon      : "fa-user-tie",
+          dontClose : true,
+          actionid : "222"
+        },
+        {
+          label     : "Maybe So",
+          icon      : "fa-user-tie",
+          dontClose : true,
+          actionid : "333"
+        },
+        {
+          label     : "Yesd",
+          icon      : "fa-user-tie",
+          description : "This is a description",
+          dontClose : true,
+          actionid : "444"
+        },
+        {
+          label     : "No",
+          icon      : "fa-user-tie",
+          dontClose : true,
+          actionid : "555"
+        },
+        {
+          label     : "Maybe So",
+          icon      : "fa-user-tie",
+          dontClose : true,
+          actionid : "666"
+        },
+      ]
+    }
+  },
+]);

@@ -23,7 +23,7 @@ local viewModels = function()
       for k,v in pairs(nearbyObjects) do 
         local objPos = GetEntityCoords(v)
         local ent_model = GetEntityModel(v)
-        lib.drawText3D(objPos.x, objPos.y, objPos.z, 1.0, 1.0, ('%s'):format(modelNames[ent_model] or 'Unknown Model'))
+        lib.drawText3D(objPos.x, objPos.y, objPos.z, 1.0, 1.0, ('%s'):format(modelNames[ent_model] or ent_model or 'Unknown Model'))
       end
 
       Wait(wait_time)

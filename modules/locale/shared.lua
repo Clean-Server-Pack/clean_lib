@@ -18,6 +18,22 @@ local function flattenDict(source, target, prefix)
     return target
 end
 
+
+
+-- We are going to add the str to the dict table with the str as the key and value. And resave the original locales file back to the locales folder.  
+local addNeededTranslation = function(str)
+  lib.print.info(('Adding missing translation for: %s'):format(str))
+  dict[str] = str
+
+  if not IsDuplicityVersion() then 
+    TriggerServerEvent('clean_lib:addNeededTranslation', cache.resource, str)
+    return 
+  end
+  local data = json.encode(dict, {indent = true, level = 2})
+  lib.print.info(('Saving missing translation %s to %s'):format(str, ('locales/%s.json'):format(lib.getLocaleKey())))
+  SaveResourceFile(cache.resource, ('locales/%s.json'):format(lib.getLocaleKey()), data, -1)
+end
+
 ---@param str string
 ---@param ... string | number
 ---@return string
@@ -25,12 +41,14 @@ function locale(str, ...)
     local lstr = dict[str]
 
     if lstr then
-        if ... then
-            return lstr and lstr:format(...)
-        end
+      if ... then
+        return lstr and lstr:format(...)
+      end
 
-        return lstr
+      return lstr
     end
+
+    addNeededTranslation(str)
 
     return str
 end
@@ -43,7 +61,7 @@ local function loadLocale(key)
     local data = LoadResourceFile(cache.resource, ('locales/%s.json'):format(key))
 
     if not data then
-        warn(("could not load 'locales/%s.json'"):format(key))
+      warn(("could not load 'locales/%s.json'"):format(key))
     end
 
     return json.decode(data) or {}
@@ -110,5 +128,17 @@ end)
 AddEventHandler('clean_lib:setLocale', function(key)
     lib.locale(key)
 end)
+
+
+if IsDuplicityVersion() then 
+  RegisterNetEvent('clean_lib:addNeededTranslation', function(resource, str)
+    if cache.resource ~= resource then return end
+    local dict = loadLocale(lib.getLocaleKey())
+    dict[str] = str
+    local data = json.encode(dict, {indent = true, level = 2})
+    lib.print.info(('Saving missing translation %s on the server side to %s'):format(str, ('locales/%s.json'):format(lib.getLocaleKey())))    
+    SaveResourceFile(resource, ('locales/%s.json'):format(lib.getLocaleKey()), data, -1)
+  end)  
+end
 
 return lib.locale
