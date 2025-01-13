@@ -38,15 +38,8 @@ export function ContextItem(props: ContextItemProps) {
       return;
     }
 
-    if (props.onSelect || props.serverEvent || props.clientEvent || props.menu) {
-      fetchNui('contextClicked', props.id) 
-      return 
-    }
-
-    if (props.dialog) { 
-      fetchNui('openDialog', {
-        id: props.dialog,
-      })
+    if (props.onSelect || props.serverEvent || props.clientEvent || props.menu || props.dialog) {
+      fetchNui('CONTEXT_CLICKED', props.id) 
       return 
     }
   };

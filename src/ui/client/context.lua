@@ -1,172 +1,237 @@
 local settings = lib.settings
-local contextMenus   = {}
-local saved_functions = {}
-local currentContext = nil
+local ContextMenus   = {}
+local ContextMenu    = {}
+ContextMenu.__index  = ContextMenu
 
-local get_item_by_id = function(id)
-  if not currentContext then return end
-  local menu = contextMenus[currentContext]
-
-  for i, item in ipairs(contextMenus[currentContext].options) do
-    if item.id == id then
-      return item
+function ContextMenu:getNuiData()
+  -- Ensure no functions are passed to NUI
+  local data = {}
+  for k,v in pairs(self) do
+    if type(v) ~= 'function' then
+      data[k] = v
     end
   end
-  return false
+  return data
+end 
+
+function ContextMenu:close(fromMenu)
+  print('closing context menu', self.id)
+  self.isOpen = false
+  if self.onExit then self.onExit() end
+  SetNuiFocus(false, false)
+  SendNuiMessage(json.encode({
+    action = 'CLOSE_CONTEXT',
+  }))
 end
 
-
-RegisterNuiCallback('contextClicked', function(id,cb)
-  cb('ok')
-  if not currentContext then return end
-  local item = get_item_by_id(id)
-  
-  if item then
-    if item.willClose or item.willClose == nil and not item.menu then 
-      lib.closeContext()
-    end 
- 
-    if item.onSelect then 
-      local saved_function = saved_functions[item.id]
-      saved_function()
-    end 
-
-    if item.clientEvent then 
-      TriggerEvent(item.clientEvent, item.args)
-    end
-
-    if item.serverEvent then 
-      TriggerServerEvent(item.serverEvent, item.args)
-    end
-
-    if item.menu then 
-      lib.openContext(item.menu, true)
-    end
+function ContextMenu:open(fromMenu)
+  local currentContext = ContextMenu.getOpen()
+  if currentContext and not fromMenu then 
+    currentContext:close()
   end
 
-end)
+  Wait(0)
 
+  self.isOpen = true
+  self:sanitizeOptions()
+  
+  SetNuiFocus(true, true)
+  SendNuiMessage(json.encode({
+    action = 'OPEN_CONTEXT',
+    data   = self:getNuiData()
+  }, { sort_keys = true }))
+end
 
+function ContextMenu:sanitizeOptions()
+  local is_func = type(self.options) == 'function' or rawget(self.options, '__cfx_functionReference')
+  self.options = is_func and self.options() or self.options
+  for i, item in ipairs(self.options) do
+    item.id = string.format('%s_%s', self.id, i)
+    item.onSelect = item.onSelect and msgpack.unpack(msgpack.pack(item.onSelect)) or nil  
+  end
+  return true 
+end
 
-lib.registerContext = function(id, data)
-  -- OX COMPAT
+function ContextMenu:__init()
+  self.clickSounds = self.clickSounds or settings.contextClickSounds
+  self.hoverSounds = self.hoverSounds or settings.contextHoverSounds
+  self.canClose    = self.canClose ~= nil and self.canClose or true
+  if not self.id then return false, 'No id provided' end
+  if not self.title then return false, 'No title provided' end
+  if not self.options then return false, 'No options provided' end
+  self:sanitizeOptions()
+  return true
+end
+
+ContextMenu.getOpen = function()
+  for k,v in pairs(ContextMenus) do 
+    if v.isOpen then return v end
+  end
+  return false
+end 
+
+ContextMenu.closeAll = function()
+  print('closing all context menus')
+  for k,v in pairs(ContextMenus) do 
+    if v.isOpen then v:close() end
+  end
+end
+
+ContextMenu.register = function(id, data)
+  lib.print.info(('Registering context menu %s'):format(id))
   if type(id) == 'table' then 
     data = id
     data.id = data.id
     id = data.id
-  end 
-
-  
-  contextMenus[id] = {
-    title = data.title or 'My Context Menu',
-    icon = data.icon or 'cog',
-    canClose = data.canClose or true,
-    searchBar = data.searchBar or false,
-    dialog = data.dialog or false,
-    menu = data.menu or false,
-    description = data.description or false,
-    watermark = data.watermark or nil,
-    serverEvent = data.serverEvent or false,
-    clientEvent = data.clientEvent or false,
-    args = data.args or {},
-    onExit = data.onExit or false,
-    onBack = data.onBack or false,
-    clickSounds = data.clickSounds or settings.contextClickSounds,
-    hoverSounds = data.hoverSounds or settings.contextHoverSounds,
-    options = data.options or {},
-  }
-
-  local is_func = rawget(data.options, '__cfx_functionReference')
-  if not is_func then 
-    for i, item in ipairs(contextMenus[id].options) do
-      contextMenus[id].options[i].id = string.format('%s_%s', id, i)
-      local has_select = contextMenus[id].options[i].onSelect 
-      if has_select then 
-        saved_functions[contextMenus[id].options[i].id] = contextMenus[id].options[i].onSelect
-      end
-      
-  
-      contextMenus[id].options[i].onSelect = has_select and true or false
-    end
-  end 
-
-  return true 
-end
-
-lib.openContext = function(id, fromMenu)
-  if currentContext and not fromMenu then lib.closeContext(fromMenu) end
-  Wait(0)
-  if not contextMenus[id] then error('No such context menu found') end
-  local data = contextMenus[id]
-  -- Account for function type options 
-  local is_func = rawget(data.options, '__cfx_functionReference')
-  if is_func then 
-    local option_getter = data.options
-    -- data = lib.table.deepClone(data)
-    data.options = option_getter()
-    for i, item in ipairs(data.options) do
-      data.options[i].id = string.format('%s_%s', id, i)
-      local has_select = data.options[i].onSelect 
-      if has_select then 
-        saved_functions[data.options[i].id] = data.options[i].onSelect
-      end
-
-      data.options[i].onSelect = has_select and true or false
-    end
   end
 
-  currentContext = id
-  
+  local self = setmetatable(data, ContextMenu)
+  self.id = id
+  local init, reason = self:__init()
+  if not init then 
+    lib.print.info(('Failed to register context menu %s: %s'):format(id, reason)) 
+    return false, reason 
+  end 
 
-  SetNuiFocus(true, true)
-  SendNuiMessage(json.encode({
-    action = 'CONTEXT_MENU_STATE',
-    data   = {
-      action = 'OPEN',
-      menu = data
-    }
-  }, { sort_keys = true }))
+  ContextMenus[id] = self
+  return true
 end
 
-lib.getOpenContextMenu = function()
-  return currentContext
+function ContextMenu:getOptionById(id)
+  for k,v in pairs(self.options) do 
+    if v.id == id then return v end
+  end
+  return false
 end
 
+function ContextMenu:optionClicked(id)
+  lib.print.info(('Attempting to click option %s'):format(id))
+  if not self.isOpen then return end
+  local option = self:getOptionById(id)
+  print('option', option)
+  if not option then return end
+
+  if (option.willClose or option.willClose == nil and not option.menu) or option.dialog then 
+    self:close()
+  end
+
+  if option.onSelect then option.onSelect() end
+
+  if option.clientEvent then TriggerEvent(option.clientEvent, option.args) end
+
+  if option.serverEvent then TriggerServerEvent(option.serverEvent, option.args) end
+
+  if option.menu then 
+    local menu = ContextMenus[option.menu]
+    if menu then 
+      menu.isOpen = false
+      if self.onExit then self.onExit() end
+      menu:open(true)
+    end
+  end  
+
+  if option.dialog then 
+    self:close()
+    lib.openDialog(option.dialog)
+  end
+end 
+
+RegisterNuiCallback('CONTEXT_CLICKED', function(id,cb)
+  cb('ok')
+  print('CONTEXT_CLICKED', id)
+  local currentOpen = ContextMenu.getOpen()
+  print('currentOpen', currentOpen)
+  if currentOpen then 
+    currentOpen:optionClicked(id)
+  end
+end)
+
+
+
+lib.registerContext = ContextMenu.register
+
+lib.openContext = function(id, fromMenu)
+  local context = ContextMenus[id]
+  if not context then error('No such context menu found') end
+  return context:open(fromMenu)
+end 
+
+lib.getOpenContextMenu = ContextMenu.getOpen
 -- OX COMPATIBILITY
 lib.showContext = lib.openContext
 
-RegisterNuiCallback('openContext', function(data,cb)
-  if data.back and contextMenus[currentContext].onBack then contextMenus[currentContext].onBack(); end 
-  lib.openContext(data.id, true)
+RegisterNuiCallback('OPEN_CONTEXT', function(data,cb)
+  if data.back then 
+    local menu = ContextMenu.getOpen()
+    if menu then 
+      if menu.onBack then menu.onBack() end
+    end
+  end 
+
+  local menu = ContextMenus[data.id]
+  if not menu then return end
+  menu:open(true)
 end)
 
-
-lib.closeContext = function()
-  if not currentContext then return end
-
-
-  if contextMenus[currentContext].onExit then 
-    contextMenus[currentContext].onExit(); 
-  end
-
-  currentContext = nil
-  SetNuiFocus(false, false)
-  SendNuiMessage(json.encode({
-    action = 'CONTEXT_MENU_STATE',
-    data   = {
-      action = 'CLOSE',
-    }
-  }))
-end
-
+lib.closeContext = ContextMenu.closeAll
 lib.hideContext = lib.closeContext
 
-RegisterNuiCallback('closeContext', lib.closeContext)
+RegisterNuiCallback('CLOSE_CONTEXT', lib.closeContext)
 
-
-RegisterNuiCallback('openDialog', function(data,cb)
-  if data.back and contextMenus[currentContext].onBack then contextMenus[currentContext].onBack(); end 
-  lib.closeContext()
-  exports['clean_dialog']:openDialog(data.id)
+RegisterNuiCallback('CONTEXT_BACK', function(data,cb)
+  local menuOpen = ContextMenu.getOpen()
+  if menuOpen then 
+    print('menuOpen.menu', menuOpen.menu)
+    if menuOpen.menu then 
+      print('goign back to menu %s', menuOpen.menu)
+      menuOpen.isOpen = false
+      local menu = ContextMenus[menuOpen.menu]
+      if menu then 
+        menu:open(true)
+      end
+    end
+    
+    if menuOpen.dialog then 
+      menuOpen:close()
+      lib.openDialog(menuOpen.dialog)
+    end
+    
+    if menuOpen.onExit then menuOpen.onExit() end
+    if menuOpen.onBack then menuOpen.onBack() end
+  end
 end)
+
+
+-- Example Menu w/ Submenu
+lib.registerContext('example', {
+  onExit = function() print('Example Context Menu closed') end,
+  onBack  = function() print('Example Context Menu back') end,
+  title = 'Example Context Menu',
+  options = function()
+    return {
+      {title = 'Option 1', onSelect = function() print('Option 1 clicked') end},
+      {title = 'Option 2', onSelect = function() print('Option 2 clicked') end},
+      {title = 'Option 3', onSelect = function() print('Option 3 clicked') end},
+      {title = 'Submenu', menu = 'submenu'},
+    }
+  end
+})  
+
+lib.registerContext('submenu', {
+  title = 'Submenu',
+  menu  = 'example',
+  onExit = function() print('Submenu closed') end,
+  onBack  = function() print('Submenu back') end,
+  options = {
+    {label = 'Submenu Option 1', onSelect = function() print('Submenu Option 1 clicked') end},
+    {label = 'Submenu Option 2', onSelect = function() print('Submenu Option 2 clicked') end},
+    {label = 'Submenu Option 3', onSelect = function() print('Submenu Option 3 clicked') end},
+  }
+})
+
+RegisterCommand('test_context', function()
+  lib.openContext('example')
+end)
+
+-- Example Menu w/ Dialog
 

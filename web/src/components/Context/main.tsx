@@ -21,7 +21,7 @@ export type MenuProps = {
   canClose: boolean; 
   dialog?: string
   searchBar?: boolean
-  menu: string
+  menu?: string
   watermark?: string
   clickSounds: boolean
   hoverSounds: boolean
@@ -33,14 +33,17 @@ export default function Menu(){
     const [search, setSearch] = useState<string>('')
     const theme = useMantineTheme();
     
-    useNuiEvent('CONTEXT_MENU_STATE', function(data : MenuEventProps){
-      if (data.action == 'OPEN'){
-        setMenuOpen(data.menu)
-      } else if (data.action == 'CLOSE'){
-        setMenuOpen(false)
-      } else if (data.action == 'UPDATE'){
-        setMenuOpen(data.menu)
-      }
+    useNuiEvent('OPEN_CONTEXT', (data: MenuProps) => {
+      console.log('OPEN_CONTEXT', data)
+      setMenuOpen(data)
+    })
+
+    useNuiEvent('CLOSE_CONTEXT', () => {
+      setMenuOpen(false)
+    })
+
+    useNuiEvent('UPDATE_CONTEXT', (data: MenuProps) => {
+      setMenuOpen(data)
     })
 
     const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +60,7 @@ export default function Menu(){
     useEffect(() => {
       const handleKeyPress = (e: KeyboardEvent) => {
         if (e.key === 'Escape' && menuOpen && menuOpen.canClose) {
-          fetchNui('closeContext')
+          fetchNui('CLOSE_CONTEXT')
         }
       }
       window.addEventListener('keydown', handleKeyPress)
@@ -82,7 +85,7 @@ export default function Menu(){
           setMenuOpen={setMenuOpen}
           escapeClose={menuOpen ? menuOpen.canClose : false}
           onClose={() => {
-            fetchNui('closeContext')
+            fetchNui('CLOSE_CONTEXT')
           }}
           w='28vw' 
           h='100vh' 
@@ -107,25 +110,13 @@ export default function Menu(){
                 
                 backButton={menuOpen.menu ? true : false}
                 onBack={() => {
-                  if (menuOpen.menu) {
-                    fetchNui('openContext', {
-                      back:true, 
-                      id: menuOpen.menu
-                    })
-                  }
-              
-                  if (menuOpen.dialog) {
-                    fetchNui('openDialog', {
-                      id: menuOpen.dialog,
-                      back:true,
-                    })
-                  }
+                  fetchNui('CONTEXT_BACK')
                 }}
               
                 closeButton={menuOpen.canClose}
                 onClose={() => {
                   setMenuOpen(false)
-                  fetchNui('closeContext')
+                  fetchNui('CLOSE_CONTEXT')
                 }}
               />
             

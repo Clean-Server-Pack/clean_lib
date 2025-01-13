@@ -80,17 +80,7 @@ function dialog:open(another_menu, entity)
   if is_func then 
     self.responses = self.responses()
     for k,v in ipairs(self.responses) do 
-      local action_id = v.actionid or generate_action_id(self.responses)
-      table.insert(self.formatted_responses, {
-        label = v.label,
-        icon = v.icon,
-        description = v.description,
-        dontClose = v.dontClose,
-        disabled = v.disabled,
-        actionid = action_id,
-        dialog = v.dialog,
-      })
-      v.actionid = action_id
+      v.action      = msgpack.unpack(msgpack.pack(v.action))  
     end 
   end 
 
@@ -107,7 +97,7 @@ function dialog:open(another_menu, entity)
       metadata = self.metadata,
       clickSounds = self.clickSounds or settings.dialogClickSounds or false,
       hoverSounds = self.hoverSounds or settings.dialogHoverSounds or false,
-      responses = self.formatted_responses
+      responses = self.responses
     }
   }))
 end
