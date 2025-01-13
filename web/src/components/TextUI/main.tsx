@@ -69,7 +69,7 @@ export default function TextUI(){
           style={{
             ...styles,
             transform: getTranslate(options.position || 'bottom-center'),
-            borderRadius: theme.radius.sm,
+            borderRadius: theme.radius.xxs,
           }}
           p='xs'
           m='sm'

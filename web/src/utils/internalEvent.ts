@@ -13,18 +13,18 @@ export interface InternalEvent<T = unknown> {
  * @param timer - How long until it should trigger (ms)
  */
 export const internalEvent = <P>(events: InternalEvent<P>[], timer = 1000): void => {
-  if (import.meta.env.MODE === "development" && isEnvBrowser()) {
-    for (const event of events) {
-      setTimeout(() => {
-        window.dispatchEvent(
-          new MessageEvent("message", {
-            data: {
-              action: event.action,
-              data: event.data,
-            },
-          }),
-        );
-      }, timer);
-    }
+
+  for (const event of events) {
+    setTimeout(() => {
+      window.dispatchEvent(
+        new MessageEvent("message", {
+          data: {
+            action: event.action,
+            data: event.data,
+          },
+        }),
+      );
+    }, timer);
   }
+  
 };

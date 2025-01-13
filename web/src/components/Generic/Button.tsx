@@ -69,7 +69,7 @@ export default function Button(props: ButtonProps) {
 
       style={{
         aspectRatio: '1/1',
-        borderRadius: props.radius || theme.radius.xs,
+        borderRadius: props.radius || theme.radius.xxs,
         cursor: !props.disabled ? 'pointer' : 'not-allowed',
         padding: props.p || '0.5rem',
         outline: !props.disabled && hovered? `0.1rem solid ${colorWithAlpha(props.hoverColor || theme.colors[theme.primaryColor][9], 0.8)}`: "0.25rem solid transparent",

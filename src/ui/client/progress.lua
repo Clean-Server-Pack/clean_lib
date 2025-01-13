@@ -205,6 +205,7 @@ RegisterNUICallback('PROGRESS_COMPLETE', function(data, cb)
   cb(1)
   progress = nil
 end)
+
 RegisterCommand('cancel_lib_progress', function()
   if progress?.canCancel then 
     progress = false 
@@ -258,25 +259,4 @@ AddStateBagChangeHandler('lib:progressProps', nil, function(bagName, key, value,
       end
     end
   end
-end)
-
-RegisterCommand('test_prog', function()
-  if lib.progressBar({
-    duration = 2000,
-    label = 'Drinking water',
-    useWhileDead = false,
-    canCancel = true,
-    disable = {
-      car = true,
-    },
-    anim = {
-      dict = 'mp_player_intdrink',
-      clip = 'loop_bottle'
-    },
-    prop = {
-      model = `prop_ld_flow_bottle`,
-      pos = vec3(0.03, 0.03, 0.02),
-      rot = vec3(0.0, 0.0, -1.5)
-    },
-}) then print('Do stuff when complete') else print('Do stuff when cancelled') end
 end)

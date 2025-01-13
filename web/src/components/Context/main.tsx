@@ -9,11 +9,6 @@ import { Title } from "../Generic/Title";
 import { ContextItem, ContextItemProps } from "./ContextItem";
 import SearchableContent from "./Searchable";
 
-type MenuEventProps = {
-  action: string
-  menu: MenuProps
-}
-
 export type MenuProps = {
   title: string
   description?: string
@@ -88,15 +83,16 @@ export default function Menu(){
             fetchNui('CLOSE_CONTEXT')
           }}
           w='28vw' 
-          h='100vh' 
+          h='100vh'
+          pt='12vh' 
           style={{
             // backdropFilter: 'blur(2px)',
             display:'flex',
-            padding:'3rem',
+            padding:theme.spacing.lg,
             flexDirection:'column',
-            justifyContent:'center',
+            // justifyContent:'center',
             alignItems:'center',
-            gap:'1rem',
+            gap:theme.spacing.sm,
             userSelect:'none',
 
           }}   
@@ -123,10 +119,11 @@ export default function Menu(){
               {menuOpen.searchBar &&
                   <Input 
                     w='65%'
-                    size='md'
-                    radius={theme.radius.xs}
+                    size='sm'
+                    radius={theme.radius.xxs}
                     styles={{
                       input:{
+                        fontSize:theme.fontSizes.xs,
                         border:'1px solid var(--mantine-primary-color-9)',
                         background:'rgba(144, 144, 155, 0.5)',
                       }
@@ -174,57 +171,3 @@ style={{
   borderRadius:'var(--mantine-radius-sm)',
 }}
 /> */}
-
-const test_menu = {
-  title:'CALL OF HAGLER',
-  description:'This is a test menu',
-  icon:'gun',
-  canClose:true,
-  searchBar:true,
-  clickSounds:true, 
-  hoverSounds:true,
-  // menu:'main',
-
-  // watermark:'https://via.placeholder.com/150x150',
-
-  options:[
-    {
-      title:'Find Ranked',
-      icon:'search',
-    },
-    {
-      title:'Private Game',
-      icon:'https://callofdutymaps.com/wp-content/uploads/MW-m16a4.png',
-      description:"Allows you to define the rules of the game will not affect your rank",
-      image:  'https://callofdutymaps.com/wp-content/uploads/MW-m16a4.png',
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player',
-      disabled:true,
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      arrow:true,
-      description:'Allows you edit the classes for this player'
-    },
-    {
-      title:'Edit Classes',
-      icon:'edit',
-      description:'Allows you edit the classes for this player'
-    },
-
-  ]
-}
-
-// internalEvent([
-//   {
-//     action:'CONTEXT_MENU_STATE',
-//     data:{
-//       action:'OPEN',
-//       menu:test_menu
-//     }
-//   }
-// ])

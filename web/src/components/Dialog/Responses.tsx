@@ -39,7 +39,7 @@ function ResponsesContainer(props : ResponsesContainerProps) {
       mt='auto'
       mb='auto'
       // h='100%'
-      gap={'1vh'}
+      gap={'xs'}
     >
       <Button
         mt="auto"
@@ -60,8 +60,10 @@ function ResponsesContainer(props : ResponsesContainerProps) {
       <SimpleGrid
         cols={2}
         flex={1}
+        verticalSpacing={theme.spacing.xs}
+        spacing={theme.spacing.xs}
         h='100%'
-        p='1vh'
+        p='xs'
       >
         {currentResponses.map((response, index) => {
           return (

@@ -201,37 +201,3 @@ RegisterNuiCallback('CONTEXT_BACK', function(data,cb)
   end
 end)
 
-
--- Example Menu w/ Submenu
-lib.registerContext('example', {
-  onExit = function() print('Example Context Menu closed') end,
-  onBack  = function() print('Example Context Menu back') end,
-  title = 'Example Context Menu',
-  options = function()
-    return {
-      {title = 'Option 1', onSelect = function() print('Option 1 clicked') end},
-      {title = 'Option 2', onSelect = function() print('Option 2 clicked') end},
-      {title = 'Option 3', onSelect = function() print('Option 3 clicked') end},
-      {title = 'Submenu', menu = 'submenu'},
-    }
-  end
-})  
-
-lib.registerContext('submenu', {
-  title = 'Submenu',
-  menu  = 'example',
-  onExit = function() print('Submenu closed') end,
-  onBack  = function() print('Submenu back') end,
-  options = {
-    {label = 'Submenu Option 1', onSelect = function() print('Submenu Option 1 clicked') end},
-    {label = 'Submenu Option 2', onSelect = function() print('Submenu Option 2 clicked') end},
-    {label = 'Submenu Option 3', onSelect = function() print('Submenu Option 3 clicked') end},
-  }
-})
-
-RegisterCommand('test_context', function()
-  lib.openContext('example')
-end)
-
--- Example Menu w/ Dialog
-

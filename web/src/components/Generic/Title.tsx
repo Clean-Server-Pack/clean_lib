@@ -1,7 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMantineTheme, Flex, Text } from "@mantine/core";
+import { Flex, Text, useMantineTheme } from "@mantine/core";
 import colorWithAlpha from "../../utils/colorWithAlpha";
+import BorderedIcon from "./BorderedIcon";
 import Button from "./Button";
 
 
@@ -27,9 +27,9 @@ export function Title(props: TitleProps) {
       gap='xs'
       w='90%'
       
-      pb='sm'
+      pb='md'
       style={{
-        borderBottom: `1px solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5)}`,
+        borderBottom: `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5)}`,
       }}
     >
       <Flex
@@ -38,43 +38,48 @@ export function Title(props: TitleProps) {
         justify={'center'}
         w='90%'
       >
-        {props.backButton && (
-          <Button mr='xs' icon='fa-arrow-left' onClick={props.onBack} />
-        )}
 
         <Flex
           align='center'
           gap='xs'
         >
-          <FontAwesomeIcon
+          <BorderedIcon
             icon={props.icon as IconName}
-            style={{
-              boxShadow: 'inset 0 0 1.75vh 0.5vh rgba(0, 0, 0, 0.8)',
-              backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5),
-              padding: theme.spacing.xs,
-              borderRadius: theme.radius.xs,
-              border: `1px solid var(--mantine-primary-color-9)`,
-              fontSize: '2.5vh'
-            }} 
+            fontSize={theme.fontSizes.md}
           />
           <Flex
             direction='column'
             gap='0.25vh'
           >
-            <Text p='0' size='2.25vh' style={{
+            <Text p='0' size='md' style={{
+              lineHeight: theme.fontSizes.md,
               fontFamily: 'Akrobat Bold'
             }}>{props.title}</Text>
             <Text 
-              size='1.8vh'
+              size='xs'
               c='grey'
             >{props.description}</Text>
           </Flex>
 
 
         </Flex>
-        {props.closeButton && (
-          <Button ml='auto' icon='fa-times' onClick={props.onClose} />
+        
+        <Flex
+          ml='auto'
+          align='center'
+          gap='xs'
+        >
+        {props.backButton && (
+          <Button icon='fa-arrow-left' onClick={props.onBack}/> 
         )}
+
+        {props.closeButton && (
+          <Button icon='fa-times' onClick={props.onClose} 
+        hoverColor='red'
+          />
+        )}
+
+        </Flex>
       </Flex>
     </Flex>
   );

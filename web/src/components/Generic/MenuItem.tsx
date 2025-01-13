@@ -72,7 +72,7 @@ export function MenuItem(props: MenuItemProps) {
       ref={ref}
       bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(144, 144, 144, 0.5)'}
       w='100%'
-      p='lg'
+      p='sm'
       gap='xs'
       direction='column'
       style={{
@@ -80,10 +80,10 @@ export function MenuItem(props: MenuItemProps) {
         backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        borderRadius: theme.radius.xs,
+        borderRadius: theme.radius.xxs,
         boxShadow: hovered ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
         cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
-        outline:  (!props.readOnly && !props.disabled && hovered) ? `2px solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '2px solid rgba(0,0,0,0.2)',
+        outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
         justifyContent: 'center',
         transition: 'all ease-in-out 0.1s',
         // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
@@ -94,23 +94,23 @@ export function MenuItem(props: MenuItemProps) {
     >
       <Flex
         direction='row'
-        gap='sm'
+        gap='xs'
         align='center'
 
       >
         {iconType && iconType.type == 'icon' ? (
           <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
             color: 'white',
-            fontSize: '2vh',
+            fontSize: theme.fontSizes.sm,
           }}  />  
         ) : iconType && (
           <img src={iconType.path} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
         )}
 
 
-        <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
+        <Text fw='bold' size='sm' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
       </Flex>
-      {props.description && <Text size='1.5vh' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
+      {props.description && <Text size='xs' style={{ color: 'rgba(255,255,255,0.8)', whiteSpace: 'pre-line' }}>
         {props.description}
       </Text>}
 

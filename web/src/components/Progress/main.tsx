@@ -82,11 +82,12 @@ export default function Progress() {
         <Flex
           m='xs'
           p='xs'
+          pb='sm'
           pos='absolute'
           {...getPositionProps(options.position)}
           bg={`linear-gradient(0deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.302621947216386) 16%, rgba(0,0,0,0.3) 46%, rgba(0,0,0,0.6) 100%)`}
           style={{
-            borderRadius: theme.radius.sm,
+            borderRadius: theme.radius.xxs,
             transform: getTranslate(options.position),
             ...styles
           }}
@@ -104,12 +105,12 @@ export default function Progress() {
                   color='rgba(255,255,255,0.8)'
                   icon={options.icon as IconProp} 
                   style={{
-                    fontSize: '1.8vh', 
+                    fontSize: theme.fontSizes.sm, 
                   }}
                 />  
               )}
               <Text
-                size='1.8vh'
+                size='sm'
                 style={{
                   fontFamily: 'Akrobat Bold',
                   textShadow: `0 0 0.1vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.9)}`
@@ -118,7 +119,7 @@ export default function Progress() {
             </Flex>
             {options.description && (
               <Text
-                size='1.4vh'
+                size='xs'
                 c='rgba(255,255,255,0.8)'
               >
                 {options.description}
@@ -137,27 +138,6 @@ export default function Progress() {
   )
 }
 
-// internalEvent([
-//   {
-//     action : 'SHOW_PROGRESS',
-//     data : {
-//       position: 'top-center',
-//       icon: 'fa fa-bars',
-//       description: 'This is a progress bar',
-//       label: 'Progress',
-//       duration: 8000
-//     }
-//   }
-// ])
-
-// setTimeout(() => {
-//   internalEvent([
-//     {
-//       action : 'CANCEL_PROGRESS',
-//     }
-//   ])
-// }, 4000)
-
 type CustomProgressProps = {
   value: number // Progress value in percentage
 }
@@ -173,7 +153,7 @@ function CustomProgress({ value }: CustomProgressProps) {
   return (
     <Flex
       w='28vh'
-      gap='0.5vh'
+      gap='xxs'
 
       mt='xs'
       // bg='rgba(0, 0, 0, 0.4)'
@@ -204,8 +184,8 @@ function CustomProgress({ value }: CustomProgressProps) {
               backgroundColor: 'rgba(0, 0, 0, 0.2)', // Default empty box color
               
               transition: 'background-color 0.3s ease', // Smooth transition for filling
-              borderRadius: theme.radius.xs,
-              transform: 'skewX(-10deg)', // Skew the fill box to give a 3D effect
+              borderRadius: theme.radius.xxs,
+              transform: 'skewX(-5deg)', // Skew the fill box to give a 3D effect
             }}
           >
             {/* Inner fill box that represents the progress */}

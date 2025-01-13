@@ -1,12 +1,11 @@
+import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, Transition, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { internalEvent } from "../../utils/internalEvent";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
+import { useLocale } from "../../providers/locales/locales";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import { fetchNui } from "../../utils/fetchNui";
-import { useLocale } from "../../providers/locales/locales";
 
 type Status = {
   id: string; 
@@ -128,9 +127,10 @@ function Status(props: Status & { display: boolean }){
           bg='rgba(0, 0, 0, 0.5)'
           w='20vh'
           p='1vh'
+     
           direction={'column'}
           style={{
-            borderRadius: '0.5vh',
+            borderRadius: theme.radius.xxs,
             boxShadow: '0 0 1vh rgba(0,0,0,0.5)',
             ...transition,
           }}
@@ -207,7 +207,7 @@ function ProgressBar(props: ProgressBarProps){
     <Flex
       // ml='auto'
       p='0.4vh'
-      gap='0.5vh'
+      gap='xxs'
       align='center'
     >
       <FontAwesomeIcon 
@@ -228,7 +228,7 @@ function ProgressBar(props: ProgressBarProps){
       h='0.8vh'
       bg='rgba(255,255,255,0.2)'
       style={{
-        borderRadius: '0.4vh',
+        borderRadius: theme.radius.xxs,
         boxShadow: 'inset 0 0 0.5vh rgba(0,0,0,0.2)',
       }}
     >
@@ -236,7 +236,7 @@ function ProgressBar(props: ProgressBarProps){
         w={`${props.progress}%`} 
         bg={colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.8)}
         style={{
-          borderRadius: '0.4vh',
+          borderRadius: theme.radius.xxs,
           transition: 'all ease-in-out 0.5s',
         }}
       />
@@ -245,32 +245,3 @@ function ProgressBar(props: ProgressBarProps){
   )   
 }
 
-internalEvent([
-  {
-    action: 'ADD_STATUS',
-    data: {
-      id: '1',
-      title: 'Sanitation Job',
-      description: 'Please collect all the trash from the streets marked on your map before the time runs out.',     
-      icon: 'dumpster',
-      progress: 50,
-      time: 5,
-    }
-  }
-])
-
-setTimeout(() => {
-  internalEvent([
-    {
-      action: 'ADD_STATUS',
-      data: {
-        id: '2',
-        title: 'Sanitation Job',
-        description: 'Please collect all the trash from the streets marked on your map before the time runs out.',     
-        icon: 'dumpster',
-        progress: 50,
-        time: 5,
-      }
-    }
-  ])
-}, 5000)

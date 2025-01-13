@@ -1,14 +1,14 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, ColorInput, Flex, MultiSelect, NumberInput, Select, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
+import { Button, Checkbox, ColorInput, Flex, NumberInput, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
+import { fetchNui } from "../../utils/fetchNui";
+import { internalEvent } from "../../utils/internalEvent";
+import { isEnvBrowser } from "../../utils/misc";
 import SideBar from "../Generic/SideBar";
 import { Title } from "../Generic/Title";
-import { internalEvent } from "../../utils/internalEvent";
-import { fetchNui } from "../../utils/fetchNui";
-import { isEnvBrowser } from "../../utils/misc";
 
 
 
@@ -144,8 +144,8 @@ type InfoProps = {
   title: string;
   description?: string;
   icon: string;
-  fromDialog?: string;
-  fromContext?: string;
+  prevDialog?: string;
+  prevContext?: string;
   allowCancel?: boolean;
 }
 
@@ -155,8 +155,8 @@ export default function Input(){
     title: 'Input',
     description: 'Enter the description for this input?',
     icon: 'user',
-    fromDialog: 'dialog_to_return_to',
-    fromContext: 'menu_to_return_to',
+    prevDialog: 'dialog_to_return_to',
+    prevContext: 'menu_to_return_to',
     allowCancel: true,
   })
 
@@ -164,12 +164,13 @@ export default function Input(){
   
 
   useNuiEvent('OPEN_INPUT_DIALOG', (data: {info: InfoProps, inputs: InputProps[]}) => {
+
     setMainInfo(data.info)
     setInputs(data.inputs)
     setOpened(true)
   })
 
-  useNuiEvent('CLOSE_INPUT', () => {
+  useNuiEvent('CLOSE_INPUT_DIALOG', () => {
     setOpened(false)
   })
 
@@ -183,34 +184,35 @@ export default function Input(){
       setMenuOpen={() => {setOpened(!opened)}}
       escapeClose={mainInfo.allowCancel}
       onClose={() => {
-        fetchNui('INPUT_DIALOG_RESOLVE')
+        fetchNui('INPUT_DIALOG_SUBMIT')
       }}
-      w='28vw'
-      h='100vh'
+      w='28vw' 
+      h='100vh' 
+      pt='12vh'
       style={{
         // backdropFilter: 'blur(2px)',
         display:'flex',
+        padding:theme.spacing.lg,
         flexDirection:'column',
+        // justifyContent:'center',
         alignItems:'center',
-        gap:'1rem',
+        gap:theme.spacing.sm,
         userSelect:'none',
 
-      }} 
+      }}  
     >
       <Title
-        mt='14vh'
         title={mainInfo.title}
         description={mainInfo.description || ''}
         icon={mainInfo.icon}
         backButton={
-          mainInfo.fromDialog || mainInfo.fromContext ? true : false
+          mainInfo.prevContext || mainInfo.prevDialog ? true : false
         } 
 
         onBack={() => {
-          setOpened(false)
-          fetchNui('INPUT_DIALOG_RESOLVE', {
-            fromDialog: mainInfo.fromDialog,
-            fromContext: mainInfo.fromContext,
+          fetchNui('INPUT_GO_BACK',{
+            prevContext: mainInfo.prevContext,
+            prevDialog: mainInfo.prevDialog
           })
         }}
 
@@ -218,23 +220,25 @@ export default function Input(){
         closeButton={mainInfo.allowCancel}
         onClose={() => {
           setOpened(false)
-          fetchNui('INPUT_DIALOG_RESOLVE')
+          fetchNui('INPUT_DIALOG_SUBMIT')
         }}
       />
 
       <form
         style={{
-          width: '90%',
+          width: '100%',
           display: 'flex',
           flexDirection: 'column',
           gap: '1rem',          
           marginBottom: '2rem',
-          padding: theme.spacing.xs,
+          alignItems: 'center',
+
         }}
       >
         <Flex
           direction='column'
-          gap='1rem'
+          w='100%'
+          gap='xs'
           style={{
             scrollbarGutter: 'stable',
             overflowY: 'auto',
@@ -257,16 +261,21 @@ export default function Input(){
 
         <Flex
           gap='xs'
+          w='90%'
           justify='space-between'
         >
-          <Button 
+          <Button
+          radius={theme.radius.xxs} 
             flex={1}
+            fz='xs'
           >Cancel</Button>
           <Button
+            radius={theme.radius.xxs}
             variant='filled'
+            fz='xs'
             flex={1}
             onClick={() => {
-              console.log(form.values)
+
               // confirm all required fields are filled
               // send data to server
               inputs.forEach(input => {
@@ -275,6 +284,7 @@ export default function Input(){
                 }
               })  
               if (isEnvBrowser()) return 
+              setOpened(false)
               fetchNui('INPUT_DIALOG_SUBMIT', form.values)
             }}
           >Submit</Button>
@@ -298,7 +308,7 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
       p='xs'
       bg='rgba(77,77,77,0.5)'
       style={{
-        borderRadius: theme.radius.sm,
+        borderRadius: theme.radius.xxs,
         filter: 'drop-shadow(0px 0px 5px rgba(0,0,0,0.5))',
       }}
     >
@@ -307,8 +317,9 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
       >
         <Flex
           align='center'
+          gap='xs'
         >
-          {typeof props !== 'string' && props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{marginRight:'0.5rem'}} />}
+          {typeof props !== 'string' && props.icon && <FontAwesomeIcon icon={props.icon as IconProp} style={{fontSize:theme.fontSizes.xs}} />}
 
           <Text
           
@@ -321,6 +332,7 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         </Flex>
         {/* description if there is one */}
         {typeof props !== 'string' && props.description && <Text
+          size='xs'
           c='rgba(255,255,255,0.8)'
         >{props.description}</Text>}
       </Flex>
@@ -331,25 +343,27 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
 
       >
         {isSimple(props) ? 
-          <TextInput
+          <TextInput  
+            radius='xxs'
             onChange={(e) => {
               props.onChanged && props.onChanged(e.currentTarget.value)
             }}
           />
         : props.type === 'input' ?
-          <TextInput w='100%' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} type={props.password ? 'password' : 'text'} min={props.min} max={props.max} 
+          <TextInput    radius='xxs' w='100%' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} type={props.password ? 'password' : 'text'} min={props.min} max={props.max} 
             onChange={(e) => {
               props.onChanged && props.onChanged(e.currentTarget.value)
             }}
           />
         : props.type === 'number' ?
-          <NumberInput w='100%' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} min={props.min} max={props.max} step={props.step} 
+          <NumberInput w='100%'    radius='xxs' placeholder={props.placeholder} required={props.required} disabled={props.disabled} defaultValue={props.default} min={props.min} max={props.max} step={props.step} 
             onChange={(e) => {
               props.onChanged && props.onChanged(e)
             }}
           />
         : props.type === 'checkbox' ?
-          <Checkbox checked={props.checked} disabled={props.disabled} required={props.required} 
+          <Checkbox checked={props.checked} disabled={props.disabled} required={props.required}  radius='xxs'
+          size='md'
             onChange={(e) => {
               props.onChanged && props.onChanged(e.currentTarget.checked)
             }}
@@ -391,7 +405,12 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         //     max={props.max}
         //   />
         : props.type === 'slider' ?
-          <Slider w='100%' defaultValue={props.default} min={props.min} max={props.max} />
+          <Slider w='100%' defaultValue={props.default} min={props.min} max={props.max} 
+            radius='xxs'
+            onChange={(e) => {
+              props.onChanged && props.onChanged(e)
+            }}
+          />
         : null}
       </Flex>
 
@@ -399,33 +418,3 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
   )
 }
 
-internalEvent([
-  {
-    action: 'OPEN_INPUT_DIALOG',
-    data: {
-      inputs: [
-        'Username',
-        'Password',
-        {icon:'user', type: 'checkbox', label: 'Remember Me', description: 'Check this box to remember your login information', checked: true},
-        // {type: 'slider', label: 'Volume', description: 'Adjust the volume of the game', min: 0, max: 100, default: 50},
-        // {type: 'date', label: 'Date of Birth', description: 'Enter your date of birth', default: true, format: 'MM/DD/YYYY', returnString: true, clearable: true},
-        // {type: 'color', label: 'Primary Color', description: 'Select your primary color', default: '#7ac61f', format: 'hex'},
-        // {type: 'select', label: 'Language', description: 'Select your preferred language', options: [{value: 'en', label: 'English'}, {value: 'es', label: 'Spanish'}, {value: 'fr', label: 'French'}], placeholder: 'Select a language', required: true},
-        // {type: 'multi-select', label: 'Favourite Foods', description: 'Select your favourite foods', options: [{value: 'pizza', label: 'Pizza'}, {value: 'burger', label: 'Burger'}, {value: 'pasta', label: 'Pasta'}, {value: 'salad', label: 'Salad'}], placeholder: 'Select your favourite foods', required: true, clearable: true, maxSelectedValues: 2},
-        // {type: 'textarea', label: 'Bio', description: 'Enter a short bio about yourself', placeholder: 'Enter your bio here', required: true, autosize: false},
-        // {type: 'time', label: 'Time', description: 'Select the time', default: '12:00', format: '12', clearable: true},
-        // {type: 'date-range', label: 'Date Range', description: 'Select a date range', default: ['01/01/2022', '01/02/2022'], format: 'MM/DD/YYYY', returnString: true, clearable: true},
-        // {type: 'number', label: 'Age', description: 'Enter your age', placeholder: 'Enter your age', required: true, min: 18, max: 100, default: 18, precision: 0, step: 1},
-        // {type: 'input', label: 'Email', description: 'Enter your email address', placeholder: 'Enter your email address', required: true},
-      
-      ],
-      info: {
-        title: 'Login',
-        description: 'Enter your login information below',
-        icon: 'user',
-        backButton: 'menu_to_return_to',
-        allowCancel: true,
-      }
-    }
-  }
-])

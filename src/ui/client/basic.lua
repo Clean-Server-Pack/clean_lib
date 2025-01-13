@@ -26,3 +26,28 @@ lib.drawText3D = function(x,y,z,scale, scale_factor, text)
     DrawText(_x, _y)
   end
 end
+
+lib.testUIMode = function()
+  SetNuiFocus(true, true)
+  SendNuiMessage(json.encode({
+    action = 'OPEN_TEST_UI',
+    data   = {}
+  }, { sort_keys = true }))
+end
+
+RegisterNuiCallback('CLOSED_TEST_UI', function(data, cb)
+  SetNuiFocus(false, false)
+  cb({})
+end)
+
+
+DevTool.register('testUI', {
+  label = 'UI Test Bed',
+  command = true, 
+  description = 'Show a list of all the UI elements and allow you to test them',
+  icon = 'fas fa-tv',
+  action = function()
+    lib.testUIMode()
+  end
+})  
+

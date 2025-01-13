@@ -17,6 +17,7 @@ import Quiz from './Quiz/main';
 import TextUI from './TextUI/main';
 import { LocalesProvider } from '../providers/locales/locales';
 import StatusInfo from './StatusInfo/main';
+import TestBed from './TestBed/main';
 
 
 const App: React.FC = () => {
@@ -60,6 +61,7 @@ const App: React.FC = () => {
         <LocalesProvider>
           <Wrapper>
             {/* <Radial /> */}
+            <TestBed />
             <Progress />
             <TextUI />
             <Notifications />

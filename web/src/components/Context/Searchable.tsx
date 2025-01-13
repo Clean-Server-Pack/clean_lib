@@ -1,4 +1,4 @@
-import { Flex } from '@mantine/core';
+import { Flex, Text } from '@mantine/core';
 import React from 'react';
 
 export default function SearchableContent({ children, searchTerm }: { children: React.ReactNode, searchTerm: string }) {
@@ -19,7 +19,7 @@ export default function SearchableContent({ children, searchTerm }: { children: 
   return (
     <Flex
       w='100%'
-      p='1rem'
+      p='xs'
       flex={1}
       direction={'column'}
       align='center'
@@ -34,7 +34,10 @@ export default function SearchableContent({ children, searchTerm }: { children: 
         filtered.length > 0 ? (
           filtered
         ) : (
-          <p>No results found</p>
+          <Text
+            c='rgba(255,255,255,0.6)'
+            size='xs'
+          >No Results Found</Text>
         )
       ) : (
         children

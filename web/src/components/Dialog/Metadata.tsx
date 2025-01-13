@@ -22,7 +22,7 @@ function Metadata(props: MetadataProps) {
       w='fit-content'
       h='60%'
       style={{
-        borderRadius: theme.radius.xs,
+        borderRadius: theme.radius.xxs,
         overflow: 'hidden',
         border: `0.1vh solid rgba(77,77,77,0.3)`
       }}
@@ -38,7 +38,7 @@ function Metadata(props: MetadataProps) {
           p='0.5vh'
           bg='rgba(77,77,77,0.8)'
           direction='row'
-          gap='1vh'
+          gap='xs'
           justify='center'
           align='center'
 

@@ -5,3 +5,4 @@ lib.getTheme = function()
     logo           = settings.logo,
   }
 end
+

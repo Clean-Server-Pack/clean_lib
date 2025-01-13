@@ -122,28 +122,6 @@ AddStateBagChangeHandler('hiddenHud', ('player:%s'):format(cache.serverId), func
   StatusInfo.hideAllStatus(value)
 end)
 
-RegisterCommand('test_status', function()
-  StatusInfo.register('test', {
-    title       = 'Test Status',
-    description = 'This is a test status.',
-    time       = 10,
-    onTimeUp = function()
-      print('Time is up!')
-    end, 
-
-    progress   = 50, 
-    progText   = 'Boxes Left' 
-  })
-
-  Wait(7000)
-
-  StatusInfo.get('test'):update({
-    title       = 'Test Status',
-    progress    = 65,
-    description = 'This is a test status. Updated.'
-  })
-end)
-
 
 lib.registerStatusInfo = StatusInfo.register
 lib.getStatusInfo      = StatusInfo.get
