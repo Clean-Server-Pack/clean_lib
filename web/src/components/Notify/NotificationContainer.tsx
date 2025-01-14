@@ -19,7 +19,7 @@ function NotificationContainer(props: NotificationContainerProps) {
       setNotifications([...notifications]);
       return;
     }
-
+    console.log('Adding notification', data);
     setNotifications([...notifications, data]);
   });
 
@@ -59,10 +59,10 @@ function NotificationContainer(props: NotificationContainerProps) {
       h="fit-content"
       pos="absolute"
       style={{
-        top: props.position?.includes('top') ? '1rem' : 'unset',
-        bottom: props.position?.includes('bottom') ? '1rem' : 'unset',
-        left: props.position?.includes('left') ? '1rem' : 'unset',
-        right: props.position?.includes('right') ? '1rem' : 'unset',
+        top: props.position?.includes('top') ? '1vh' : 'unset',
+        bottom: props.position?.includes('bottom') ? '1vh' : 'unset',
+        left: props.position?.includes('left') ? '1vh' : 'unset',
+        right: props.position?.includes('right') ? '1vh' : 'unset',
       }}
     >
       {notifications.map((notification, index) => (

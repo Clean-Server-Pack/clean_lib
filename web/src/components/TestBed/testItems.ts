@@ -111,6 +111,30 @@ export const defaultTestItems = [
     }
   },
   {
+    index: 'notification',
+    active: false,
+    label: 'Test Notification',
+    description: 'Used for showing a notification',
+    icon: 'fa fa-bell',
+    onEnable: {
+      action: 'ADD_NOTIFICATION',
+      data: {
+        id: '1',
+        duration: 600000,
+        iconColor: 'rgba(255, 0, 0, 0.5)',
+        iconBg: 'rgba(255, 0, 0, 0.1)',
+        title: 'Test Notification',
+        description: 'Get yourself over to the Los Santos Customs and get your car fixed up. You can find it on the map. It is marked with a spray can icon. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed non risus. Suspendisse lectus tortor, dignissim sit amet, adipiscing nec, ultricies sed, dolor.',      
+        position: 'top-right',
+        icon: 'bell',
+      },
+    },
+    onDisable: {
+      
+      action: 'HIDE_TEXT_UI',
+    }
+  },
+  {
     index: 'progressBar',
     active: false,
     label: 'Progress Bar',

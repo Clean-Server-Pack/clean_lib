@@ -7,13 +7,14 @@ import getImageType from "../../utils/getImagePath"
 
 export type NotificationProps = {
   title?: string
+  titleColor?: string
   description?: string
   duration?: number
   showDuration?: boolean
   position: 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right'
-  type?: 'info' | 'success' | 'warning' | 'error'
   icon?: string
   iconColor?: string
+  iconBg?: string
   iconAnimation?: string
   
   
@@ -31,10 +32,6 @@ export default function Notification(props: NotificationProps){
   const imageType = useMemo(() => {
     return getImageType(props.icon);
   } , [props.icon]);
-
-
-
-
 
   useEffect(() => {
     if (props.count && !amountEffect) {
@@ -55,108 +52,126 @@ export default function Notification(props: NotificationProps){
     }
   }, [props.hide])
   return (
-    <Box 
-      style={{ 
-        position: 'relative',
+    <Flex
+      pos='relative' 
+      right = {props.position.includes('right') ? !display ? '-150%' : '0': 'auto'}
+      left = {props.position.includes('left') ? !display ? '-150%' : '0': 'auto'}
+      top = {props.position.includes('top') ? !display ? '-150%' : '0': 'auto'}
+      bottom = {props.position.includes('bottom') ? !display ? '-150%' : '0': 'auto'}
+      bg='rgba(0,0,0,0.6)'
+      // mah='12vh'
+ 
+      style={{
+        // overflow: 'hidden',
+        borderRadius: theme.radius.xxs,
+        
         transition: 'all 0.2s ease-in-out',
-        borderRadius: theme.radius.sm,
-      }} 
-      w="100%"
-      right={props.position.includes('right') ? !display ? '-150%' : '0': 'auto'}
-      left={props.position.includes('left') ? !display  ? '-150%' : '0': 'auto'}
-      top={props.position.includes('top') ? !display  ? '-150%' : '0': 'auto'}
-      bottom={props.position.includes('bottom') ? !display  ? '-150%' : '0': 'auto'}
-    
+      }}
     >
       {/* Box for the number */}
       {props.count && (
         <Box
           style={{
             position: 'absolute',
-            top: '-8%',
-            right: '-5px',
-            backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][9], 0.7),
-            color: 'white',
-            borderRadius: theme.radius.xs,
-            padding: '0rem 0.4rem',  
-            fontSize: '0.9rem',
+            top: '0.7vh',
+            right: '0.7vh',
+            backgroundColor: colorWithAlpha(theme.colors[theme.primaryColor][9], 0.2),
+            outline: `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.6)}`,
+            color: 'rgba(255,255,255,0.8)',
+            borderRadius: theme.radius.xxs,
+            padding: '0 0.6vh',  
             fontWeight: 700,
+            aspectRatio: '1/1',
             textAlign: 'center',
             transform: amountEffect ? 'scale(1.2)' : 'scale(1)',
             transition: 'all 0.2s ease-in-out',
             zIndex: 1000, // Ensure it is above other content
           }}
         >
-          <Text size='xs'>{props.count}</Text>
+          <Text size='xxs'>{props.count}</Text>
         </Box> 
       )}
-
       <Flex
-        
-        bg='rgba(0,0,0,0.6)'
-        p='xs'
+        flex={1}
+        h='100%'
+        w='100%'
+        gap='sm'
+        p='1vh'
         style={{
-          borderRadius: theme.radius.sm,
+          overflow: 'hidden',
         }}
-        align='center'
-        gap='xs'
       >
-
-      <Flex
-        direction={'column'}
-        h= '3.75em'
-        justify={'center'}
-        align='center'
-        style={{
-          backgroundColor: 'rgba(255,255,255,0.1)',
-          padding: theme.spacing.xs,
-          borderRadius: theme.radius.xs,
-          outline: `2px solid ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)}`,
-          // boxShadow: `0 0 5px ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)}`,
-          // filter: `drop-shadow(0 0 5px ${colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.6)})`,
-          aspectRatio: '1/1',
-          
-        }} 
-      >
-        {imageType && imageType.type == 'icon' && (
-          <FontAwesomeIcon 
-            icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp} 
-            color={colorWithAlpha(props.iconColor || theme.colors[theme.primaryColor][9], 0.8)}
-            size='2x'
-          />
-        )}
-
-        {imageType && imageType.type == 'image' && (
-          <Image 
-            src={imageType.path}
-            alt='icon'
-            h='2.7em'
-          />
-        )}
-
-      </Flex>
-
+        <NotificationImage 
+          imageType={imageType}
+          {...props}
+        />
 
         <Flex
           direction='column'
+          // bg='red'
+          flex={1}
         >
           <Text
-            size="lg"
-            c={theme.colors[theme.primaryColor][9]}
+            fz='sm'
+            c={props.titleColor || theme.colors[theme.primaryColor][9]}
             style={{
               fontFamily: 'Akrobat Bold',
-              lineHeight: '1.2rem',
-              textShadow: `0 0 8px ${colorWithAlpha(theme.colors[theme.primaryColor][9], 1)}`
+              textShadow: `0 0 0.2vh ${props.titleColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 1)}`
             }}
-          >{props.title}</Text>
+          >
+            {props.title?.toUpperCase()}
+          </Text>
+
           <Text
             c='rgba(255,255,255,0.6)'
-            style={{
-              lineHeight: '1rem',
-            }}
-          >{props.description}</Text>
+            fz='xs'
+          >
+            {props.description}
+          </Text>
         </Flex>
       </Flex>
-    </Box>
+    </Flex>
+  )
+}
+
+function NotificationImage (props: NotificationProps & {imageType: false | {type: string, path: string}}) {
+  const theme = useMantineTheme();
+  return (
+    <Flex
+      direction={'column'}
+      justify={'center'}
+      // mt='auto'
+      // mb='auto'
+      align='center'
+      h='6vh'
+      mah='6vh'
+      bg={props.iconBg || props.iconColor && 'rgba(44,44,44,0.3)' || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.2)}
+      style={{
+        borderRadius: '0.05vh',
+        aspectRatio: '1/1',
+        outline: `0.2vh solid ${props.iconColor  || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.6)}`,
+      }}
+    >
+      {props.imageType && props.imageType.type == 'icon' && (
+        <FontAwesomeIcon  
+          icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp}
+          color={props.iconColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}
+          style={{
+            fontSize: '3.5vh',
+          }}
+        /> 
+      )}
+
+      {props.imageType && props.imageType.type == 'image' && (
+        <Image 
+          src={props.imageType.path}
+          alt='icon'
+          h='3.5vh'
+          style={{
+            aspectRatio: '1/1',
+          }}
+        />
+      )}
+    </Flex>
   )
 }
