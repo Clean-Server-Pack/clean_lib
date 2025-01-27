@@ -140,8 +140,8 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
     <Flex
       direction={'column'}
       justify={'center'}
-      // mt='auto'
-      // mb='auto'
+      mt='auto'
+      mb='auto'
       align='center'
       h='6vh'
       mah='6vh'

@@ -26,6 +26,7 @@ files {
   'src/modelNames.lua',
   'src/settings.lua',
   'src/ox_compat.lua',
+  'src/paymentMethods.lua',
 
   --\\ NUI WHEN ADDED \\--
   'web/build/index.html',
@@ -38,7 +39,7 @@ shared_script 'src/init.lua'
 
 shared_scripts {
   'src/**/shared.lua',
-  
+  -- 'src/**/shared/*.lua'
 }
 
 client_scripts {

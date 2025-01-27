@@ -4,7 +4,7 @@ type InfoBoxProps = {
   leftSide: string;
   rightSide: string;
 };
-export function InfoBox(props: InfoBoxProps) {
+export default function InfoBox(props: InfoBoxProps) {
   const theme = useMantineTheme();
 
 
@@ -13,7 +13,7 @@ export function InfoBox(props: InfoBoxProps) {
       w='fit-content'
       h='60%'
       style={{
-        borderRadius: theme.radius.xs,
+        borderRadius: theme.radius.xxs,
         overflow: 'hidden',
         border: `1px solid rgba(77,77,77,0.6)`
       }}

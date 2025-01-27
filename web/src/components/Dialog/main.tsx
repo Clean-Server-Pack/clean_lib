@@ -17,6 +17,7 @@ export type IDialogProps = {
   id: string,
   title: string,
   icon: IconProp,
+
   audioFile?: string,
   prevDialog?: string,
   metadata?: MetadataProps[],
@@ -45,7 +46,7 @@ export default function Dialog(){
     const handleKeyDown = (event: KeyboardEvent) => {
       if (event.key === "Escape" && openMenu && !data.cantClose) {
         setOpenMenu(false);
-        fetchNui("DIALOG_SELECTED", {actionid: "close"})
+        fetchNui("DIALOG_SELECTED", {index: "close"})
       }
     };
     window.addEventListener("keydown", handleKeyDown);
@@ -66,7 +67,7 @@ export default function Dialog(){
    if (responses.length % 4 !== 0) {
       const emptyResponses = 4 - (responses.length % 4);
       for (let i = 0; i < emptyResponses; i++) {
-        responses.push({ label: " ", actionid: "empty" });
+        responses.push({ label: " ", empty: true, index: -1, hoverSounds: false, clickSounds: false });
       }
     }
 

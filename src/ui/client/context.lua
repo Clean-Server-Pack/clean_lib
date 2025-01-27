@@ -15,7 +15,6 @@ function ContextMenu:getNuiData()
 end 
 
 function ContextMenu:close(fromMenu)
-  print('closing context menu', self.id)
   self.isOpen = false
   if self.onExit then self.onExit() end
   SetNuiFocus(false, false)
@@ -71,7 +70,6 @@ ContextMenu.getOpen = function()
 end 
 
 ContextMenu.closeAll = function()
-  print('closing all context menus')
   for k,v in pairs(ContextMenus) do 
     if v.isOpen then v:close() end
   end
@@ -108,7 +106,6 @@ function ContextMenu:optionClicked(id)
   lib.print.info(('Attempting to click option %s'):format(id))
   if not self.isOpen then return end
   local option = self:getOptionById(id)
-  print('option', option)
   if not option then return end
 
   if (option.willClose or option.willClose == nil and not option.menu) or option.dialog then 
@@ -138,9 +135,7 @@ end
 
 RegisterNuiCallback('CONTEXT_CLICKED', function(id,cb)
   cb('ok')
-  print('CONTEXT_CLICKED', id)
   local currentOpen = ContextMenu.getOpen()
-  print('currentOpen', currentOpen)
   if currentOpen then 
     currentOpen:optionClicked(id)
   end
@@ -181,9 +176,7 @@ RegisterNuiCallback('CLOSE_CONTEXT', lib.closeContext)
 RegisterNuiCallback('CONTEXT_BACK', function(data,cb)
   local menuOpen = ContextMenu.getOpen()
   if menuOpen then 
-    print('menuOpen.menu', menuOpen.menu)
     if menuOpen.menu then 
-      print('goign back to menu %s', menuOpen.menu)
       menuOpen.isOpen = false
       local menu = ContextMenus[menuOpen.menu]
       if menu then 

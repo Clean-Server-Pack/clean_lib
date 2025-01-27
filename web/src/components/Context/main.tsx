@@ -3,7 +3,6 @@ import { Image, Input, useMantineTheme } from "@mantine/core";
 import { useEffect, useMemo, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
-import { internalEvent } from "../../utils/internalEvent";
 import SideBar from "../Generic/SideBar";
 import { Title } from "../Generic/Title";
 import { ContextItem, ContextItemProps } from "./ContextItem";
@@ -104,7 +103,7 @@ export default function Menu(){
                 description={menuOpen.description || ''} 
                 icon={menuOpen.icon as IconName} 
                 
-                backButton={menuOpen.menu ? true : false}
+                backButton={menuOpen.menu || menuOpen.dialog ? true : false}
                 onBack={() => {
                   fetchNui('CONTEXT_BACK')
                 }}

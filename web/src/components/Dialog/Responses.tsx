@@ -11,8 +11,9 @@ export type ResponseProps = {
   icon?: IconProp,
   description?: string,
   disabled?: boolean,
+  empty?: boolean;
   dontClose?: boolean,
-  actionid?: string,
+  index: number,
   hoverSounds?: boolean,
   clickSounds?: boolean,
 }
@@ -67,7 +68,9 @@ function ResponsesContainer(props : ResponsesContainerProps) {
       >
         {currentResponses.map((response, index) => {
           return (
-            <Response key={index} {...response} hoverSounds={props.hoverSounds} clickSounds={props.clickSounds} />
+            <Response key={index} {...response} hoverSounds={props.hoverSounds} clickSounds={props.clickSounds} 
+              index={index + 1}
+            />
           )
         })}
       </SimpleGrid>

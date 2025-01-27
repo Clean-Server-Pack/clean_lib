@@ -3,9 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, Transition, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { useLocale } from "../../providers/locales/locales";
+
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import { fetchNui } from "../../utils/fetchNui";
+import { locale } from "../../stores/locales";
 
 type Status = {
   id: string; 
@@ -80,7 +81,6 @@ export default function StatusInfo(){
 
 function Status(props: Status & { display: boolean }){
   const theme = useMantineTheme();
-  const locale = useLocale();
   const [timeLeft, setTimeLeft] = useState(props.time || 0);
   const [timeString, setTimeString] = useState(props.time ? `${props.time > 60 ? `${Math.floor(props.time / 60)}m` : ''} ${props.time % 60}s`: '');
 
@@ -109,7 +109,7 @@ function Status(props: Status & { display: boolean }){
     }, 1000);
 
     return () => clearInterval(interval); // Cleanup on unmount
-  }, [props.time, props.id, locale]);
+  }, [props.time, props.id]);
 
   return (
     <Transition

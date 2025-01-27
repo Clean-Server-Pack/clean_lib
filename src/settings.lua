@@ -1,5 +1,7 @@
 return {
+
   debug           = GetConvar('clean_lib:debug', 'true') == 'true',
+  currency        = GetConvar('clean_lib:currency', '$'),
   language        = GetConvar('clean_lib:language', 'en'),
   server_name     = GetConvar('clean_lib:server_name', 'CleanRP'),
   framework       = GetConvar('clean_lib:framework', 'qbx_core'),

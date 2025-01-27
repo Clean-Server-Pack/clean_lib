@@ -4,9 +4,9 @@ import { Flex, Progress, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { useEffect, useMemo } from "react";
 
-import { useAudioPlayer } from "../../providers/audio/audio";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import getImageType from "../../utils/getImagePath";
+import { useAudio } from "../../stores/audio/store";
 
 
 
@@ -35,13 +35,13 @@ export type MenuItemProps = {
 export function MenuItem(props: MenuItemProps) {
   const { hovered, ref } = useHover();
   const theme = useMantineTheme();
-  const audio = useAudioPlayer();
+  const play = useAudio((state) => state.play);
 
   const handleClick = () => {
     if (props.disabled || props.readOnly) {
       return;
     }
-    if (props.clickSounds) audio.play('click');
+    if (props.clickSounds) play('click');
     if (props.onClick) {
       props.onClick();
     }
@@ -52,7 +52,7 @@ export function MenuItem(props: MenuItemProps) {
       return;
     }
     if (hovered) {
-      audio.play('hover');
+      play('hover');
     }
   }, [hovered, props.disabled, props.readOnly, props.hoverSounds]);
 
@@ -70,22 +70,30 @@ export function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(144, 144, 144, 0.5)'}
+      // bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(144, 144, 144, 0.5)'}
       w='100%'
       p='sm'
       gap='xs'
       direction='column'
       style={{
+
+        transition: 'all ease-in-out 0.2s',
+        boxShadow: hovered ? `inset 0 0 8vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.8)}` : 'inset 0 0 0.2vh rgba(0,0,0,0.6)', 
+        outline: hovered ?  `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2rem solid transparent',
+        backgroundColor: hovered ? 'rgba(77,77,77,0.6)' : 'rgba(77,77,77,0.5)',
+        
         visibility: props.hide ? 'hidden' : 'visible',
+
+        
         backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: theme.radius.xxs,
-        boxShadow: hovered ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
+        // boxShadow: hovered ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
         cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
-        outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
+        // outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
         justifyContent: 'center',
-        transition: 'all ease-in-out 0.1s',
+        // transition: 'all ease-in-out 0.1s',
         // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
       }}
 

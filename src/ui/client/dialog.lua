@@ -99,7 +99,7 @@ function dialog:open(another_menu, entity)
       hoverSounds = self.hoverSounds or settings.dialogHoverSounds or false,
       responses = self.responses
     }
-  }))
+  }, {sort_keys = true}))
 end
 
 function dialog:close(keep_cam)
@@ -119,31 +119,15 @@ function dialog:close(keep_cam)
 end
 
 
-function dialog:get_response_by_actionid(actionid)
-  for k,v in ipairs(self.responses) do 
-    if v.actionid == actionid then
-      return v
-    end
-  end
-  return nil
-end
-
-function dialog:trigger_action(actionid)
-  if actionid == 'close' then
- 
+function dialog:trigger_action(_index)
+  if _index == 'close' then
     self:close()
     return
   end
 
-  local response = self:get_response_by_actionid(actionid)
-  if response then
-    print('theresa response')
-    print('dont close', response.dontClose)
-    print('dialog', response.dialog)
-    print('prevDialog', self.prevDialog)
-    
+  local response = self.responses[_index]
+  if response then  
     if not response.dontClose and not response.dialog and not self.prevDialog then
-      print('closing')
       self:close()
     end
 
@@ -179,9 +163,9 @@ RegisterNUICallback('DIALOG_SELECTED', function(data, cb)
     return
   end
   local id = current_dialog.id
-  local actionid = data.actionid
+  local index = data.index
   if dialogs[id] then
-    dialogs[id]:trigger_action(actionid)
+    dialogs[id]:trigger_action(index)
   end
 end)  
 
@@ -223,4 +207,28 @@ lib.closeDialog    = function(id, keep_cam)
     end
   end
 end
+
+-- RegisterCommand('test_dialog', function()
+--   lib.registerDialog('test_dialog', {
+--     title = 'Test Dialog',
+--     dialog = 'This is a test dialog',
+--     responses = {
+--       {
+--         label = 'Close',
+ 
+--         action = function()
+--           print('Closed')
+--         end
+--       },
+--       {
+--         label = 'Open Another',
+--         action = function()
+--           print('Opened another')
+--         end
+--       }
+--     }
+--   })
+--   Wait(1)
+--   lib.openDialog(cache.ped, 'test_dialog')
+-- end)
 

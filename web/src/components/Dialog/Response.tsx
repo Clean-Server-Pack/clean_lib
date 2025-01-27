@@ -7,7 +7,8 @@ import { Flex, Progress, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
 import { useEffect, useMemo } from "react";
 
-import { useAudioPlayer } from "../../providers/audio/audio";
+
+import { useAudio } from "../../stores/audio/store";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import getImageType from "../../utils/getImagePath";
 
@@ -25,6 +26,7 @@ export type MenuItemProps = {
   description?: string;
   readOnly?: boolean;
   onClick?: () => void; 
+  empty?: boolean;
   icon?: IconName | string;
   iconColor?: string;
   iconAnimation?: string;
@@ -39,26 +41,26 @@ export type MenuItemProps = {
 function MenuItem(props: MenuItemProps) {
   const { hovered, ref } = useHover();
   const theme = useMantineTheme();
-  const audio = useAudioPlayer();
+  const play = useAudio((state) => state.play);
 
   const handleClick = () => {
     if (props.disabled || props.readOnly) {
       return;
     }
-    if (props.clickSounds) audio.play('click');
+    if (props.clickSounds) play('click');
     if (props.onClick) {
       props.onClick();
     }
   };
 
   useEffect(() => {
-    if (props.disabled || props.readOnly || !props.hoverSounds) {
+    if (props.disabled || props.readOnly || !props.hoverSounds || props.empty) {
       return;
     }
     if (hovered) {
-      audio.play('hover');
+      play('hover');
     }
-  }, [hovered, props.disabled, props.readOnly, props.hoverSounds]);
+  }, [hovered, props.disabled, props.readOnly, props.hoverSounds, props.empty]);
 
 
   const iconType = useMemo(() => {
@@ -67,7 +69,7 @@ function MenuItem(props: MenuItemProps) {
 
   const imageType = useMemo(() => {
     return getImageType(props.image);
-  } , [props.icon]);
+  } , [props.image]);
 
 
 
@@ -145,11 +147,11 @@ function MenuItem(props: MenuItemProps) {
 
 
 export function Response(props: ResponseProps) {
-  const is_empty = props.actionid == 'empty';
+
 
   const handleClick = () => {
-    if (is_empty) return;
-    fetchNui("DIALOG_SELECTED", { actionid: props.actionid });
+    if (props.empty) return;
+    fetchNui("DIALOG_SELECTED", { index: props.index });
   }
 
   return (
@@ -157,10 +159,11 @@ export function Response(props: ResponseProps) {
       clickSounds={props.clickSounds}
       hoverSounds={props.hoverSounds}
       title={props.label}
-      disabled={is_empty}
+      disabled={props.empty}
       onClick={handleClick}
+      empty={props.empty}
       description={props.description}
-      hide={is_empty}
+      hide={props.empty}
       icon={props.icon as string || 'question'}
     />
   );

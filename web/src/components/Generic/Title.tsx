@@ -13,6 +13,7 @@ type TitleProps = {
   onBack?: () => void;
   mt?: string;
   closeButton?: boolean;
+  removeBorder?: boolean;
   onClose?: () => void;
 };
 
@@ -27,9 +28,9 @@ export function Title(props: TitleProps) {
       gap='xs'
       w='90%'
       
-      pb='md'
+      pb={!props.removeBorder ? 'md': '0'}
       style={{
-        borderBottom: `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5)}`,
+        borderBottom: !props.removeBorder ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.5)}`: 'none',
       }}
     >
       <Flex

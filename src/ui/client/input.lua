@@ -1,5 +1,4 @@
 lib.inputDialog = function(title, inputs, options)
-  print('input dialog')
   if input then return print('fdorceclose already open') end
   input = promise.new()
   options = options or {}

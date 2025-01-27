@@ -3,12 +3,12 @@ import { createTheme } from "@mantine/core";
 const theme = createTheme({
   primaryColor: "clean",
   primaryShade: 7,
-  defaultRadius: "sm",
+  defaultRadius: "xxs",
   fontFamily: "Akrobat Regular, sans-serif",
-
+  
   radius:{
-    xxs: '0.25vh',
-    xs: '0.5vh',
+    xxs: '0.2vh',
+    xs: '0.4vh',
     sm: '0.75vh',
     md: '1vh',
     lg: '1.5vh',

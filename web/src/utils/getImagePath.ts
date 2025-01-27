@@ -1,4 +1,5 @@
-import { getSettings } from "../providers/settings/settings_manager";
+import { useSettings } from "../stores/settings";
+
 
 function checkImageExists(url: string) {
   try {
@@ -13,7 +14,7 @@ function checkImageExists(url: string) {
 
 export default function getImageType(image: string | undefined) {
   if (!image) return false;
-  const current_settings = getSettings();
+  const itemImgPath = useSettings.getState().itemImgPath;
   const is_link = image && typeof image === 'string' && (image.startsWith('https') || image.startsWith('nui://'));
   const is_inv_image = image && typeof image === 'string' && !image.startsWith('https') && !image.startsWith('nui://') && !image.includes('.');
   const is_icon = image && typeof image === 'string' && !image.startsWith('https') && !image.includes('.');
@@ -36,7 +37,7 @@ export default function getImageType(image: string | undefined) {
     console.log(`[getImageType] Checking for image: ${image}`);
     const extensions = ['.png', '.webp', '.jpg']; // Add more as needed
     for (const ext of extensions) {
-      const fullPath = `${current_settings.itemImgPath}${image}${ext}`;
+      const fullPath = `${itemImgPath}${image}${ext}`;
       console.log('Path is ', fullPath);
       const exists = checkImageExists(fullPath);
       if (exists) {

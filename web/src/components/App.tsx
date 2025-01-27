@@ -2,7 +2,7 @@ import { BackgroundImage, MantineProvider } from '@mantine/core';
 import '@mantine/dates/styles.css';
 import React, { useEffect, useState } from "react";
 import { useNuiEvent } from '../hooks/useNuiEvent';
-import { useSettings } from '../providers/settings/settings';
+
 import theme from '../theme';
 import { isEnvBrowser } from '../utils/misc';
 
@@ -14,15 +14,22 @@ import KeyInputs from './KeyInputs/main';
 import Notifications from './Notify/main';
 import Progress from './Progress/main';
 import Quiz from './Quiz/main';
-import TextUI from './TextUI/main';
-import { LocalesProvider } from '../providers/locales/locales';
 import StatusInfo from './StatusInfo/main';
+import StoreUI from './Stores/main';
 import TestBed from './TestBed/main';
+import TextUI from './TextUI/main';
+import { useSettings } from '../stores/settings';
+import { localeStore } from '../stores/locales';
 
 
 const App: React.FC = () => {
   const [curTheme, setCurTheme] = useState(theme);
-  const settings = useSettings();
+  const primaryColor = useSettings((data) => data.primaryColor);
+  const primaryShade = useSettings((data) => data.primaryShade);
+  const customTheme = useSettings((data) => data.customTheme);
+  const fetchSettings = useSettings((state) => state.fetchSettings);
+  const fetchLocales  = localeStore((state) => state.fetchLocales);
+  
   // Ensure the theme is updated when the settings change
 
   useEffect(() => {
@@ -30,20 +37,24 @@ const App: React.FC = () => {
       ...theme, // Start with the existing theme object
       colors: {
         ...theme.colors, // Copy the existing colors
-        custom: settings.customTheme
+        custom: customTheme
       },
     };
     
     setCurTheme(updatedTheme);
-
     // set primary color
     setCurTheme({
       ...updatedTheme,
-      primaryColor: settings.primaryColor,
-      primaryShade: settings.primaryShade,
+      primaryColor: primaryColor,
+      primaryShade: primaryShade,
     });
 
-  }, [settings]);
+  }, [primaryColor, primaryShade, customTheme]);
+
+  useEffect(() => {
+    fetchSettings();
+    fetchLocales();
+  }, [fetchSettings, fetchLocales]);
 
   
   useNuiEvent('COPY_TO_CLIPBOARD', (data: string) => {
@@ -58,7 +69,6 @@ const App: React.FC = () => {
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
       <MantineEmotionProvider>
-        <LocalesProvider>
           <Wrapper>
             {/* <Radial /> */}
             <TestBed />
@@ -71,8 +81,8 @@ const App: React.FC = () => {
             <Input />
             <KeyInputs />
             <StatusInfo />
+            <StoreUI />
           </Wrapper>
-        </LocalesProvider>
       </MantineEmotionProvider>
     </MantineProvider>
   );

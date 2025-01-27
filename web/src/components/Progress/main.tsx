@@ -3,11 +3,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Text, Transition, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
-import { useLocale } from "../../providers/locales/locales";
+import { locale } from "../../stores/locales";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 import { fetchNui } from "../../utils/fetchNui";
 import { getPositionProps, getTranslate, PositionProps } from "../../utils/positioning";
-import { internalEvent } from "../../utils/internalEvent";
 
 type ProgressProps = {
   position: PositionProps 
@@ -18,7 +17,6 @@ type ProgressProps = {
 }
 
 export default function Progress() {
-  const locale = useLocale()
   const theme = useMantineTheme()
   const [display, setDisplay] = useState(false)
   const [pause, setPause] = useState(false)
@@ -36,7 +34,7 @@ export default function Progress() {
   
     const interval = setInterval(() => {
       if (!pause) {
-        setProgress((prev) => {
+        setProgress((prev: number) => {
           if (prev >= 100) {
             clearInterval(interval)
             setDisplay(false)
@@ -60,7 +58,7 @@ export default function Progress() {
   
   useNuiEvent('CANCEL_PROGRESS', () => {
     setPause(true)
-    setOptions((prev) => ({ ...prev, label: locale('progress_cancelled') }))
+    setOptions((prev : ProgressProps) => ({ ...prev, label: locale('progress_cancelled') }))
     setTimeout(() => {
       setDisplay(false)  // Turn off the display
       fetchNui('PROGRESS_COMPLETE')

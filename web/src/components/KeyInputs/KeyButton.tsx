@@ -1,4 +1,4 @@
-import { Flex, Kbd, useMantineTheme } from "@mantine/core";
+import { Text, useMantineTheme } from "@mantine/core";
 import colorWithAlpha from "../../utils/colorWithAlpha";
 
 type KeyProps = {
@@ -10,49 +10,50 @@ const KeyIcon = function (props: KeyProps) {
   const theme = useMantineTheme();
   
   const convertKey = (key: string | number) => { 
-
-    key = key.toString()
+    key = key.toString().toUpperCase(); // Convert key to uppercase
     switch (key) {
-      case "ArrowUp":
+      case "ARROW UP":
         return "↑";
-      case "ArrowDown":
+      case "ARROW DOWN":
         return "↓";
-      case "ArrowLeft":
+      case "ARROW LEFT":
         return "←";
-      case "ArrowRight":
+      case "ARROW RIGHT":
         return "→"; 
-      case "Enter":
+      case "ENTER":
         return "↵";
-      case "Escape":
+      case "ESCAPE":
         return "ESC";
-      case "Backspace":
+      case "BACKSPACE":
         return "⌫";
-      case "Tab":
+      case "TAB":
         return "⇥";
-      case "CapsLock":
+      case "CAPSLOCK":
         return "⇪";
-      case "Shift":
+      case "SHIFT":
         return "⇧";
-      case " ":   
+      case " ":
         return "␣";
-      case "Control":
-    } 
-  }
-
-
-
-
+      case "CONTROL":
+        return "CTRL";
+      default:
+        return key; // Return the key itself if no match is found
+    }
+  };
+  
     
   return (
-    <Flex
+    <Text
       bg="rgba(0,0,0,0.5)"
-      direction={"column"}
-      align={"center"}
-      justify={"center"}
       w="3.8vh"
+      size='sm'
       style={{
         aspectRatio: 1,
-        borderRadius: theme.radius.sm,
+        
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: theme.radius.xxs,
         transition: "all ease-in-out 0.2s",
         boxShadow: props.pressed ? `inset 0 0 2.9vh ${colorWithAlpha(
           theme.colors[theme.primaryColor][theme.primaryShade as number],
@@ -66,23 +67,16 @@ const KeyIcon = function (props: KeyProps) {
               )
             : "rgba(255,255,255,0.1)"
         }`,
-        position: "relative",
+        fontFamily: 'Akrobat Bold',
       }}
+    
     >
-      <Kbd
-        size="xl"
-        style={{
-          backgroundColor: "transparent",
-          border: "none",
-          fontFamily: "Akrobat Black",
-          color: theme.colors["gray"][1],
-        }}
-      >
-        {typeof props._key === "number" ? props._key :
-          convertKey(props._key) ? convertKey(props._key) : props._key.toUpperCase()
-        }
-      </Kbd>
-    </Flex>
+
+      {typeof props._key === "number" ? props._key :
+        convertKey(props._key) ?? props._key.toUpperCase()
+      }
+
+    </Text>
   );
 };
 

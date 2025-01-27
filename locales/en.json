@@ -1,5 +1,18 @@
 {
   "progress_cancelled": "Cancelled", 
   "cancel_progress": "Cancel Progress", 
-  "status_time_over": "Time's Up"
+  "status_time_over": "Time's Up",
+  "payment_failed_no_money": "You don't have enough money to pay for this item.",
+  "CLOSE": "CLOSE",
+  "ESCAPE": "ESCAPE",
+  "shopping_cart": "Shopping Cart",
+  "items_to_sell": "Items to Sell",
+  "payment": "Payment",
+  "transaction_failed": "Transaction Failed",
+  "total_price": "Total Price",
+  "out_of_stock": "Out of Stock",
+  "open_store": "Open Store",
+  "dont_have_item": "You don't have this item",
+  "transaction_complete": "Transaction Complete",
+  "transaction_complete_message": "Thank you for shopping with us!"
 }

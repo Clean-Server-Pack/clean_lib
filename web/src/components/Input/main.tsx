@@ -5,7 +5,6 @@ import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
 import { fetchNui } from "../../utils/fetchNui";
-import { internalEvent } from "../../utils/internalEvent";
 import { isEnvBrowser } from "../../utils/misc";
 import SideBar from "../Generic/SideBar";
 import { Title } from "../Generic/Title";
@@ -407,6 +406,22 @@ function CustomInput(props: InputProps & {onChanged?: (value: unknown) => void})
         : props.type === 'slider' ?
           <Slider w='100%' defaultValue={props.default} min={props.min} max={props.max} 
             radius='xxs'
+            styles={{
+              thumb: {
+                aspectRatio: 1,
+              },
+              label: {
+                display: 'flex', 
+                alignItems: 'center',
+                justifyContent: 'center',
+                borderRadius: theme.radius.xxs,
+                backgroundColor: 'rgba(0,0,0,0.5)',
+                bottom: 'calc(100% + 0.5vh)',
+                aspectRatio: '1/1',
+                fontSize: '1vh',
+            
+              }
+            }}
             onChange={(e) => {
               props.onChanged && props.onChanged(e)
             }}
