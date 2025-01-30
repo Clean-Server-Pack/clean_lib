@@ -30,9 +30,9 @@ lib.showTextUI = function(text, options)
   assert(options == nil or type(options) == 'table', 'options must be a table or nil')
   invoking_resource = GetInvokingResource()
   if not options then options = {
-    position = lib.settings.showText_position, 
+    position = lib.settings.showTextPosition, 
   } end 
-  if not options.position then options.position = lib.settings.showText_position end
+  if not options.position then options.position = lib.settings.showTextPosition end
   isOpen = true
   SendNuiMessage(json.encode({
     action = 'SHOW_TEXT_UI',
