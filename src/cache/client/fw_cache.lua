@@ -93,7 +93,6 @@ elseif settings.framework == 'qbx_core' then
   RegisterNetEvent('qbx_core:client:onSetMetaData', function(meta, oldVal, val)
     local old_data = cache.metadata or {}
     old_data[meta] = val
-    lib.print.info(('Updated metadata key: %s'):format(meta))
     cache:set('metadata', old_data)
   end)
 

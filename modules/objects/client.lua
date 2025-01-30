@@ -128,9 +128,6 @@ function object:spawn()
   end
   SetModelAsNoLongerNeeded(model_hash)
 
-  lib.print.info(('object %s spawned for %s'):format(self.entity, self.id))
-
-  
   if self.onSpawn then 
     self:onSpawn({
       entity = self.entity

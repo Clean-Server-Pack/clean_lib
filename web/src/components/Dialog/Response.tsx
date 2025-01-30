@@ -1,7 +1,7 @@
 import { fetchNui } from "../../utils/fetchNui";
 import { ResponseProps } from "./Responses";
 
-import { IconName } from "@fortawesome/fontawesome-svg-core";
+import { IconName, IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Flex, Progress, Text, useMantineTheme } from "@mantine/core";
 import { useHover } from "@mantine/hooks";
@@ -75,71 +75,79 @@ function MenuItem(props: MenuItemProps) {
 
   return (
     <Flex
-      ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(77, 77, 77, 0.4)'}
-      w='100%'
-      p='2vh'
+      flex={1}
+      // bg='red'
       
-      mah='12vh'
-      gap='1vh'
-      direction='column'
-      style={{
-        visibility: props.hide ? 'hidden' : 'visible',
-        backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
-        backgroundSize: 'cover',
-        backgroundPosition: 'center',
-        borderRadius: '0.4vh',
-        boxShadow: (!props.readOnly && !props.disabled && hovered) ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
-        cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
-        outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
-        justifyContent: 'center',
-        transition: !props.hide? 'all ease-in-out 0.1s' : 'none',
-        // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
-      }}
-
-
-      onClick={handleClick}
+      align='center'
+      
     >
       <Flex
-        direction='row'
+        ref={ref}
+        bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(77, 77, 77, 0.4)'}
+        w='100%'
+        p='2vh'
+        mah='12vh'
         gap='1vh'
-        align='center'
+        direction='column'
+        style={{
+          visibility: props.hide ? 'hidden' : 'visible',
+          backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+          borderRadius: '0.4vh',
+          boxShadow: (!props.readOnly && !props.disabled && hovered) ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
+          cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
+          outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
+          justifyContent: 'center',
+          transition: !props.hide? 'all ease-in-out 0.1s' : 'none',
+          // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
+        }}
 
+
+        onClick={handleClick}
       >
-        {iconType && iconType.type == 'icon' ? (
-          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
-            color: 'rgba(255,255,255,0.8)',
-            fontSize: '2vh',
-          }}  />  
-        ) : iconType && (
-          <img src={iconType.path} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
-        )}
+        <Flex
+          direction='row'
+          gap='1vh'
+          align='center'
+
+        >
+          {iconType && iconType.type == 'icon' ? (
+            <FontAwesomeIcon icon={props.icon as IconProp} style={{
+              color: 'rgba(255,255,255,0.8)',
+              fontSize: '2vh',
+            }}  />  
+          ) : iconType && (
+            <img src={iconType.path} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
+          )}
 
 
-      <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
-      </Flex>
-      {props.description && <Text size='1.5vh' 
+        <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
+        </Flex>
+        {props.description && <Text size='1.5vh' 
+          
+          style={{ 
+            overflowX: 'hidden',
+            overflowY: 'auto',
+            color: 'rgba(255,255,255,0.8)', 
+            whiteSpace: 'pre-line' 
+
+
+          }}>
+          {props.description}
+        </Text>}
+
+        {props.progress != null && 
+          <Progress value={props.progress} />
+        }
+
+        {imageType && imageType.type == 'image' && 
+          <img src={props.image} alt='user_image'/>
+        }
+
         
-        style={{ 
-          overflowX: 'hidden',
-          overflowY: 'auto',
-          color: 'rgba(255,255,255,0.8)', 
-          whiteSpace: 'pre-line' 
 
-
-        }}>
-        {props.description}
-      </Text>}
-
-      {props.progress != null && 
-        <Progress value={props.progress} />
-      }
-
-      {imageType && imageType.type == 'image' && 
-        <img src={props.image} alt='user_image'/>
-      }
-
-      
+      </Flex>
 
     </Flex>
   );

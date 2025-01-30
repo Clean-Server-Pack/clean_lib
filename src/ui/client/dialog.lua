@@ -124,7 +124,7 @@ function dialog:close(keep_cam)
 end
 
 
-function dialog:trigger_action(_index)
+function dialog:triggerAction(_index)
   if _index == 'close' then
     self:close()
     return
@@ -143,6 +143,8 @@ function dialog:trigger_action(_index)
     if response.dialog then
       local dialog = dialog.get(response.dialog)
       if dialog then
+        self.isOpen = false
+        dialog.cam = self.cam
         dialog:open(true)
       end
     end
@@ -153,7 +155,7 @@ function dialog:trigger_action(_index)
   end
 end
 
-local get_open_dialog = function()
+local getOpenDialog = function()
   for k,v in pairs(dialogs) do 
     if type(v) == 'table' and v.isOpen then
       return v
@@ -163,19 +165,19 @@ local get_open_dialog = function()
 end
 
 RegisterNUICallback('DIALOG_SELECTED', function(data, cb)
-  local current_dialog = get_open_dialog()
+  local current_dialog = getOpenDialog()
   if not current_dialog then
     return
   end
   local id = current_dialog.id
   local index = data.index
   if dialogs[id] then
-    dialogs[id]:trigger_action(index)
+    dialogs[id]:triggerAction(index)
   end
 end)  
 
 RegisterNuiCallback('DIALOG_GO_BACK', function(data,cb)
-  local current_dialog = get_open_dialog()  
+  local current_dialog = getOpenDialog()  
 
   --\\ Close last one 
   if not current_dialog then

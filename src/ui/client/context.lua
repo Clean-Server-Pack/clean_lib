@@ -76,7 +76,6 @@ ContextMenu.closeAll = function()
 end
 
 ContextMenu.register = function(id, data)
-  lib.print.info(('Registering context menu %s'):format(id))
   if type(id) == 'table' then 
     data = id
     data.id = data.id
@@ -103,7 +102,6 @@ function ContextMenu:getOptionById(id)
 end
 
 function ContextMenu:optionClicked(id)
-  lib.print.info(('Attempting to click option %s'):format(id))
   if not self.isOpen then return end
   local option = self:getOptionById(id)
   if not option then return end

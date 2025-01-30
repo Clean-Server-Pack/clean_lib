@@ -80,24 +80,7 @@ lib.getGroupMembers =  function(groupId)
   return group.members
 end
 
-function Group:loggedOff(src)
-  -- set their offline status to os.time and update clients
-  for k,v in pairs(self.members) do
-    if v.src == src then
-      local now = os.time()
-      v.offline = now
-      v.src     = nil
-      self:updateClients()
-      v.logoutTimer = SetTimeout(groups.maxLogOffTime * 60000, function()
-        if v.offline and v.offline == now then
-          self:removeMember(v)
-        end
-      end)
 
-      return
-    end
-  end
-end
 
 function Group:loggedOn(src)
   local id = lib.player.identifier(src)
@@ -110,11 +93,11 @@ function Group:loggedOn(src)
         ClearTimeout(v.logoutTimer)
         v.logoutTimer = nil
       end
+      self:updateClients()
+
       if self.task then 
-        lib.print.info(('Player %s logged on while group %s has a task so starting it for them.'):format(id, self.id))
         TriggerClientEvent('clean_groups:startTask', v.src, self.task.id, self.task.args)
       end 
-      self:updateClients()
       return
     end
   end
@@ -131,6 +114,26 @@ lib.callback.register('clean_groups:leaveGroup', function(src)
   return group:__leave(src)
 end)
 
+
+function Group:loggedOff(src)
+  -- set their offline status to os.time and update clients
+  for k,v in pairs(self.members) do
+    if tonumber(v.src) == tonumber(src) then
+      local now = os.time()
+      v.offline = now
+      v.src     = nil
+      self:updateClients()
+      v.logoutTimer = SetTimeout(groups.maxLogOffTime * 60000, function()
+        if v.offline and v.offline == now then
+          self:removeMember(v)
+        end
+      end)
+
+      return
+    end
+  end
+end
+
 AddEventHandler('playerDropped', function(reason)
   local src = source
   local group = Group.getGroupById(src)
@@ -139,8 +142,9 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 
-lib.callback.register('clean_groups:getMyGroup', function(src)
-  local group = Group.getGroupById(src)
+lib.callback.register('clean_groups:playerLoaded', function(src)
+  local identifier = lib.player.identifier(src)
+  local group = Group.getGroupById(identifier)
   if group then 
     
     group:loggedOn(src)

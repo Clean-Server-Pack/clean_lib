@@ -23,7 +23,7 @@ type StoresStoreProps = {
 };
 
 export const useStore = create<StoresStoreProps>((set, get) => ({
-  open: isEnvBrowser(),
+  open: false,
   info: {
     name: 'Test Store',
     hasCategories: true,

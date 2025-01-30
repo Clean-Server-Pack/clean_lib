@@ -268,6 +268,7 @@ export const defaultTestItems = [
         id           : "my_dialogue",
         title        : "Officer",
         icon         : "fa-user-tie",
+        prevDialog   : 'main',
         audioFile    : "audio.mp3",
   
         metadata    : [
@@ -316,7 +317,7 @@ export const defaultTestItems = [
           {
             label     : "Yesd",
             icon      : "fa-user-tie",
-            description : "This is a description",
+            // description : "This is a description",
             dontClose : true,
             actionid : "444"
           },

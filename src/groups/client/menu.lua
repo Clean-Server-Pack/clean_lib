@@ -95,14 +95,11 @@ end)
 
 TriggerEvent('chat:addSuggestion', '/groups:menu', locale('GroupMenuChatSuggestion'), {})
 
-CreateThread(function()
-  while not lib.onCache do Wait(500) end
-  lib.onCache('playerLoaded', function(loaded) 
-    if not loaded then return end
-    Group:registerMenu()
-    local myGroup = lib.callback.await('clean_groups:getMyGroup')
-    if myGroup then 
-      TriggerEvent('clean_groups:updateGroup', myGroup)
-    end 
-  end)
+AddEventHandler('clean_lib:cache:playerLoaded', function(loaded)
+  if not loaded then return end
+  Group:registerMenu()
+  local myGroup = lib.callback.await('clean_groups:playerLoaded')
+  if myGroup then 
+    TriggerEvent('clean_groups:updateGroup', myGroup)
+  end 
 end)

@@ -30,13 +30,39 @@ export default function Dialog(){
   const [openMenu, setOpenMenu] = useState(false);
   const [data, setData] = useState<IDialogProps >(
     {
-      id: "",
-      title: "",
+      id: "main",
+      title: "Main Menu",
       icon: "user-tie",
       audioFile: "",
+      prevDialog: "sdsd",
       metadata: [],
-      dialog: "",
-      responses: []
+      dialog: "Welcome to the main menu",
+      responses: [
+        {
+          index     : 0,
+          label     : "Yes",
+          icon      : "fa-user-tie",
+          // description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
+          dontClose : true,
+          disabled:true, 
+        },
+        {
+          index     : 1,
+          label     : "No",
+          icon      : "fa-user-tie",
+          // description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
+          dontClose : true,
+          disabled:true,
+        },
+        {
+          index     : 2,
+          label     : "Maybe",
+          icon      : "fa-user-tie",
+          description : "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s when an unknown printer took a galley of type and scrambled it to make a type specimen book.",  
+          dontClose : true,
+          disabled:true,
+        }
+      ]
     }
   );
   
@@ -44,6 +70,7 @@ export default function Dialog(){
   // listen for escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
+      console.log('CLOSING CAN CLOSE ', (event.key === "Escape" && openMenu && !data.cantClose))
       if (event.key === "Escape" && openMenu && !data.cantClose) {
         setOpenMenu(false);
         fetchNui("DIALOG_SELECTED", {index: "close"})
@@ -64,14 +91,22 @@ export default function Dialog(){
   const { title, icon, dialog, responses, hoverSounds, clickSounds }:IDialogProps = data;
 
   useEffect(() => {
-   if (responses.length % 4 !== 0) {
+    if (responses.length % 4 !== 0) {
       const emptyResponses = 4 - (responses.length % 4);
-      for (let i = 0; i < emptyResponses; i++) {
-        responses.push({ label: " ", empty: true, index: -1, hoverSounds: false, clickSounds: false });
-      }
+      setData({
+        ...data,
+        responses: [
+          ...responses,
+          ...Array(emptyResponses).fill({
+            label: "",
+            empty: true,
+            index: -1
+          })
+        ]
+      }); 
     }
-
   }, [responses]);
+  
 
 
   return (

@@ -1,14 +1,13 @@
-import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { Flex, SimpleGrid, useMantineTheme } from "@mantine/core";
 import { useEffect, useState } from 'react';
 
-import { Response } from "./Response";
 import Button from "../Generic/Button";
+import { Response } from "./Response";
 
 
 export type ResponseProps = {
   label: string,
-  icon?: IconProp,
+  icon?: string,
   description?: string,
   disabled?: boolean,
   empty?: boolean;
@@ -63,7 +62,7 @@ function ResponsesContainer(props : ResponsesContainerProps) {
         flex={1}
         verticalSpacing={theme.spacing.xs}
         spacing={theme.spacing.xs}
-        h='100%'
+        mih='100%'
         p='xs'
       >
         {currentResponses.map((response, index) => {

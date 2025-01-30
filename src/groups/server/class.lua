@@ -76,16 +76,14 @@ lib.callback.register('clean_groups:registerGroup', function(src, data)
   return newGroup and newGroup.id or false, reason
 end)
 
----@function Group.getGroupById
+---@function Group.getGroupById || lib.getGroupById
 ---@description Gets a group by the owner's identifier
----@param owner string | number
+---@param memberId string | number
 ---@return Group | false, string
-Group.getGroupById = function(owner)
-  local citizen_id = type(owner) == 'string' and owner or lib.player.identifier(owner)
-  if not citizen_id then return false, 'invalid_owner_arg or player not online' end
+Group.getGroupById = function(memberId)
   for k,v in pairs(Groups) do
     for _, member in pairs(v.members) do
-      if member.id == citizen_id then
+      if member.id == memberId or (member.src and tonumber(member.src) == tonumber(memberId)) then
         return v
       end
     end
@@ -93,10 +91,6 @@ Group.getGroupById = function(owner)
   return false, 'group_not_found'
 end
 
----@function lib.getGroupById
----@description Gets a group by the one of the member's identifier
----@param owner string | number
----@return Group | false, string
 lib.getGroupById = Group.getGroupById
 
 ---@function Group.get
@@ -134,7 +128,14 @@ Group.destroy = function(id)
   local group = Group.get(id)
   if not group then return end
   for _, member in pairs(group.members) do
+    if member.src then
+      if group.task then
+        TriggerClientEvent('clean_groups:endTask', member.src, group.task.id)
+      end
+    end 
+
     TriggerClientEvent('clean_groups:updateGroup', member.src)
+    
   end
   Groups[id] = nil
 end
