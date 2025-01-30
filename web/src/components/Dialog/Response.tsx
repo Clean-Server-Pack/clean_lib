@@ -76,7 +76,7 @@ function MenuItem(props: MenuItemProps) {
   return (
     <Flex
       ref={ref}
-      bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(144, 144, 144, 0.5)'}
+      bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(77, 77, 77, 0.4)'}
       w='100%'
       p='2vh'
       
@@ -89,9 +89,9 @@ function MenuItem(props: MenuItemProps) {
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         borderRadius: '0.4vh',
-        boxShadow: hovered ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
+        boxShadow: (!props.readOnly && !props.disabled && hovered) ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
         cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
-        outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '2px solid rgba(0,0,0,0.2)',
+        outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
         justifyContent: 'center',
         transition: !props.hide? 'all ease-in-out 0.1s' : 'none',
         // transform: (!props.readOnly && !props.disabled && hovered) ? 'scale(1.01)' : 'scale(1)',
@@ -108,7 +108,7 @@ function MenuItem(props: MenuItemProps) {
       >
         {iconType && iconType.type == 'icon' ? (
           <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
-            color: 'white',
+            color: 'rgba(255,255,255,0.8)',
             fontSize: '2vh',
           }}  />  
         ) : iconType && (
@@ -159,7 +159,7 @@ export function Response(props: ResponseProps) {
       clickSounds={props.clickSounds}
       hoverSounds={props.hoverSounds}
       title={props.label}
-      disabled={props.empty}
+      disabled={props.empty || props.disabled}
       onClick={handleClick}
       empty={props.empty}
       description={props.description}

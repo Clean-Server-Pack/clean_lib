@@ -65,4 +65,14 @@ return {
   contextHoverSounds = GetConvar('contextHoverSounds', 'true') == 'true',
   dialogClickSounds  = GetConvar('dialogClickSounds', 'true') == 'true',
   dialogHoverSounds  = GetConvar('dialogHoverSounds', 'true') == 'true',
+
+
+  -- GROUPS 
+  groups = {
+    maxMembers        = GetConvarInt('clean_groups:maxMembers', 5),
+    maxDistanceInvite = GetConvarInt('clean_groups:maxDistanceInvite', 5),
+    inviteValidTime   = GetConvarInt('clean_groups:inviteValidTime', 5), -- minutes
+    maxLogOffTime     = GetConvarInt('clean_groups:maxLogOffTime', 5), -- minutes before you are autokicked for being offline
+  },
 }
+  

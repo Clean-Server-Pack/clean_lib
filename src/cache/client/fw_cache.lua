@@ -4,16 +4,23 @@ if settings.framework == 'qb-core' then
   RegisterNetEvent('QBCore:Client:OnPlayerLoaded', function()
     local PlayerData =  lib.FW.Functions.GetPlayerData()
     cache:set('citizenId', PlayerData.citizenid)
+    cache:set('charName', PlayerData.charinfo.firstname..' '..PlayerData.charinfo.lastname)
     cache:set('job', {
       name = PlayerData.job.name,
       grade = PlayerData.job.grade.level,
       onduty = PlayerData.job.onduty
     })
     cache:set('playerLoaded', true)
+    cache:set('metadata', PlayerData.metadata)
   end)
 
   RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     cache:set('playerLoaded', false)
+    cache:set('job', {
+      name = 'logged_off',
+      grade = 2,
+      onduty = false
+    })
   end)
 
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
@@ -42,6 +49,7 @@ elseif settings.framework == 'qbx_core' then
       local PlayerData =  lib.FW.Functions.GetPlayerData()
       if not PlayerData or not PlayerData.job then return end
       cache:set('citizenId', PlayerData.citizenid)
+      cache:set('charName', PlayerData.charinfo.firstname..' '..PlayerData.charinfo.lastname)
       cache:set('job', {
         name = PlayerData.job.name,
         grade = PlayerData.job.grade.level,

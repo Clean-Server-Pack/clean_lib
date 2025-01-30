@@ -84,6 +84,11 @@ function dialog:open(another_menu, entity)
     end 
   end 
 
+  local metaFunc = type(self.metadata) == 'function' or rawget(self.metadata, '__cfx_functionReference')
+  if metaFunc then 
+    self.metadata = self.metadata()
+  end
+    
   SetNuiFocus(true, true)
   SendNuiMessage(json.encode({
     action = 'DIALOG_STATE',
