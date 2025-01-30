@@ -27,6 +27,29 @@ Group.generateId = function()
   return id
 end
 
+function Group:__init()
+  if not self.owner then return false, 'owner_not_set' end
+  local ownerId = lib.player.checkOnline(self.owner)
+  if not ownerId then return false, 'owner_not_online' end
+  local playerGroup = Group.getGroupById(self.owner)
+  if playerGroup then return false, 'player_already_in_group' end
+
+  if not self.name then return false, 'name_not_set' end
+  self.members = {}
+  self.invites = {}
+  local firstName, lastName = lib.player.name(tonumber(ownerId))
+  self:addMember({
+    id       = self.owner,
+    role     = 'owner',
+    metadata = {}, 
+    name     = ('%s %s'):format(firstName, lastName),
+    src      = ownerId,
+  })
+
+  return true
+end
+
+
 ---@function lib.registerGroup
 ---@description Registers a group
 ---@param data GroupProps
@@ -153,9 +176,22 @@ lib.callback.register('clean_groups:getNearbyPlayers', function(src)
           inOtherGroup = inGroup and inGroup.id ~= myGroup.id
         })
       end
-      
-
     end
   end
   return nearby
 end)
+
+---@function lib.groupEvent
+---@description Triggers an event for all members of a group
+---@param groupId string
+---@param eventName string
+---@vararg any
+lib.groupEvent = function(groupId, eventName, ...)
+  local group = Group.get(groupId)
+  if not group then return end
+  for _, member in pairs(group.members) do
+    if member.src then
+      TriggerClientEvent(eventName, member.src, ...)
+    end
+  end
+end

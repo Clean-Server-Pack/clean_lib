@@ -32,26 +32,18 @@ return {
   hasItem = function(invId, item, count, md, slot) 
     return exports.clean_inventory:hasItem(invId, item, count, md, slot)
   end,
-
   
   getItemLabel = function(item)
     local item_exists =  exports.clean_inventory:Items(item)
     return item_exists and item_exists.label or false
   end,
 
-
-
   registerStash = function(id, data)
     return exports.clean_inventory:registerInventory(nil, {
       type = data.type or 'stash', 
       maxWeight = data.maxWeight or 1000,
       maxSlots = data.maxSlots or 50,
-      
     })
   end,
-  
-
-
-
-
 } 
+

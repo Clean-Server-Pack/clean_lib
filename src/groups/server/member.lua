@@ -110,6 +110,10 @@ function Group:loggedOn(src)
         ClearTimeout(v.logoutTimer)
         v.logoutTimer = nil
       end
+      if self.task then 
+        lib.print.info(('Player %s logged on while group %s has a task so starting it for them.'):format(id, self.id))
+        TriggerClientEvent('clean_groups:startTask', v.src, self.task.id, self.task.args)
+      end 
       self:updateClients()
       return
     end
