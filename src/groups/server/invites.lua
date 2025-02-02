@@ -48,6 +48,8 @@ function Group:invitePlayer(trg)
     description = locale( 'GroupInviteDesc'):format(self.name),
   })
 
+
+  -- CLEAN PAUSE MENU ONLY
   TriggerClientEvent('clean_pause:newMessage', trg, {
     date = os.time(),
     title = locale( 'GroupInvite'),

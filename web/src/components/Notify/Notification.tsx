@@ -60,7 +60,9 @@ export default function Notification(props: NotificationProps){
       bottom = {props.position.includes('bottom') ? !display ? '-150%' : '0': 'auto'}
       bg='rgba(0,0,0,0.6)'
       // mah='12vh'
- 
+      align='center'
+      p='xs'
+      pl='sm'
       style={{
         // overflow: 'hidden',
         borderRadius: theme.radius.xxs,
@@ -95,8 +97,8 @@ export default function Notification(props: NotificationProps){
         flex={1}
         h='100%'
         w='100%'
+        align={'center'}
         gap='sm'
-        p='1vh'
         style={{
           overflow: 'hidden',
         }}
@@ -140,8 +142,6 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
     <Flex
       direction={'column'}
       justify={'center'}
-      mt='auto'
-      mb='auto'
       align='center'
       h='6vh'
       mah='6vh'
@@ -157,7 +157,7 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
           icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp}
           color={props.iconColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}
           style={{
-            fontSize: '3.5vh',
+            fontSize: '3vh',
           }}
         /> 
       )}
@@ -166,7 +166,7 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
         <Image 
           src={props.imageType.path}
           alt='icon'
-          h='3.5vh'
+          h='3vh'
           style={{
             aspectRatio: '1/1',
           }}

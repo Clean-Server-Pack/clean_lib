@@ -1,6 +1,18 @@
+---@class GroupProps
+---@field id string
+---@field name string
+---@field owner string
+---@field members GroupMemberProps[]
+---@field task nil | TaskProps
+---@field metadata table<string, any> | nil
+---@field invites string[]
+
+---@class TaskProps
+---@field id string
+---@field label string
 
 
-function Group:registerMenu()
+local registerGroupsMenu = function()
   local getOptions  = function()
     local options = {}
     if not self.name then 
@@ -97,9 +109,6 @@ TriggerEvent('chat:addSuggestion', '/groups:menu', locale('GroupMenuChatSuggesti
 
 AddEventHandler('clean_lib:cache:playerLoaded', function(loaded)
   if not loaded then return end
-  Group:registerMenu()
-  local myGroup = lib.callback.await('clean_groups:playerLoaded')
-  -- if myGroup then 
-  --   -- TriggerEvent('clean_groups:updateGroup', myGroup)
-  -- end 
+  registerGroupsMenu()
+  lib.callback.await('clean_groups:playerLoaded')
 end)

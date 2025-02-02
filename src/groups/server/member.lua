@@ -129,7 +129,6 @@ function Group:loggedOff(src)
           self:removeMember(v)
         end
       end)
-
       return
     end
   end
