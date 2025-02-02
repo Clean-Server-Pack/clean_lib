@@ -14,31 +14,20 @@ Group.__index = Group
 ---@field id string
 ---@field label string
 
-function Group:update(data)
-  for k,v in pairs(data) do
-    self[k] = v
-  end
-  LocalPlayer.state.group = data
-  return self
-end 
-
-function Group:leave()
-  self = {}
-  LocalPlayer.state.group = nil
-end
 
 
+-- RegisterNetEvent('clean_groups:updateGroup', function(data)
+--   if not data then 
+--     Group:leave()
+--     return 
+--   end
+--   Group:update(data)
+-- end)
 
-RegisterNetEvent('clean_groups:updateGroup', function(data)
-  if not data then 
-    Group:leave()
-    return 
-  end
-  Group:update(data)
-end)
-
-AddEventHandler('onResourceStop', function(resource)
-  if resource == GetCurrentResourceName() then
-    Group:leave()
-  end
+AddStateBagChangeHandler('group', ('player:%s'):format(cache.serverId), function(_, _, value)
+  lib.print.info('Group state bag change', value)
+  -- SendNuiMessage(json.encode({
+  --   action = 'UPDATE_GROUP',
+  --   data   = value
+  -- }))
 end)

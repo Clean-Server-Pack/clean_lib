@@ -132,13 +132,20 @@ Group.destroy = function(id)
       if group.task then
         TriggerClientEvent('clean_groups:endTask', member.src, group.task.id)
       end
+      -- TriggerClientEvent('clean_groups:updateGroup', member.src)
+      Player(member.src).state.group = nil
     end 
-
-    TriggerClientEvent('clean_groups:updateGroup', member.src)
-    
   end
   Groups[id] = nil
 end
+
+AddEventHandler('onResourceStop', function(resource)
+  if resource == GetCurrentResourceName() then
+    for k,v in pairs(Groups) do
+      Group.destroy(v.id)
+    end 
+  end
+end)
 
 ---@function lib.destroyGroup
 ---@description Destroys a group by its identifier

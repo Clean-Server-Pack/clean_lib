@@ -38,7 +38,8 @@ function Group:removeMember(member)
     if v.id == member.id or (v.src and tonumber(v.src) == tonumber(member.src)) then
       table.remove(self.members, k)
       if v.src then
-        TriggerClientEvent('clean_groups:updateGroup', tonumber(v.src))
+        -- TriggerClientEvent('clean_groups:updateGroup', tonumber(v.src))
+        Player(v.src).state.group = nil
       end 
       self:updateClients()
       return true
@@ -146,9 +147,8 @@ lib.callback.register('clean_groups:playerLoaded', function(src)
   local identifier = lib.player.identifier(src)
   local group = Group.getGroupById(identifier)
   if group then 
-    
     group:loggedOn(src)
-    return group:getClientData()
+    Player(src).state.group = group:getClientData()
   end 
   return false
 end)

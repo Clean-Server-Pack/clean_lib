@@ -11,6 +11,11 @@ local openDevtools = function()
       end
     })
   end
+  --- sort options alphabetically
+  table.sort(options, function(a, b)
+    return a.title < b.title
+  end)
+
   lib.registerContext('devTools', {
     title = 'Dev Tools',
     icon = 'cog',

@@ -11,7 +11,8 @@ end
 function Group:updateClients()
   for _, member in pairs(self.members) do
     if member.src then 
-      TriggerClientEvent('clean_groups:updateGroup', member.src, self:getClientData())
+      -- TriggerClientEvent('clean_groups:updateGroup', member.src, self:getClientData())
+      Player(member.src).state.group = self:getClientData()
     end 
   end
 end
