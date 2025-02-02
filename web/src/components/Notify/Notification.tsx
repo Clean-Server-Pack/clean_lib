@@ -114,7 +114,7 @@ export default function Notification(props: NotificationProps){
           flex={1}
         >
           <Text
-            fz='sm'
+            size='sm'
             c={props.titleColor || theme.colors[theme.primaryColor][9]}
             style={{
               fontFamily: 'Akrobat Bold',
@@ -126,7 +126,7 @@ export default function Notification(props: NotificationProps){
 
           <Text
             c='rgba(255,255,255,0.6)'
-            fz='xs'
+            size='xs'
           >
             {props.description}
           </Text>
