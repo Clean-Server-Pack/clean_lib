@@ -60,15 +60,19 @@ export default function Notification(props: NotificationProps){
       bottom = {props.position.includes('bottom') ? !display ? '-150%' : '0': 'auto'}
       bg='rgba(0,0,0,0.6)'
       // mah='12vh'
-      align='center'
+      // align='center'
+      h='fit-content'
       p='xs'
-      pl='sm'
       style={{
         // overflow: 'hidden',
         borderRadius: theme.radius.xxs,
         
         transition: 'all 0.2s ease-in-out',
       }}
+
+      align={'center'}
+      gap='sm'
+      
     >
       {/* Box for the number */}
       {props.count && (
@@ -93,16 +97,7 @@ export default function Notification(props: NotificationProps){
           <Text size='xxs'>{props.count}</Text>
         </Box> 
       )}
-      <Flex
-        flex={1}
-        h='100%'
-        w='100%'
-        align={'center'}
-        gap='sm'
-        style={{
-          overflow: 'hidden',
-        }}
-      >
+
         <NotificationImage 
           imageType={imageType}
           {...props}
@@ -131,7 +126,7 @@ export default function Notification(props: NotificationProps){
             {props.description}
           </Text>
         </Flex>
-      </Flex>
+
     </Flex>
   )
 }
@@ -139,10 +134,10 @@ export default function Notification(props: NotificationProps){
 function NotificationImage (props: NotificationProps & {imageType: false | {type: string, path: string}}) {
   const theme = useMantineTheme();
   return (
-    <Flex
-      direction={'column'}
-      justify={'center'}
-      align='center'
+    <Box
+      // // direction={'column'}
+      // justify={'center'}
+      // align='center'
       h='6vh'
       mah='6vh'
       bg={props.iconBg || props.iconColor && 'rgba(44,44,44,0.3)' || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.2)}
@@ -152,26 +147,34 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
         outline: `0.2vh solid ${props.iconColor  || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.6)}`,
       }}
     >
-      {props.imageType && props.imageType.type == 'icon' && (
-        <FontAwesomeIcon  
-          icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp}
-          color={props.iconColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}
-          style={{
-            fontSize: '3vh',
-          }}
-        /> 
-      )}
+      <Flex
+        justify='center'
+        align='center'
+        h='100%'
+        w='100%'
+      >
+        {props.imageType && props.imageType.type == 'icon' && (
+          <FontAwesomeIcon  
+            icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp}
+            color={props.iconColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}
+            style={{
+              fontSize: '3vh',
+            }}
+          /> 
+        )}
 
-      {props.imageType && props.imageType.type == 'image' && (
-        <Image 
-          src={props.imageType.path}
-          alt='icon'
-          h='3vh'
-          style={{
-            aspectRatio: '1/1',
-          }}
-        />
-      )}
-    </Flex>
+        {props.imageType && props.imageType.type == 'image' && (
+          <Image 
+            src={props.imageType.path}
+            alt='icon'
+            h='3vh'
+            style={{
+              aspectRatio: '1/1',
+            }}
+          />
+        )}
+
+      </Flex>
+    </Box>
   )
 }
