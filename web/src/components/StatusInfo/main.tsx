@@ -19,6 +19,7 @@ type Status = {
 }
 
 export default function StatusInfo(){
+  const [displayAll, setDisplayAll] = useState(true);
   const [ statuses, setStatuses ] = useState<Status[]>([
     // {
     //   id: '1',
@@ -31,7 +32,6 @@ export default function StatusInfo(){
 
   ]);
 
-  const [displayAll, setDisplayAll] = useState(true);
 
   useNuiEvent('ADD_STATUS', (status: Status) => {
     // remove status with the same id
