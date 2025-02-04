@@ -40,7 +40,7 @@ local function parseArguments(source, args, raw, params)
     if param.type == 'number' then
       value = tonumber(arg)
     elseif param.type == 'string' then
-      value = not tonumber(arg) and arg
+      value = tostring(arg)
     elseif param.type == 'playerId' then
       value = arg == 'me' and source or tonumber(arg)
 
