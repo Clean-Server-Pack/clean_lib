@@ -42,6 +42,7 @@ setr clean_lib:logo https://via.placeholder.com/150
 setr clean_lib:framework qbx_core
 setr clean_lib:inventory clean_inventory
 setr clean_lib:itemImgPath nui://clean_inventory/web/images/
+setr clean_lib:primaryIdentifier license
 setr clean_lib:target ox_target
 setr clean_lib:interact sleepless_interact
 setr clean_lib:time clean_weather
