@@ -17,7 +17,8 @@ function Header(props: HeaderProps) {
   return (
     <Flex 
       direction='column'
-      mb='1vh'
+      mb='xxs'
+      // bg='red'
     >
       <Flex
         direction='row'
@@ -36,11 +37,11 @@ function Header(props: HeaderProps) {
       <Text
         pt='1vh'
         pb='1vh'
-        c='lightgrey'
-        size='1.6vh'
+        c='rgba(255,255,255,0.6)'
+        size='xs'
         style={{
-          fontStyle : 'italic',
-          fontFamily: 'Akrobat Bold',
+          // fontStyle : 'italic',
+          // fontFamily: 'Akroba',
         }}
       >{props.dialog}</Text>
     </Flex>

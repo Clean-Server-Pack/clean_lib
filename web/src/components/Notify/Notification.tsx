@@ -109,7 +109,7 @@ export default function Notification(props: NotificationProps){
           flex={1}
         >
           <Text
-            size='sm'
+            size='xs'
             c={props.titleColor || theme.colors[theme.primaryColor][9]}
             style={{
               fontFamily: 'Akrobat Bold',
@@ -121,7 +121,7 @@ export default function Notification(props: NotificationProps){
 
           <Text
             c='rgba(255,255,255,0.6)'
-            size='xs'
+            size='xxs'
           >
             {props.description}
           </Text>
@@ -138,8 +138,9 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
       // // direction={'column'}
       // justify={'center'}
       // align='center'
-      h='6vh'
-      mah='6vh'
+      h='4vh'
+      ml='xs'
+      mah='4vh'
       bg={props.iconBg || props.iconColor && 'rgba(44,44,44,0.3)' || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.2)}
       style={{
         borderRadius: '0.05vh',

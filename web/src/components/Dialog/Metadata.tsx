@@ -46,11 +46,11 @@ function Metadata(props: MetadataProps) {
           {props.icon && (
             <FontAwesomeIcon icon={props.icon} color='rgba(255,255,255,0.6)' 
               style={{
-                fontSize: '1.3vh'
+                fontSize: theme.fontSizes.xxs
               }}
             />
           )}
-          <Text c='lightgrey' size='1.3vh'
+          <Text c='lightgrey' size='xxs'
             style={{
               fontFamily: 'Akrobat Bold'
             }}>{props.label}</Text>
@@ -65,7 +65,7 @@ function Metadata(props: MetadataProps) {
           align='center'
           justify='center'
         >
-          <Text c='lightgrey' size='1.3vh'
+          <Text c='lightgrey' size='xxs'
             style={{
               fontFamily: 'Akrobat Bold'
             }}
@@ -92,7 +92,7 @@ export type MetadataContainerProps = {
 function MetadataContainer(props: MetadataContainerProps) {
   return (
     <Flex
-      p='sm'
+      p='xs'
       gap='xs'
     >
       {props.metadata.map((meta, index) => {

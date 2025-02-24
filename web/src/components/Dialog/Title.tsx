@@ -1,9 +1,7 @@
 import { IconName } from "@fortawesome/fontawesome-svg-core";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useMantineTheme, Flex, Text } from "@mantine/core";
-import colorWithAlpha from "../../utils/colorWithAlpha";
-import Button from "../Generic/Button";
+import { Flex, Text, useMantineTheme } from "@mantine/core";
 import BorderedIcon from "../Generic/BorderedIcon";
+import Button from "../Generic/Button";
 
 
 
@@ -20,7 +18,6 @@ type TitleProps = {
 };
 
 export function Title(props: TitleProps) {
-  
   const theme = useMantineTheme();
   return (
     <Flex
@@ -33,20 +30,20 @@ export function Title(props: TitleProps) {
 
       <Flex
         align='center'
-        gap='1vh'
+        gap='sm'
       >
         <BorderedIcon
           icon={props.icon as IconName}
-          fontSize={props.fontSize}
+          fontSize={theme.fontSizes.sm}
         />
         <Flex
           direction='column'
         >
-          <Text p='0' size='2vh' style={{
+          <Text p='0' size='sm' style={{
             fontFamily: 'Akrobat Black'
           }}>{props.title}</Text>
           <Text 
-            size='1.5vh'
+            size='xs'
             c='grey'
           >{props.description}</Text>
         </Flex>

@@ -42,7 +42,7 @@ export function Title(props: TitleProps) {
 
         <Flex
           align='center'
-          gap='xs'
+          gap='sm'
         >
           <BorderedIcon
             icon={props.icon as IconName}

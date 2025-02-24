@@ -85,7 +85,7 @@ function MenuItem(props: MenuItemProps) {
         ref={ref}
         bg={!props.disabled && hovered ? 'rgba(144, 144, 144, 0.5)' : !props.disabled ? 'rgba(144, 144, 144, 0.5)' : 'rgba(77, 77, 77, 0.4)'}
         w='100%'
-        p='2vh'
+        p='sm'
         mah='12vh'
         gap='1vh'
         direction='column'
@@ -94,7 +94,7 @@ function MenuItem(props: MenuItemProps) {
           backgroundImage: props.backgroundImage ? `url(${props.backgroundImage})` : 'none',
           backgroundSize: 'cover',
           backgroundPosition: 'center',
-          borderRadius: '0.4vh',
+          borderRadius: theme.radius.xxs, 
           boxShadow: (!props.readOnly && !props.disabled && hovered) ? `inset 0 0 3vh ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : 'none',
           cursor: (!props.readOnly && !props.disabled) ? 'pointer' : 'default',
           outline:  (!props.readOnly && !props.disabled && hovered) ? `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2vh solid rgba(0,0,0,0.2)',
@@ -115,16 +115,16 @@ function MenuItem(props: MenuItemProps) {
           {iconType && iconType.type == 'icon' ? (
             <FontAwesomeIcon icon={props.icon as IconProp} style={{
               color: 'rgba(255,255,255,0.8)',
-              fontSize: '2vh',
+              fontSize: theme.fontSizes.xs,
             }}  />  
           ) : iconType && (
             <img src={iconType.path} alt='icon' style={{ width: '1.5rem', height: '1.5rem' }} />
           )}
 
 
-        <Text fw='bold' size='1.8vh' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
+        <Text fw='bold' size='xs' style={{ color: 'white', fontFamily:'Akrobat Bold' }}>{props.title}</Text>
         </Flex>
-        {props.description && <Text size='1.5vh' 
+        {props.description && <Text size='xxs' 
           
           style={{ 
             overflowX: 'hidden',
