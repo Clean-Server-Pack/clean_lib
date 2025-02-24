@@ -71,7 +71,7 @@ export default function Notification(props: NotificationProps){
       }}
 
       align={'center'}
-      gap='sm'
+      gap='xs'
       
     >
       {/* Box for the number */}
@@ -139,7 +139,7 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
       // justify={'center'}
       // align='center'
       h='4vh'
-      ml='xs'
+      // ml='xs'
       mah='4vh'
       bg={props.iconBg || props.iconColor && 'rgba(44,44,44,0.3)' || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.2)}
       style={{
