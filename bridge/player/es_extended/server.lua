@@ -19,7 +19,7 @@ return {
     return firstName, lastName
   end,
 
-  phone_number = function(src)
+  phoneNumber = function(src)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
     local result = MySQL.Sync.fetchAll("SELECT phone_number FROM users WHERE identifier = @identifier", {['@identifier'] = ply.identifier})
@@ -66,6 +66,12 @@ return {
 
   end, 
 
+  getMoney = function(src, acc)
+    local ply = lib.player.get(src)
+    assert(ply, 'Player does not exist')
+    return ply.getAccount(acc).money
+  end,
+
   addMoney = function(src, acc, count, reason)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
@@ -82,4 +88,11 @@ return {
     ply.removeAccountMoney(acc,count)
     return true 
   end,
+
+  setMoney = function(src, acc, count)
+    local ply = lib.player.get(src)
+    assert(ply, 'Player does not exist')
+    ply.setAccountMoney(acc,count)
+    return true 
+  end
 }

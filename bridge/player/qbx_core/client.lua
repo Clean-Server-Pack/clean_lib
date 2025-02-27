@@ -3,8 +3,14 @@ return {
     return lib.FW.Functions.GetPlayerData().citizenid
   end,
 
-  getPlayerData = function()
-    return lib.FW.Functions.GetPlayerData()
+  name = function()
+    local player = lib.FW.Functions.GetPlayerData()
+    return player.charinfo.firstname, player.charinfo.lastname
+  end,
+
+  getPlayerData = function(_key)
+    local playerData = lib.FW.Functions.GetPlayerData()
+    return _key and playerData[_key] or playerData
   end,
 
   getMetadata = function(_key)
@@ -15,4 +21,9 @@ return {
   getInventory = function()
     return lib.FW.Functions.GetPlayerData().items
   end,
+
+  getMoney = function(_account)
+    local playerData = lib.FW.Functions.GetPlayerData()
+    return playerData.money[_account] or 0
+  end
 }

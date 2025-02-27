@@ -15,7 +15,7 @@ return {
     return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
   end,
 
-  phone_number = function(src)
+  phoneNumber = function(src)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
     return ply.PlayerData.charinfo.phone
@@ -55,6 +55,12 @@ return {
 
   end, 
 
+  getMoney = function(src, acc)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.GetMoney(acc)
+  end,
+
   addMoney = function(src, acc, count, reason)
     local ply = lib.player.get(src)
     if not ply then return end
@@ -70,4 +76,10 @@ return {
     end
     return ply.Functions.RemoveMoney(acc, count, reason)
   end,
+
+  setMoney = function(src, acc, count)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.SetMoney(acc, count)
+  end
 }

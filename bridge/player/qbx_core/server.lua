@@ -18,7 +18,7 @@ return {
     return ply.PlayerData.charinfo.firstname, ply.PlayerData.charinfo.lastname
   end,
 
-  phone_number = function(src)
+  phoneNumber = function(src)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
     return ply.PlayerData.charinfo.phone
@@ -63,7 +63,7 @@ return {
   getPlayerData = function(src, _key)
     local ply = lib.player.get(src)
     if not ply then return end
-    return ply.Functions.GetPlayerData(_key)
+    return ply.PlayerData
   end,
 
   setMetadata = function(src, _key, data)
@@ -82,20 +82,32 @@ return {
 
   end, 
 
-  addMoney = function(src, acc, count, reason)
+  getMoney = function(src, acc)
     local ply = lib.player.get(src)
     if not ply then return end
-    return ply.Functions.AddMoney(acc, count, reason)
+    return ply.Functions.GetMoney(acc)
+  end,
+
+  addMoney = function(src, acc, amount, reason)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.AddMoney(acc, amount, reason)
   end, 
 
-  removeMoney = function(src, acc, count, reason, force)
+  removeMoney = function(src, acc, amount, reason, force)
     local ply = lib.player.get(src)
     if not ply then return end
     -- Check has money unless force 
     if not force then
       local has = ply.Functions.GetMoney(acc)
-      if has < count then return false, 'not_enough' end
+      if has < amount then return false, 'not_enough' end
     end
-    return ply.Functions.RemoveMoney(acc, count, reason)
+    return ply.Functions.RemoveMoney(acc, amount, reason)
   end,
+
+  setMoney = function(src, acc, amount)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.SetMoney(acc, amount)
+  end
 }
