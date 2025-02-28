@@ -1,5 +1,12 @@
 lib.install = {
   create = function(data)
+    
+
+    -- if data.items then 
+    --   local oxItems, esxItems, qbItems = '', '', ''
+    --   oxItems = lib.files.
+      
+    -- end 
 
   end,
 }
@@ -20,8 +27,6 @@ return lib.install
 
 
 -- lib.install.create({
---   file_path = 'server.lua',
-
 --   jobs  = {
 --     {
 --       name  = 'police',

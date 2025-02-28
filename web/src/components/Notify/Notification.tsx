@@ -159,7 +159,7 @@ function NotificationImage (props: NotificationProps & {imageType: false | {type
             icon={props.icon as IconProp || 'fas fa-info-circle' as IconProp}
             color={props.iconColor || colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}
             style={{
-              fontSize: '3vh',
+              fontSize: '2.4vh',
             }}
           /> 
         )}

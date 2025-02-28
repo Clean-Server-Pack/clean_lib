@@ -59,8 +59,8 @@ return {
     return exports['qs-inventory']:RegisterStash(0, id, data.maxSlots, data.maxWeight)
   end,
   
-  useableItem = function(item_name, callback)
-    exports['qs-inventory']:CreateUseableItem(item_name, function(src, item)
+  useableItem = function(itemName, callback)
+    exports['qs-inventory']:CreateUseableItem(itemName, function(src, item)
       callback(src, item)
     end)
   end
