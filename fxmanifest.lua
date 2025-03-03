@@ -4,7 +4,7 @@ games { 'rdr3', 'gta5' }
 use_experimental_fxv2_oal 'yes'
 name         'clean_lib'
 author       'DirkScripts'
-version      '1.0.70'
+version      '1.0.71'
 description  'A library for FiveM developers to use in their projects, accepting of new features and contributions.'
 
 dependencies {
