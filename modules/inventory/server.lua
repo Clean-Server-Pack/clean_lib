@@ -37,7 +37,6 @@ return {
   ---@param slot?: number
   removeItem        = inventory_bridge.removeItem or framework_bridge.removeItem,
 
-
   ---@function lib.inventory.hasItem
   ---@description # Check if player has item in inventory
   ---@param itemName: string
@@ -47,6 +46,18 @@ return {
   ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
   hasItem           = inventory_bridge.hasItem or framework_bridge.hasItem,
 
+  ---@param item: string
+  ---@return string
+  getItemLabel      = inventory_bridge.getItemLabel or framework_bridge.getItemLabel,
+
+  ---@param invId: string
+  ---@param label: string
+  ---@param max_slots: number
+  ---@param max_weight: number
+  registerStash     = inventory_bridge.registerStash or framework_bridge.registerStash,
+
+  ---@param invId: string
+  get            = inventory_bridge.get or framework_bridge.get,
 
   ---@function lib.inventory.clearInventory
   ---@description # Clear inventory
@@ -60,8 +71,7 @@ return {
   ---@param combine?: boolean
   editMetadata      = inventory_bridge.editMetadata or framework_bridge.editMetadata,
 
-  ---@param invId: string
-  getInv            = inventory_bridge.getInv or framework_bridge.getInv,
+
 
   ---@param invId: string
   getItems          = inventory_bridge.getItems or framework_bridge.getItems,
@@ -83,13 +93,5 @@ return {
   item              = inventory_bridge.item or framework_bridge.item,
 
   
-  ---@param item: string
-  ---@return string
-  getItemLabel      = inventory_bridge.getItemLabel or framework_bridge.getItemLabel,
 
-  ---@param invId: string
-  ---@param label: string
-  ---@param max_slots: number
-  ---@param max_weight: number
-  registerStash     = inventory_bridge.registerStash or framework_bridge.registerStash
 }

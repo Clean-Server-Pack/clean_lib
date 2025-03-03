@@ -51,13 +51,14 @@ return {
     return false
   end,
   
-  
-
   getItemLabel = function(item)
     local item_exists =  exports.ox_inventory:Items(item)
     return item_exists and item_exists.label or false
   end,
 
+  registerStash = function(id, data)
+    return exports.ox_inventory:registerStash(id, data)
+  end,
 
 
 

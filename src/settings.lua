@@ -1,6 +1,4 @@
 return {
-
-
   primaryColor    = GetConvar('clean_lib:primaryColor', 'clean'),
   primaryShade    = GetConvarInt('clean_lib:primaryShade', 9),
   customTheme     = json.decode(GetConvar('clean_lib:customTheme', json.encode({

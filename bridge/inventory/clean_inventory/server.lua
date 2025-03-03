@@ -45,5 +45,27 @@ return {
       maxSlots = data.maxSlots or 50,
     })
   end,
+
+  get = function(invId)
+    local retData = {
+      items = {},
+      maxWeight = 0,
+      maxSlots = 0,
+      weight = 0,
+      slots = 0,
+    }
+
+    local invData = exports.clean_inventory:getInventory(invId)
+    print(json.encode(invData, {indent = true}))
+    if not invData then return false end
+
+    retData.items = invData.items
+    retData.maxWeight = invData.maxWeight
+    retData.maxSlots = invData.maxSlots
+    retData.weight = invData.weight
+    retData.slots = invData.slots
+
+    return retData
+  end, 
 } 
 

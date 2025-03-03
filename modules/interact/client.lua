@@ -52,23 +52,20 @@ lib.interact = {
     end 
   end, 
 
-  addGlobalVehicle = function(vehicle, data)
+  addGlobalVehicle = function(data)
+    local id = ('globalVehicle_%s'):format(math.random(1, 1000000))
     if settings.interact == 'sleepless_interact' then
       local options = {
-        id = data.id or ('vehicle_%s'):format(vehicle), 
-        vehicle = vehicle, 
+        id = id,
         options = parseOptions(data.options),
         renderDistance = data.renderDistance or 10.0,
         activeDistance = data.distance       or 1.5,
         cooldown       = data.cooldown       or 1500,
         offset         = data.offset,
+        bone           = data.bone,
       }
-      if data.network then 
-        exports.sleepless_interact.addVehicle(options)
-      else
-        exports.sleepless_interact.addLocalVehicle(options)
-      end
-        
+      exports.sleepless_interact:addGlobalVehicle(options)
+      return id 
     elseif settings.ineract == 'marker' then 
 
     end 
@@ -118,7 +115,7 @@ lib.interact = {
         offset         = data.offset,
       }
   
-      exports.sleepless_interact.addGlobalPed(interact_data)
+      exports.sleepless_interact:addGlobalPed(interact_data)
     elseif settings.interact == 'marker' then 
 
     end 
