@@ -25,5 +25,21 @@ return {
   getMoney = function(_account)
     local playerData = lib.FW.Functions.GetPlayerData()
     return playerData.money[_account] or 0
-  end
+  end,
+
+  getJob = function()
+    local playerData = lib.FW.Functions.GetPlayerData()
+    local rawJob = playerData.job
+    local ret = {
+      name       = rawJob.name,
+      type       = rawJob.type,
+      label      = rawJob.label,
+      grade      = rawJob.grade.level,
+      isBoss     = rawJob.isboss,
+      bankAuth   = rawJob.bankAuth,
+      gradeLabel = rawJob.grade.name,
+      duty = rawJob.onduty
+    }
+    return ret
+  end,
 }

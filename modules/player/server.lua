@@ -73,7 +73,7 @@ return  {
   ---@function lib.player.getJob 
   ---@description # Gets the job of a player
   ---@param src number
-  ---@return {name: string, label: string, grade: number, gradeLabel: string, duty: boolean}
+  ---@return {name: string, type: string, label: string, grade: number, isBoss: boolean, bankAuth: boolean, gradeLabel: string, duty: boolean}
   getJob   = bridge.getJob,
 
   ---@function lib.player.setDuty 

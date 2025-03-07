@@ -7,9 +7,15 @@ if settings.framework == 'qb-core' then
     cache:set('charName', PlayerData.charinfo.firstname..' '..PlayerData.charinfo.lastname)
     cache:set('job', {
       name = PlayerData.job.name,
+      type = PlayerData.job.type,
+      label = PlayerData.job.label,
       grade = PlayerData.job.grade.level,
-      onduty = PlayerData.job.onduty
+      isBoss = PlayerData.job.isboss,
+      bankAuth = PlayerData.job.bankAuth,
+      gradeLabel = PlayerData.job.grade.name,
+      duty = PlayerData.job.onduty
     })
+
     cache:set('playerLoaded', true)
     cache:set('metadata', PlayerData.metadata)
   end)
@@ -26,17 +32,20 @@ if settings.framework == 'qb-core' then
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job)
     cache:set('job', {
       name = job.name,
+      type = job.type,
+      label = job.label,
       grade = job.grade.level,
-      onduty = job.onduty,
+      isBoss = job.isboss,
+      bankAuth = job.bankAuth,
+      gradeLabel = job.grade.name,
+      duty = job.onduty
     })
   end)
 
   RegisterNetEvent('QBCore:Client:SetDuty', function(duty) 
-    cache:set('job', {
-      name = cache.job.name,
-      grade = cache.job.grade,
-      onduty = duty
-    })
+    local originalCache = json.decode(json.encode(cache.job)) 
+    originalCache.onduty = duty
+    cache:set('job', originalCache)
   end)
 
   RegisterNetEvent('QBCore:Client:UpdatePlayerData', function(data)
@@ -52,8 +61,13 @@ elseif settings.framework == 'qbx_core' then
       cache:set('charName', PlayerData.charinfo.firstname..' '..PlayerData.charinfo.lastname)
       cache:set('job', {
         name = PlayerData.job.name,
+        type = PlayerData.job.type,
+        label = PlayerData.job.label,
         grade = PlayerData.job.grade.level,
-        onduty = PlayerData.job.onduty
+        isBoss = PlayerData.job.isboss,
+        bankAuth = PlayerData.job.bankAuth,
+        gradeLabel = PlayerData.job.grade.name,
+        duty = PlayerData.job.onduty
       })
       cache:set('playerLoaded', true)
       cache:set('metadata', PlayerData.metadata)
@@ -68,25 +82,25 @@ elseif settings.framework == 'qbx_core' then
   end)
 
   RegisterNetEvent('QBCore:Client:SetDuty', function(duty) 
-    cache:set('job', {
-      name = cache.job.name,
-      grade = cache.job.grade,
-      onduty = duty
-    })
+    local originalCache = json.decode(json.encode(cache.job)) 
+    originalCache.onduty = duty
+    cache:set('job', originalCache)
   end)
 
   RegisterNetEvent('QBCore:Client:OnGangUpdate', function(gang) 
-    cache:set('gang', {
-      name  = gang.name,
-      grade = gang.rank,
-    })
+    cache:set('gang', gang)
   end)
 
   RegisterNetEvent('QBCore:Client:OnJobUpdate', function(job) 
     cache:set('job', {
       name = job.name,
+      type = job.type,
+      label = job.label,
       grade = job.grade.level,
-      onduty = job.onduty
+      isBoss = job.isboss,
+      bankAuth = job.bankAuth,
+      gradeLabel = job.grade.name,
+      duty = job.onduty
     })
   end)
 

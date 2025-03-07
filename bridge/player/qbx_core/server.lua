@@ -51,7 +51,7 @@ return {
       type       = rawJob.type,
       label      = rawJob.label,
       grade      = rawJob.grade.level,
-      isboss     = rawJob.isboss,
+      isBoss     = rawJob.isboss,
       bankAuth   = rawJob.bankAuth,
       gradeLabel = rawJob.grade.name,
       duty = rawJob.onduty

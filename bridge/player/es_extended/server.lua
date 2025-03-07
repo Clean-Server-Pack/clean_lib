@@ -58,7 +58,7 @@ return {
       gradeLabel = rawJob.grade_label,
       
       bankAuth   = rawJob.bankAuth,
-      isboss     = rawJob.isboss,
+      isBoss     = rawJob.isboss,
       duty       = false
     }
     return ret

@@ -34,6 +34,11 @@ lib.player = {
   ---@param account string
   ---@return number
   getMoney      = bridge.getMoney,
+
+  ---@function lib.player.getJob
+  ---@description # Get the job of a player
+  ---@return {name: string, type: string, label: string, grade: number, isBoss: boolean, bankAuth: boolean, gradeLabel: string, duty: boolean}
+  getJob        = bridge.getJob
 }
 
 return lib.player

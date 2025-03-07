@@ -30,5 +30,23 @@ return {
       end
     end
     return 0
-  end
+  end,
+
+  getJob = function()
+    local playerData = lib.FW.PlayerData
+    local rawJob = playerData.job
+    local jobInfo = lib.FW.Jobs[rawJob.name] or {}
+    local gradeInfo = jobInfo.grades and jobInfo.grades[tostring(rawJob.grade)] or {}
+    local ret = {
+      name       = rawJob.name,
+      type       = rawJob.type,
+      label      = rawJob.label,
+      grade      = rawJob.grade,
+      gradeLabel = rawJob.grade_label,
+      bankAuth   = rawJob.bankAuth,
+      isBoss     = rawJob.isboss,
+      duty       = false
+    }
+    return ret
+  end,
 }
