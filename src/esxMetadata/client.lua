@@ -1,8 +1,9 @@
 if lib.settings.framework ~= 'es_extended' then return end
 local metadata = {}
 
-lib.onCache('playerLoaded', function(loaded)
-  if not loaded then return end
+CreateThread(function()
+  while not lib.FW do Wait(500); end 
+  while not lib.FW.IsPlayerLoaded() do Wait(500); end
   metadata = lib.callback.await('clean_lib:getPlayerMetadata')
 end)
 

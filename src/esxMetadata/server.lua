@@ -19,7 +19,7 @@ end
 CreateThread(ensureTable)
 
 lib.loadPlayerMetadata = function(src)
-  src = type(src) == 'number' and lib.player.identifer(src) or src
+  src = type(src) == 'number' and lib.player.identifier(src) or src
   -- Load metadata from database
   local player = MySQL.single.await('SELECT * FROM player_metadata WHERE id = ?', {src})
   playerMetadatas[src] = player and json.decode(player.data) or {}
@@ -27,11 +27,11 @@ lib.loadPlayerMetadata = function(src)
 end
 
 lib.savePlayerMetadata = function(src)
-  src = type(src) == 'number' and lib.player.identifer(src) or src
+  src = type(src) == 'number' and lib.player.identifier(src) or src
   playerMetadatas[src] = playerMetadatas[src] or {}
   local encoded = json.encode(playerMetadatas[src])
-  local success = MySQL.prepare('INSERT INTO clean_banking (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)',  
-    {src, json.encode(data)}
+  local success = MySQL.prepare('INSERT INTO player_metadata (id, data) VALUES (?, ?) ON DUPLICATE KEY UPDATE data = VALUES(data)',  
+    {src, encoded}
   )
   -- Save metadata to database
   return success
@@ -42,16 +42,17 @@ end
 ---@param src number
 ---@param _key? string
 lib.getPlayerMetadata = function(src, _key)
-  src = type(src) == 'number' and lib.player.identifer(src) or src
+  src = type(src) == 'number' and lib.player.identifier(src) or src
   playerMetadatas[src] = playerMetadatas[src] or {}
-  return _key and playerMetadatas[src][_key] or playerMetadatas[src]
+  if not _key then return playerMetadatas[src] end
+  return playerMetadatas[src][_key]
 end
 
 ---@function lib.setPlayerMetadata
 ---@param src number
 ---@param _key string
 lib.setPlayerMetadata = function(src, _key, value)
-  src = type(src) == 'number' and lib.player.identifer(src) or src
+  src = type(src) == 'number' and lib.player.identifier(src) or src
   playerMetadatas[src] = playerMetadatas[src] or {}
   playerMetadatas[src][_key] = value
   lib.savePlayerMetadata(src)
