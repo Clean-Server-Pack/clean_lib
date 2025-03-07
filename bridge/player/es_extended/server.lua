@@ -47,7 +47,7 @@ return {
   getJob = function(src)
     local ply = lib.player.get(src)
     if not ply then return end
-    local rawJob = ply.PlayerData.job
+    local rawJob = ply.job
     local jobInfo = lib.FW.Jobs[rawJob.name] or {}
     local gradeInfo = jobInfo.grades and jobInfo.grades[tostring(rawJob.grade)] or {}
     local ret = {
@@ -122,7 +122,8 @@ return {
     assert(ply, 'Player does not exist')
     local account_exists = ply.getAccount(acc)
     if not account_exists then return false, 'no_account' end
-    if not force or account_exists.money < count then return false, 'insufficient_funds' end
+    print('funds insuficeint', not force or (account_exists.money < count))
+    if not force or (account_exists.money < count) then return false, 'insufficient_funds' end
     ply.removeAccountMoney(acc,count)
     return true 
   end,
