@@ -120,6 +120,7 @@ export const defaultTestItems = [
           {
             title:'Find Ranked',
             icon:'search',
+            readOnly:true,
           },
           {
             title:'Private Game',

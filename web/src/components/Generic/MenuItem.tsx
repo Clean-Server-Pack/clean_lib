@@ -47,14 +47,15 @@ export function MenuItem(props: MenuItemProps) {
     }
   };
 
+  const realHover = useMemo(() => {
+    return !props.disabled && !props.readOnly && hovered;
+  }, [props.disabled, props.readOnly, hovered]);
+
   useEffect(() => {
-    if (props.disabled || props.readOnly || !props.hoverSounds) {
-      return;
-    }
-    if (hovered) {
+    if (realHover && props.hoverSounds) {
       play('hover');
     }
-  }, [hovered, props.disabled, props.readOnly, props.hoverSounds]);
+  }, [realHover, props.hoverSounds]);
 
 
   const iconType = useMemo(() => {
@@ -63,7 +64,9 @@ export function MenuItem(props: MenuItemProps) {
 
   const imageType = useMemo(() => {
     return getImageType(props.image);
-  } , [props.icon]);
+  } , [props.image]);
+
+
 
 
 
@@ -78,9 +81,9 @@ export function MenuItem(props: MenuItemProps) {
       style={{
 
         transition: 'all ease-in-out 0.2s',
-        boxShadow: hovered ? `inset 0 0 8vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.8)}` : 'inset 0 0 0.2vh rgba(0,0,0,0.6)', 
-        outline: hovered ?  `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2rem solid transparent',
-        backgroundColor: hovered ? 'rgba(77,77,77,0.6)' : 'rgba(77,77,77,0.5)',
+        boxShadow: realHover ? `inset 0 0 8vh ${colorWithAlpha(theme.colors[theme.primaryColor][theme.primaryShade as number], 0.8)}` : 'inset 0 0 0.2vh rgba(0,0,0,0.6)', 
+        outline: realHover ?  `0.2vh solid ${colorWithAlpha(theme.colors[theme.primaryColor][9], 0.8)}` : '0.2rem solid transparent',
+        backgroundColor: !props.disabled ? realHover ?  'rgba(77,77,77,0.6)' : 'rgba(77,77,77,0.5)': 'rgba(77,77,77,0.2)',  
         
         visibility: props.hide ? 'hidden' : 'visible',
 
@@ -107,7 +110,7 @@ export function MenuItem(props: MenuItemProps) {
 
       >
         {iconType && iconType.type == 'icon' ? (
-          <FontAwesomeIcon icon={['fas', props.icon as IconName]} style={{ 
+          <FontAwesomeIcon icon={props.icon as IconName} style={{ 
             color: 'white',
             fontSize: theme.fontSizes.sm,
           }}  />  
