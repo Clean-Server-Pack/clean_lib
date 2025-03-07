@@ -125,10 +125,10 @@ elseif settings.framework == 'es_extended' then
       name = PlayerData.job.name,
       type = PlayerData.job.type,
       label = PlayerData.job.label,
-      grade = PlayerData.job.grade.level,
+      grade = PlayerData.job.grade,
       isBoss = PlayerData.job.isboss,
       bankAuth = PlayerData.job.bankAuth,
-      gradeLabel = PlayerData.job.grade.name,
+      gradeLabel = PlayerData.job.grade_label,
       duty = PlayerData.job.onduty
     })
     cache:set('playerLoaded', true)
