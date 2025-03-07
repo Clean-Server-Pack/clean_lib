@@ -44,6 +44,26 @@ return {
     return exports.qbx_core:Logout(src)
   end,
 
+  getJob = function(src)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    local rawJob = ply.PlayerData.job
+    local jobInfo = lib.FW.Jobs[rawJob.name] or {}
+    local gradeInfo = jobInfo.grades and jobInfo.grades[tostring(rawJob.grade)] or {}
+    local ret = {
+      name       = rawJob.name,
+      type       = rawJob.type,
+      label      = rawJob.label,
+      grade      = rawJob.grade,
+      gradeLabel = rawJob.grade_label,
+      
+      bankAuth   = rawJob.bankAuth,
+      isboss     = rawJob.isboss,
+      duty       = false
+    }
+    return ret
+  end,
+
   setJob = function(src, name, rank)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')

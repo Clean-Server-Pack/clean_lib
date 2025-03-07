@@ -39,6 +39,23 @@ return {
     return lib.FW.Logout(src, citizenId)
   end,
 
+  getJob = function(src)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    local rawJob = ply.PlayerData.job
+    local ret = {
+      name       = rawJob.name,
+      type       = rawJob.type,
+      label      = rawJob.label,
+      grade      = rawJob.grade.level,
+      isboss     = rawJob.grade.isboss,
+      bankAuth   = rawJob.bankAuth,
+      gradeLabel = rawJob.grade.name,
+      duty       = rawJob.onduty
+    }
+    return ret
+  end,
+
   setJob = function(src, name, rank)
     local ply = lib.player.get(src)
     if not ply then return end
