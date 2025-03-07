@@ -123,8 +123,13 @@ elseif settings.framework == 'es_extended' then
     cache:set('citizenId', PlayerData.identifier)
     cache:set('job', {
       name = PlayerData.job.name,
-      grade = PlayerData.job.grade,
-      onduty = PlayerData.job.onduty
+      type = PlayerData.job.type,
+      label = PlayerData.job.label,
+      grade = PlayerData.job.grade.level,
+      isBoss = PlayerData.job.isboss,
+      bankAuth = PlayerData.job.bankAuth,
+      gradeLabel = PlayerData.job.grade.name,
+      duty = PlayerData.job.onduty
     })
     cache:set('playerLoaded', true)
   end)
@@ -133,8 +138,13 @@ elseif settings.framework == 'es_extended' then
     cache:set('citizenId', xPlayer.identifier)
     cache:set('job', {
       name = xPlayer.job.name,
+      type = xPlayer.job.type,
+      label = xPlayer.job.label,
       grade = xPlayer.job.grade,
-      onduty = xPlayer.job.onduty
+      isBoss = xPlayer.job.isboss,
+      bankAuth = xPlayer.job.bankAuth,
+      gradeLabel = xPlayer.job.grade_label,
+      duty = xPlayer.job.onduty
     })
     cache:set('playerLoaded', true)
   end)
@@ -142,8 +152,13 @@ elseif settings.framework == 'es_extended' then
   AddEventHandler('esx:setJob', function(job)
     cache:set('job', {
       name = job.name,
+      type = job.type,
+      label = job.label,
       grade = job.grade,
-      onduty = job.onduty
+      isBoss = job.isboss,
+      bankAuth = job.bankAuth,
+      gradeLabel = job.grade_label,
+      duty = job.onduty
     })
   end)
 end

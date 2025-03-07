@@ -18,8 +18,7 @@ return {
   end,
 
   getMetadata = function(_key)
-    lib.print.error('es_extended does not support metadata')  
-    return {}
+    return lib.getPlayerMetadata(_key)
   end,
   
   getMoney = function(_account)

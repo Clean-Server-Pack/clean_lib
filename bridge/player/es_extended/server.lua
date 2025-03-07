@@ -82,6 +82,24 @@ return {
     ply.Functions.SetPlayerData(_key, data)
   end,
 
+  getPlayerData = function(src, _key)
+    local ply = lib.player.get(src)
+    assert(ply, 'Player does not exist')
+    return ply.PlayerData
+  end,
+
+  setMetadata = function(src, _key, data)
+    local ply = lib.player.get(src)
+    assert(ply, 'Player does not exist')
+    lib.setPlayerMetadata(src, _key, data)
+  end,
+
+  getMetadata = function(src, _key)
+    local ply = lib.player.get(src)
+    assert(ply, 'Player does not exist')
+    return lib.getPlayerMetadata(src, _key)
+  end,
+
   jail = function()
 
   end, 

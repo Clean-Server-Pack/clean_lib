@@ -8,8 +8,8 @@ version      '1.0.75'
 description  'A library for FiveM developers to use in their projects, accepting of new features and contributions.'
 
 dependencies {
-    '/server:7290',
-    '/onesync',
+  '/server:7290',
+  '/onesync',
 }
 
 ui_page 'web/build/index.html'
