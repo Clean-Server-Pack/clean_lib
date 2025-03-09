@@ -91,13 +91,15 @@ return {
   setMetadata = function(src, _key, data)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
-    lib.setPlayerMetadata(src, _key, data)
+    assert(ply.setMeta, 'Player does not have setMeta function')
+    return ply.setMeta(_key, data)
   end,
 
   getMetadata = function(src, _key)
     local ply = lib.player.get(src)
     assert(ply, 'Player does not exist')
-    return lib.getPlayerMetadata(src, _key)
+    assert(ply.getMeta, 'Player does not have getMeta function')
+    return ply.getMeta(_key)
   end,
 
   jail = function()
