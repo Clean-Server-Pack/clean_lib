@@ -4,8 +4,8 @@ return {
   ---@param invId string | number Inventory ID or Player ID
   ---@param item string Item Name
   ---@param count number [Optional] Item Count
-  ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
+  ---@param slot number [Optional] Item Slot
   ---@return boolean
   addItem  = function(invId, item, count, md, slot) 
     return exports.clean_inventory:addItem(invId, item, count, md, slot)
@@ -15,8 +15,8 @@ return {
   ---@param invId string | number Inventory ID or Player ID
   ---@param item string Item Name
   ---@param count number [Optional] Item Count
-  ---@param slot number [Optional] Item Slot
   ---@param md table [Optional] Item Metadata
+  ---@param slot number [Optional] Item Slot
   ---@return boolean
   removeItem = function(invId, item, count, md, slot)
     return exports.clean_inventory:removeItem(invId, item, count, md, slot)

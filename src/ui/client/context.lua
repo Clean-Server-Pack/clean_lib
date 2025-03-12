@@ -119,7 +119,7 @@ function ContextMenu:optionClicked(id)
   if option.menu then 
     local menu = ContextMenus[option.menu]
     if menu then 
-      menu.isOpen = false
+      self.isOpen = false
       if self.onExit then self.onExit() end
       menu:open(true)
     end

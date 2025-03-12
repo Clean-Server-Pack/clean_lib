@@ -66,6 +66,12 @@ const App: React.FC = () => {
     document.body.removeChild(el);
   });
 
+
+  useNuiEvent('OPEN_LINK', (data: string) => {
+    // @ts-expect-error There is no such thing as invokeNative outside FiveM
+    window.invokeNative("openUrl", data);
+  });
+
   return (
     <MantineProvider theme={curTheme} defaultColorScheme='dark'>
       <MantineEmotionProvider>

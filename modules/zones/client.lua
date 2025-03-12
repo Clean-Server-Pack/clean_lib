@@ -60,6 +60,13 @@ function zone:__init()
     self.chunk_zone = GetNameOfZone(self.center_pos.x, self.center_pos.y, self.center_pos.z)
   end
   -- lib.print.debug(('zone %s has been created n chunkZone %s'):format(self.id, self.chunk_zone))
+  local myPos = GetEntityCoords(cache.ped)
+  if self:is_inside({pos = myPos}) then 
+    self.inside = true
+    if self.onEnter then 
+      self.onEnter({pos = myPos})
+    end
+  end
   return self
 end
 
