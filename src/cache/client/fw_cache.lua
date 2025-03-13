@@ -20,6 +20,15 @@ if settings.framework == 'qb-core' then
     cache:set('metadata', PlayerData.metadata)
   end)
 
+  AddEventHandler('onResourceStart', function(resourceName)
+    if resourceName == GetCurrentResourceName() then 
+      local playerData = lib.FW.Functions.GetPlayerData()
+      if not playerData then return end
+      if not playerData.job?.name then return end
+      TriggerEvent('QBCore:Client:OnPlayerLoaded')
+    end
+  end)
+
   RegisterNetEvent('QBCore:Client:OnPlayerUnload', function()
     cache:set('playerLoaded', false)
     cache:set('job', {
@@ -55,6 +64,7 @@ if settings.framework == 'qb-core' then
 elseif settings.framework == 'qbx_core' then 
   AddStateBagChangeHandler('isLoggedIn', ('player:%s'):format(cache.serverId), function(_, _, value)
     if value then   
+      print('player loaded')
       local PlayerData =  lib.FW.Functions.GetPlayerData()
       if not PlayerData or not PlayerData.job then return end
       cache:set('citizenId', PlayerData.citizenid)
@@ -162,3 +172,4 @@ elseif settings.framework == 'es_extended' then
     })
   end)
 end
+

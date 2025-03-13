@@ -4,7 +4,6 @@ TebexHook.__index = TebexHook
 
 function TebexHook:__init()
   assert(self.id, 'TebexHook requires an id')
-  assert(not self.onPurchase and not self.onRemove and not self.onRenew, 'TebexHook needs to implement onPurchase or onRemove, onRenew')
   assert(self.label, 'TebexHook requires a label')
 
   local commands = {
@@ -40,6 +39,8 @@ TebexHook.register = function(data)
 end
 
 lib.registerTebexHook = TebexHook.register
+
+return lib.registerTebexHook
 
 -- USEAGE
 -- lib.registerTebexHook({
