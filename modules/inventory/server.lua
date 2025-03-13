@@ -31,6 +31,7 @@ return {
 
   ---@function lib.inventory.removeItem
   ---@description # Remove Item from inventory either playerid or invId
+  ---@param invId: string | number # Inventory ID or Player ID
   ---@param itemName: string
   ---@param count?: number
   ---@param metadata?: table
@@ -39,6 +40,7 @@ return {
 
   ---@function lib.inventory.hasItem
   ---@description # Check if player has item in inventory
+  ---@param invId: string | number # Inventory ID or Player ID
   ---@param itemName: string
   ---@param count?: number
   ---@param metadata?: table

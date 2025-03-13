@@ -11,4 +11,13 @@ return {
   ---@param value? string # value of the metadata key
   ---@return boolean 
   displayMetadata = inventory_bridge.displayMetadata or framework_bridge.displayMetadata,
+
+  ---@function lib.inventory.hasItem
+  ---@description # Check if player has item in inventory
+  ---@param itemName: string
+  ---@param count?: number
+  ---@param metadata?: table
+  ---@param slot?: number
+  ---@return nil | number | boolean  Returns nil if player does not have item, returns number of items if they have it
+  hasItem           = inventory_bridge.hasItem or framework_bridge.hasItem,
 }

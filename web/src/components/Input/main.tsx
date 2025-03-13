@@ -1,6 +1,6 @@
 import { IconProp } from "@fortawesome/fontawesome-svg-core";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Button, Checkbox, ColorInput, Flex, NumberInput, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
+import { Checkbox, ColorInput, Flex, NumberInput, Slider, Text, Textarea, TextInput, useMantineTheme } from "@mantine/core";
 import { useForm } from "@mantine/form";
 import { useState } from "react";
 import { useNuiEvent } from "../../hooks/useNuiEvent";
@@ -8,6 +8,8 @@ import { fetchNui } from "../../utils/fetchNui";
 import { isEnvBrowser } from "../../utils/misc";
 import SideBar from "../Generic/SideBar";
 import { Title } from "../Generic/Title";
+import Button from "../Generic/Button";
+import { locale } from "../../stores/locales";
 
 
 
@@ -264,14 +266,14 @@ export default function Input(){
           justify='space-between'
         >
           <Button
-          radius={theme.radius.xxs} 
+    
             flex={1}
-            fz='xs'
-          >Cancel</Button>
+            rect 
+            text={locale('Cancel')}
+          />
           <Button
-            radius={theme.radius.xxs}
-            variant='filled'
-            fz='xs'
+            rect 
+            text={locale('Submit')}
             flex={1}
             onClick={() => {
 
@@ -286,7 +288,7 @@ export default function Input(){
               setOpened(false)
               fetchNui('INPUT_DIALOG_SUBMIT', form.values)
             }}
-          >Submit</Button>
+          />
         </Flex>
       </form>
 

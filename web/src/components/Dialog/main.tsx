@@ -70,7 +70,6 @@ export default function Dialog(){
   // listen for escape key
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
-      console.log('CLOSING CAN CLOSE ', (event.key === "Escape" && openMenu && !data.cantClose))
       if (event.key === "Escape" && openMenu && !data.cantClose) {
         setOpenMenu(false);
         fetchNui("DIALOG_SELECTED", {index: "close"})

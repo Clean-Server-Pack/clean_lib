@@ -91,7 +91,7 @@ export default function Button(props: ButtonProps) {
       {props.icon && (
         <FontAwesomeIcon icon={props.icon as IconName || 'fa-play'} style={{ 
           color: (hovered || props.selected) && !props.disabled ? colors.iconColor.hovered : colors.iconColor.normal,
-          fontSize: props.iconSize || theme.fontSizes.sm,
+          fontSize: props.iconSize || theme.fontSizes.xs,
           aspectRatio: '1/1',
         }} 
         
@@ -104,7 +104,7 @@ export default function Button(props: ButtonProps) {
           style={{
             fontFamily: 'Akrobat Bold',
             color: !props.disabled && (hovered || props.selected) ? colors.textColor.hovered : colors.textColor.normal,
-            fontSize: props.fontSize || theme.fontSizes.sm,
+            fontSize: props.fontSize || theme.fontSizes.xs,
             marginLeft: props.icon ? theme.spacing.xs : '0',
           }}
         >{props.text}</Text>

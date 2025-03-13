@@ -28,7 +28,6 @@ export default function Menu(){
     const theme = useMantineTheme();
     
     useNuiEvent('OPEN_CONTEXT', (data: MenuProps) => {
-      console.log('OPEN_CONTEXT', data)
       setMenuOpen(data)
     })
 

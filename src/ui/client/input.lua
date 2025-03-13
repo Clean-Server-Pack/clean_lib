@@ -1,5 +1,5 @@
 lib.inputDialog = function(title, inputs, options)
-  if input then return print('fdorceclose already open') end
+  if input then return end
   input = promise.new()
   options = options or {}
 
@@ -46,9 +46,10 @@ RegisterNuiCallback('INPUT_GO_BACK', function(data, cb)
 end)
 
 RegisterNuiCallback('INPUT_DIALOG_SUBMIT', function(data, cb)
-
-  data.prevContext = nil
-  data.prevDialog = nil
+  if data then 
+    data.prevContext = nil
+    data.prevDialog = nil
+  end
   input:resolve(data)
   input = nil
   SetNuiFocus(false, false)
