@@ -83,7 +83,7 @@ function Store:attemptTransaction(src, cart, payment_method)
   return true
 end
 
-lib.callback.register('clean_stores:attemptTransaction', function(src, store_id, cart, payment_method)
+lib.callback.register('dirk_stores:attemptTransaction', function(src, store_id, cart, payment_method)
   local src = source
   local store = Store.get(store_id)
   if not store then return end

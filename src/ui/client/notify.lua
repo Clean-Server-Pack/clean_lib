@@ -41,7 +41,7 @@ lib.notify = function(data)
   SetTimeout(100, function() notification = nil end)
 
   local settings = lib.settings
-  if not settings.notify or settings.notify == 'clean_lib' then
+  if not settings.notify or settings.notify == 'dirk_lib' then
     local sound = settings.notifyAudio and data.sound
     data.title = data.title or data.type and types[data.type].title or 'Notification'
     data.titleColor = data.titleColor or types[data.type] and types[data.type].titleColor
@@ -63,12 +63,12 @@ lib.notify = function(data)
   end
 end
 
-RegisterNetEvent('clean_lib:notify', lib.notify)
-RegisterNetEvent('clean_lib:defaultNotify', lib.defaultNotify)
+RegisterNetEvent('dirk_lib:notify', lib.notify)
+RegisterNetEvent('dirk_lib:defaultNotify', lib.defaultNotify)
 
 lib.defaultNotify = function(data)
   if lib.settings.notify == 'ox_lib' then 
-    return TriggerEvent('clean_lib:defaultNotify', data)
+    return TriggerEvent('dirk_lib:defaultNotify', data)
   end
 
   data.type = data.status

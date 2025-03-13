@@ -1,4 +1,4 @@
-local service = GetConvar('clean:logger', 'datadog')
+local service = GetConvar('dirk:logger', 'datadog')
 local buffer
 local bufferSize = 0
 
@@ -15,7 +15,7 @@ local function removeColorCodes(str)
     return str
 end
 
-local hostname = removeColorCodes(GetConvar('clean:logger:hostname', GetConvar('sv_projectName', 'fxserver')))
+local hostname = removeColorCodes(GetConvar('dirk:logger:hostname', GetConvar('sv_projectName', 'fxserver')))
 
 local b = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/"
 
@@ -93,7 +93,7 @@ if service == 'fivemanage' then
         local headers = {
             ['Content-Type'] = 'application/json',
             ['Authorization'] = key,
-            ['User-Agent'] = 'clean_lib'
+            ['User-Agent'] = 'dirk_lib'
         }
 
         function lib.logger(source, event, message, ...)

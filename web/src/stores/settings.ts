@@ -13,9 +13,9 @@ export type SettingsProps = {
 };
 
 export const useSettings = create<SettingsProps>((set) => ({
-  primaryColor:'clean', 
+  primaryColor:'dirk', 
   primaryShade: 9,
-  itemImgPath: 'nui://clean_inventory/web/images/',
+  itemImgPath: 'nui://dirk_inventory/web/images/',
   customTheme: [
     "#f8edff",
     "#e9d9f6",

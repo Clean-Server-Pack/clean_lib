@@ -79,7 +79,7 @@ function Store:openStore(src)
 end
 
 
-lib.callback.register('clean_stores:openStore', function(src, store_id)
+lib.callback.register('dirk_stores:openStore', function(src, store_id)
   local store = Store.get(store_id)
   if not store then return false, 'store_not_found' end
   return store:openStore(src)
@@ -89,7 +89,7 @@ function Store:closedStore(src)
   self.usingStore[src] = nil
 end
 
-RegisterNetEvent('clean_stores:closeStore', function(store_id)
+RegisterNetEvent('dirk_stores:closeStore', function(store_id)
   local store = Store.get(store_id)
   if not store then return end
   store:closedStore(source)

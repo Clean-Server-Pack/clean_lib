@@ -7,6 +7,6 @@ return {
   ---@param value? string # value of the metadata key
   ---@return boolean 
   displayMetadata = function(labels, value)
-    return exports.clean_inventory:displayMetadata(labels, value)
+    return exports.dirk_inventory:displayMetadata(labels, value)
   end,
 }

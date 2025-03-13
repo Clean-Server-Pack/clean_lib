@@ -24,7 +24,7 @@ function InfoBox(props: { title: string, icon: string, time?: number, text?: str
   //       }
   //     }, 1000);
 
-  //     // Cleanup interval on component unmount
+  //     // Dirkup interval on component unmount
   //     return () => clearInterval(countdown);
   //   }
   // }, [props.time]);

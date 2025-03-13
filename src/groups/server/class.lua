@@ -67,7 +67,7 @@ Group.register = function(data --[[ GroupProps ]])
   return self 
 end 
 
-lib.callback.register('clean_groups:registerGroup', function(src, data)
+lib.callback.register('dirk_groups:registerGroup', function(src, data)
   local ownerId = lib.player.identifier(src)
   if not ownerId then return false, 'invalid_owner' end
   data.owner = ownerId
@@ -130,9 +130,9 @@ Group.destroy = function(id)
   for _, member in pairs(group.members) do
     if member.src then
       if group.task then
-        TriggerClientEvent('clean_groups:endTask', member.src, group.task.id)
+        TriggerClientEvent('dirk_groups:endTask', member.src, group.task.id)
       end
-      -- TriggerClientEvent('clean_groups:updateGroup', member.src)
+      -- TriggerClientEvent('dirk_groups:updateGroup', member.src)
       Player(member.src).state.group = nil
     end 
   end
@@ -152,7 +152,7 @@ end)
 ---@param id string
 lib.destroyGroup = Group.destroy
 
-lib.callback.register('clean_groups:disbandGroup', function(src)
+lib.callback.register('dirk_groups:disbandGroup', function(src)
   local player = lib.player.identifier(src)
   local group = Group.getGroupById(player)
   if not group then return false, 'group_not_found' end
@@ -162,7 +162,7 @@ lib.callback.register('clean_groups:disbandGroup', function(src)
   return true
 end)
 
-lib.callback.register('clean_groups:getNearbyPlayers', function(src)
+lib.callback.register('dirk_groups:getNearbyPlayers', function(src)
   local myGroup = Group.getGroupById(src)
   local groups = lib.settings.groups
   local players = GetPlayers()

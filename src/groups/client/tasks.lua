@@ -11,7 +11,7 @@ end
 ---@class TaskProps
 ---@field id string
 ---@field action fun(args: table<string, any>): void
----@field cleanup? fun(args: table<string, any>): void
+---@field dirkup? fun(args: table<string, any>): void
 
 
 ---@function GroupTask.register || lib.registerGroupTask
@@ -38,7 +38,7 @@ function GroupTask:execute(args)
   self.action(args)
 end
 
-RegisterNetEvent('clean_groups:startTask', function(id, args)
+RegisterNetEvent('dirk_groups:startTask', function(id, args)
   local task = GroupTasks[id]
   if not task then return end
   task:execute(args)
@@ -47,13 +47,13 @@ end)
 function GroupTask:kill(args)
   local group = LocalPlayer.state.group
   if not group then return false, 'not_in_group' end
-  if not group.task then return false, 'no_task_to_cleanup' end
+  if not group.task then return false, 'no_task_to_dirkup' end
   if group.task.id ~= self.id then return false, 'invalid_task' end
-  if not self.cleanup then return false, 'no_cleanup' end
-  self.cleanup(args)
+  if not self.dirkup then return false, 'no_dirkup' end
+  self.dirkup(args)
 end
 
-RegisterNetEvent('clean_groups:endTask', function(id, args)
+RegisterNetEvent('dirk_groups:endTask', function(id, args)
   local task = GroupTasks[id]
   if not task then return end
   local killed, reason = task:kill(args)

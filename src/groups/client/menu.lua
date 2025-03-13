@@ -35,7 +35,7 @@ local registerGroupsMenu = function()
   --         if not input then return end
 
 
-  --         local groupId, reason = lib.callback.await('clean_groups:registerGroup', input)
+  --         local groupId, reason = lib.callback.await('dirk_groups:registerGroup', input)
   --         lib.notify({
   --           title = groupId and locale('GroupCreated') or locale('GroupNotCreated'),
   --           icon = groupId and 'users' or 'user-slash',
@@ -68,7 +68,7 @@ local registerGroupsMenu = function()
   --         description = 'Disband your group',
     
   --         onSelect = function()
-  --           local disbanded, reason = lib.callback.await('clean_groups:disbandGroup')
+  --           local disbanded, reason = lib.callback.await('dirk_groups:disbandGroup')
   --           lib.notify({
   --             title = disbanded and locale('GroupDisbanded') or locale('GroupNotDisbanded'),
   --             icon = disbanded and 'users' or 'user-slash',
@@ -88,7 +88,7 @@ local registerGroupsMenu = function()
   --             icon = 'users',
   --             description = 'You have left the group',
   --           })
-  --           TriggerServerEvent('clean_groups:leaveGroup')
+  --           TriggerServerEvent('dirk_groups:leaveGroup')
   --         end
   --       })
   --     end
@@ -109,8 +109,8 @@ end)
 
 TriggerEvent('chat:addSuggestion', '/groups:menu', locale('GroupMenuChatSuggestion'), {})
 
-AddEventHandler('clean_lib:cache:playerLoaded', function(loaded)
+AddEventHandler('dirk_lib:cache:playerLoaded', function(loaded)
   if not loaded then return end
   registerGroupsMenu()
-  lib.callback.await('clean_groups:playerLoaded')
+  lib.callback.await('dirk_groups:playerLoaded')
 end)

@@ -16,7 +16,7 @@ local locale = function(str, ...)
 end
 
 
-lib.callback.register('clean_groups:invitePlayers', function(src, players)
+lib.callback.register('dirk_groups:invitePlayers', function(src, players)
   local group = Group.getGroupById(src)
   if group.task then return end
   if not group then return end
@@ -50,7 +50,7 @@ function Group:invitePlayer(trg)
 
 
   -- CLEAN PAUSE MENU ONLY
-  TriggerClientEvent('clean_pause:newMessage', trg, {
+  TriggerClientEvent('dirk_pause:newMessage', trg, {
     date = os.time(),
     title = locale( 'GroupInvite'),
     message = locale( 'GroupInviteDesc'):format(self.name),
@@ -92,7 +92,7 @@ function Group:respondInvite(src, accepted)
 end
 
 
-lib.callback.register('clean_groups:inviteRespond', function(src, accepted, groupId)
+lib.callback.register('dirk_groups:inviteRespond', function(src, accepted, groupId)
   local alreadyGroup = Group.getGroupById(src)
   if alreadyGroup then return false, 'already_in_group' end
   local group = Group.get(groupId)

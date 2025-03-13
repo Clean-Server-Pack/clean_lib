@@ -34,7 +34,7 @@ export default function StoreUI(){
 
   useEffect(() => {
     if (!open) {
-      // notifications.clean();
+      // notifications.dirk();
     } 
   }, [open]);
 

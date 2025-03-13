@@ -8,9 +8,9 @@ function TebexHook:__init()
   assert(self.label, 'TebexHook requires a label')
 
   local commands = {
-    onPurchase = 'clean_purchase_%s',
-    onRemove   = 'clean_remove_%s',
-    onRenew    = 'clean_renew_%s'
+    onPurchase = 'dirk_purchase_%s',
+    onRemove   = 'dirk_remove_%s',
+    onRenew    = 'dirk_renew_%s'
   }
 
   for _type, command in pairs(commands) do

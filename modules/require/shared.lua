@@ -34,7 +34,7 @@ local function getModuleInfo(modName)
 
     resource = src:match('^@@([^/]+)/.+')
 
-    if resource and not src:find('^@@clean_lib/modules/require') then
+    if resource and not src:find('^@@dirk_lib/modules/require') then
       return resource, modName
     end
 
@@ -186,7 +186,7 @@ function lib.require(modName)
 end
 
 function lib.loadBridge(_type, resource, _context )
-  local loaded = lib.load(('@clean_lib.bridge.%s.%s.%s'):format(_type, resource, _context), nil, true) 
+  local loaded = lib.load(('@dirk_lib.bridge.%s.%s.%s'):format(_type, resource, _context), nil, true) 
   if not loaded then 
     lib.print.error(('Bridge %s for resource %s not found. Context is %s'):format(_type, resource, _context))
     return {}

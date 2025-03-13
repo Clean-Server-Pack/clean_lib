@@ -10,7 +10,7 @@ end
 function lib.getLocaleKey() return settings.language end
 
 function lib.setLocale(key)
-  TriggerEvent('clean_lib:setLocale', key)
+  TriggerEvent('dirk_lib:setLocale', key)
 end
 
 lib.locale(settings.language)

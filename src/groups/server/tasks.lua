@@ -17,7 +17,7 @@ Group.startTask = function(groupId, taskId, taskLabel, args)
   group:updateClients()
   for _, member in pairs(group.members) do
     if member.src then 
-      TriggerClientEvent('clean_groups:startTask', member.src, taskId, args)
+      TriggerClientEvent('dirk_groups:startTask', member.src, taskId, args)
     end
   end
   return true
@@ -36,7 +36,7 @@ Group.endTask = function(groupId, args)
   if not group.task then return false, 'no_task_to_end' end
   for _, member in pairs(group.members) do
     if member.src then 
-      TriggerClientEvent('clean_groups:endTask', member.src, group.task.id, args)
+      TriggerClientEvent('dirk_groups:endTask', member.src, group.task.id, args)
     end
   end
 
@@ -48,7 +48,7 @@ end
 lib.endGroupTask = Group.endTask
 
 -- SECURE EVENTS>?<
-RegisterNetEvent('clean_groups:startTask', function(groupId, task, args)
+RegisterNetEvent('dirk_groups:startTask', function(groupId, task, args)
   local src = source
   local player = lib.player.identifier(src)
   local group = Group.getGroupById(player)
@@ -57,7 +57,7 @@ RegisterNetEvent('clean_groups:startTask', function(groupId, task, args)
   return Group.startTask(groupId, task, args)
 end)
 
-RegisterNetEvent('clean_groups:endTask', function(task, args)
+RegisterNetEvent('dirk_groups:endTask', function(task, args)
   local src = source
   local player = lib.player.identifier(src)
   local group = Group.getGroupById(player)

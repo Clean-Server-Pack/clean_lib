@@ -38,7 +38,7 @@ function Group:removeMember(member)
     if v.id == member.id or (v.src and tonumber(v.src) == tonumber(member.src)) then
       table.remove(self.members, k)
       if v.src then
-        -- TriggerClientEvent('clean_groups:updateGroup', tonumber(v.src))
+        -- TriggerClientEvent('dirk_groups:updateGroup', tonumber(v.src))
         Player(v.src).state.group = nil
       end 
       self:updateClients()
@@ -97,7 +97,7 @@ function Group:loggedOn(src)
       self:updateClients()
 
       if self.task then 
-        TriggerClientEvent('clean_groups:startTask', v.src, self.task.id, self.task.args)
+        TriggerClientEvent('dirk_groups:startTask', v.src, self.task.id, self.task.args)
       end 
       return
     end
@@ -109,7 +109,7 @@ function Group:__leave(src)
   return true 
 end
 
-lib.callback.register('clean_groups:leaveGroup', function(src)
+lib.callback.register('dirk_groups:leaveGroup', function(src)
   local group = Group.getGroupById(src)
   if not group then return false, 'group_not_found' end
   return group:__leave(src)
@@ -142,7 +142,7 @@ AddEventHandler('playerDropped', function(reason)
 end)
 
 
-lib.callback.register('clean_groups:playerLoaded', function(src)
+lib.callback.register('dirk_groups:playerLoaded', function(src)
   local identifier = lib.player.identifier(src)
   local group = Group.getGroupById(identifier)
   if group then 
@@ -152,7 +152,7 @@ lib.callback.register('clean_groups:playerLoaded', function(src)
   return false
 end)
 
-lib.callback.register('clean_groups:kickPlayer', function(src, target)
+lib.callback.register('dirk_groups:kickPlayer', function(src, target)
   local group = Group.getGroupById(src)
   if not group then return false, 'group_not_found' end
   if group.owner ~= lib.player.identifier(src) then return false, 'not_owner' end

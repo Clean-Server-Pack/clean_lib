@@ -88,7 +88,7 @@ if cache.game == 'redm' then return end
 
 ---@deprecated
 ---Not recommended. Entity owners can change rapidly and sporadically.
-RegisterNetEvent('clean_lib:setVehicleProperties', function(netid, data)
+RegisterNetEvent('dirk_lib:setVehicleProperties', function(netid, data)
     local timeout = 100
     while not NetworkDoesEntityExistWithNetworkId(netid) and timeout > 0 do
         Wait(0)
@@ -99,7 +99,7 @@ RegisterNetEvent('clean_lib:setVehicleProperties', function(netid, data)
     end
 end)
 
-AddStateBagChangeHandler('clean_lib:setVehicleProperties', '', function(bagName, _, value)
+AddStateBagChangeHandler('dirk_lib:setVehicleProperties', '', function(bagName, _, value)
     if not value or not GetEntityFromStateBagName then return end
 
     while NetworkIsInTutorialSession() do Wait(0) end
@@ -119,7 +119,7 @@ AddStateBagChangeHandler('clean_lib:setVehicleProperties', '', function(bagName,
     -- weird sync/ownership/shitfuckery when setting props on server-side vehicles
     if NetworkGetEntityOwner(entity) == cache.playerId then
         lib.setVehicleProperties(entity, value)
-        Entity(entity).state:set('clean_lib:setVehicleProperties', nil, true)
+        Entity(entity).state:set('dirk_lib:setVehicleProperties', nil, true)
     end
 end)
 

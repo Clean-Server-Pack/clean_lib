@@ -79,7 +79,7 @@ function object:__init()
   end
 
   AddEventHandler('onResourceStop', function(resource)
-    if self.resource == resource or resource == 'clean_lib' then 
+    if self.resource == resource or resource == 'dirk_lib' then 
       self:despawn()
     end
   end)

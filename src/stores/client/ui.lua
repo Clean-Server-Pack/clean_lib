@@ -1,5 +1,5 @@
 lib.openStore = function(storeId)
-  local can_open, uiData = lib.callback.await('clean_stores:openStore', storeId)
+  local can_open, uiData = lib.callback.await('dirk_stores:openStore', storeId)
   if not can_open then 
     return lib.print.debug(('Store %s cannot be opened reason: %s'):format(storeId, uiData))
   end
@@ -21,12 +21,12 @@ lib.closeStore = function()
   SendNUIMessage({
     action = 'CLOSE_STORE'
   })
-  TriggerServerEvent('clean_stores:closeStore', openStoreId)
+  TriggerServerEvent('dirk_stores:closeStore', openStoreId)
   openStoreId = nil
 end
 
 RegisterNuiCallback('MAKE_TRANSACTION', function(data, cb)
-  local transaction, failMessage = lib.callback.await('clean_stores:attemptTransaction', openStoreId, data.cart, data.method)
+  local transaction, failMessage = lib.callback.await('dirk_stores:attemptTransaction', openStoreId, data.cart, data.method)
   lib.print.info(('Response from transaction: %s, %s'):format(transaction, failMessage))
   if transaction then 
     lib.closeStore();

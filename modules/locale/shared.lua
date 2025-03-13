@@ -26,7 +26,7 @@ local addNeededTranslation = function(str)
   dict[str] = str
 
   if not IsDuplicityVersion() then 
-    TriggerServerEvent('clean_lib:addNeededTranslation', cache.resource, str)
+    TriggerServerEvent('dirk_lib:addNeededTranslation', cache.resource, str)
     return 
   end
   local data = json.encode(dict, {indent = true, level = 2})
@@ -125,13 +125,13 @@ exports('getLocale', function(key)
     return dict[key]
 end)
 
-AddEventHandler('clean_lib:setLocale', function(key)
+AddEventHandler('dirk_lib:setLocale', function(key)
     lib.locale(key)
 end)
 
 
 if IsDuplicityVersion() then 
-  RegisterNetEvent('clean_lib:addNeededTranslation', function(resource, str)
+  RegisterNetEvent('dirk_lib:addNeededTranslation', function(resource, str)
     if cache.resource ~= resource then return end
     local dict = loadLocale(lib.getLocaleKey())
     dict[str] = str

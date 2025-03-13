@@ -1,1 +1,1 @@
-function lib.getLocaleKey() return GetConvar('clean_lib:language', 'en') end
+function lib.getLocaleKey() return GetConvar('dirk_lib:language', 'en') end

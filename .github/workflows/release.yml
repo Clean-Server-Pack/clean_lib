@@ -73,15 +73,15 @@ jobs:
 
       - name: Bundle files
         run: |
-          mkdir -p ./temp/clean_lib
-          mkdir -p ./temp/clean_lib/web/
-          cp ./fxmanifest.lua ./init.lua ./temp/clean_lib/
-          cp -r ./src ./temp/clean_lib
-          cp -r ./bridge ./temp/clean_lib
-          cp -r ./locales ./temp/clean_lib
-          cp -r ./modules ./temp/clean_lib
-          cp -r ./web/build ./temp/clean_lib/web/
-          cd ./temp && zip -r ../clean_lib.zip ./clean_lib
+          mkdir -p ./temp/dirk_lib
+          mkdir -p ./temp/dirk_lib/web/
+          cp ./fxmanifest.lua ./init.lua ./temp/dirk_lib/
+          cp -r ./src ./temp/dirk_lib
+          cp -r ./bridge ./temp/dirk_lib
+          cp -r ./locales ./temp/dirk_lib
+          cp -r ./modules ./temp/dirk_lib
+          cp -r ./web/build ./temp/dirk_lib/web/
+          cd ./temp && zip -r ../dirk_lib.zip ./dirk_lib
       - name: Create Release
         uses: marvinpinto/action-automatic-releases@v1.2.1
         id: auto_release
@@ -89,7 +89,7 @@ jobs:
           repo_token: ${{ secrets.GITHUB_TOKEN }} # Use the GitHub token from the repository secrets
           title: "Release ${{ env.RELEASE_VERSION }}" # Use the version extracted from the workflow
           prerelease: false
-          files: clean_lib.zip # Specify the file to attach to the release
+          files: dirk_lib.zip # Specify the file to attach to the release
           automatic_release_tag: 'latest_production' # Tag name for the release
         env:
           CI: false

@@ -43,7 +43,7 @@ export const useNuiEvent = <T = unknown>(
     };
 
     window.addEventListener("message", eventListener);
-    // Remove Event Listener on component cleanup
+    // Remove Event Listener on component dirkup
     return () => window.removeEventListener("message", eventListener);
   }, [action]);
 };

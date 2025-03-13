@@ -1,17 +1,17 @@
 -- thanks to https://github.com/overextended/ox_lib/blob/master/imports/addCommand/server.lua :eyes:
 
----@class CleanCommandParams
+---@class DirkCommandParams
 ---@field name string
 ---@field help? string
 ---@field type? 'number' | 'playerId' | 'string' | 'longString'
 ---@field optional? boolean
 
----@class CleanCommandProperties
+---@class DirkCommandProperties
 ---@field help string?
----@field params CleanCommandParams[]?
+---@field params DirkCommandParams[]?
 ---@field restricted boolean | string | string[]?
 
----@type CleanCommandProperties[]
+---@type DirkCommandProperties[]
 local registeredCommands = {}
 local shouldSendCommands = false
 
@@ -27,7 +27,7 @@ end)
 ---@param source number
 ---@param args table
 ---@param raw string
----@param params CleanCommandParams[]?
+---@param params DirkCommandParams[]?
 ---@return table?
 local function parseArguments(source, args, raw, params)
   if not params then return args end
@@ -72,7 +72,7 @@ local function parseArguments(source, args, raw, params)
 end
 
 ---@param commandName string | string[]
----@param properties CleanCommandProperties | false
+---@param properties DirkCommandProperties | false
 ---@param cb fun(source: number, args: table, raw: string)
 ---@param ... any
 function lib.addCommand(commandName, properties, cb, ...)

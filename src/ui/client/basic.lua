@@ -1,6 +1,6 @@
 lib.showHelpNotification = function(msg)
-  AddTextEntry('clean_lib_help', msg)
-  BeginTextCommandDisplayHelp('clean_lib_help')
+  AddTextEntry('dirk_lib_help', msg)
+  BeginTextCommandDisplayHelp('dirk_lib_help')
   EndTextCommandDisplayHelp(0, false, true, -1)
 end
 

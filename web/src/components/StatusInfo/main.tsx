@@ -101,14 +101,14 @@ function Status(props: Status & { display: boolean }){
           fetchNui('STATUS_TIMER_OVER', {
             id: props.id,
           })
-          // Call Lua or perform additional cleanup
+          // Call Lua or perform additional dirkup
         }
 
         return Math.max(newTime, 0); // Ensure time doesn't go negative
       });
     }, 1000);
 
-    return () => clearInterval(interval); // Cleanup on unmount
+    return () => clearInterval(interval); // Dirkup on unmount
   }, [props.time, props.id]);
 
   return (

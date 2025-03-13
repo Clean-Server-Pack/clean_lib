@@ -3,15 +3,15 @@ if not _VERSION:find('5.4') then
 end
 
 local resource_name = GetCurrentResourceName()
-local clean_lib = 'clean_lib'
-local export = exports[clean_lib]
+local dirk_lib = 'dirk_lib'
+local export = exports[dirk_lib]
 
-if lib and lib.name == 'clean_lib' then
-  error(('Cannot load clean_lib more than once.\nRemove any duplicated versions from %s fxmanifest.lua'):format(resource_name))
+if lib and lib.name == 'dirk_lib' then
+  error(('Cannot load dirk_lib more than once.\nRemove any duplicated versions from %s fxmanifest.lua'):format(resource_name))
 end
 
-if GetResourceState(clean_lib) ~= 'started' then
-  error(('clean_lib is not started. Make sure it is started before %s in your server.cfg'):format(resource_name))
+if GetResourceState(dirk_lib) ~= 'started' then
+  error(('dirk_lib is not started. Make sure it is started before %s in your server.cfg'):format(resource_name))
 end
 
 local LoadResourceFile = LoadResourceFile
@@ -21,8 +21,8 @@ local noop = function() end
 
 local load_module = function(self,module)
   local dir   = ('modules/%s'):format(module)
-  local chunk = LoadResourceFile(clean_lib, ('%s/%s.lua'):format(dir, context))
-  local shared = LoadResourceFile(clean_lib, ('%s/shared.lua'):format(dir))
+  local chunk = LoadResourceFile(dirk_lib, ('%s/%s.lua'):format(dir, context))
+  local shared = LoadResourceFile(dirk_lib, ('%s/shared.lua'):format(dir))
 
   
   if shared then 
@@ -30,7 +30,7 @@ local load_module = function(self,module)
   end
 
   if chunk then 
-    local fn, err = load(chunk, ('@@clean_lib/modules/%s/%s.lua'):format(module, context))
+    local fn, err = load(chunk, ('@@dirk_lib/modules/%s/%s.lua'):format(module, context))
 
     if not fn or err then 
       return error(('Error loading module %s: %s'):format(module, err or 'unknown error'))
@@ -67,10 +67,10 @@ end
 
 
 local lib = setmetatable({
-  name = clean_lib, 
+  name = dirk_lib, 
   context = context,
   onCache = function(key, cb)  
-    AddEventHandler(('clean_lib:cache:%s'):format(key), cb)
+    AddEventHandler(('dirk_lib:cache:%s'):format(key), cb)
     -- Pass current value to callback
     cb(cache[key])
   end,
@@ -93,7 +93,7 @@ local cache = setmetatable({
   game     = GetGameName(),
 }, {
   __index = context == 'client' and function(self, key)
-    AddEventHandler(('clean_lib:cache:%s'):format(key), function(value, old_value)
+    AddEventHandler(('dirk_lib:cache:%s'):format(key), function(value, old_value)
       self[key] = value
     end)
 
@@ -170,8 +170,8 @@ if context == 'server' then
 end 
 
 
-for i = 1, GetNumResourceMetadata(cache.resource, 'clean_lib') do
-  local name = GetResourceMetadata(cache.resource, 'clean_lib', i - 1)
+for i = 1, GetNumResourceMetadata(cache.resource, 'dirk_lib') do
+  local name = GetResourceMetadata(cache.resource, 'dirk_lib', i - 1)
   if not rawget(lib, name) then
     local module = load_module(lib, name)
     if type(module) == 'function' then pcall(module) end

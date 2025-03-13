@@ -42,10 +42,10 @@ function NotificationContainer(props: NotificationContainerProps) {
         return () => clearTimeout(removeTimer);
       }, notification.duration || 5000);
 
-      return () => clearTimeout(hideTimer); // Cleanup for hide timer
+      return () => clearTimeout(hideTimer); // Dirkup for hide timer
     });
 
-    // Cleanup timers on unmount or when notifications change
+    // Dirkup timers on unmount or when notifications change
     return () => {
       timers.forEach((clearTimer) => clearTimer());
     };

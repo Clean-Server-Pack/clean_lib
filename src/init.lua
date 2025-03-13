@@ -9,13 +9,13 @@ end
 
 
 lib = setmetatable({
-  name = 'clean_lib',
+  name = 'dirk_lib',
   context = IsDuplicityVersion() and 'server' or 'client',
 }, {
   __newindex = function(self,key,fn)
     rawset(self,key,fn)
 
-    if debug_getinfo(2, 'S').short_src:find('@clean_lib/src') then
+    if debug_getinfo(2, 'S').short_src:find('@dirk_lib/src') then
       exports(key, fn)
     end
   end,
@@ -30,7 +30,7 @@ lib = setmetatable({
     end
 
     if chunk then 
-      local fn, err = load(chunk, ('@@clean_lib/modules/%s/%s.lua'):format(key, self.context))
+      local fn, err = load(chunk, ('@@dirk_lib/modules/%s/%s.lua'):format(key, self.context))
 
       if not fn or err then 
         return error(('Error loading module %s: %s'):format(key, err or 'unknown error'))
@@ -47,12 +47,12 @@ if lib.context == 'server' then
   lib.notify = function(src, data)
     if type(src) == 'table' then 
       for _, id in ipairs(src) do 
-        TriggerClientEvent('clean_lib:notify', id, data)
+        TriggerClientEvent('dirk_lib:notify', id, data)
       end
       return 
     end
     
-    TriggerClientEvent('clean_lib:notify', src, data)
+    TriggerClientEvent('dirk_lib:notify', src, data)
   end
 end 
 
