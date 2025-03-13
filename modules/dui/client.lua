@@ -139,9 +139,7 @@ function Dui:createDui()
   self.object = CreateDui(self.url, self.res.x or 1920, self.res.y or 1080)
   self.handle = GetDuiHandle(self.object)
   if not self.txn then
-    print('creating self.txn', self.txd, tostring(self.id), self.handle)
     self.txn = CreateRuntimeTextureFromDuiHandle(self.txd, tostring(self.id), self.handle)
-    print('created self.txn', self.txn)
   end
 end
 

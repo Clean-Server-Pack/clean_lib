@@ -56,7 +56,6 @@ return {
     }
 
     local invData = exports.dirk_inventory:getInventory(invId)
-    print(json.encode(invData, {indent = true}))
     if not invData then return false end
 
     retData.items = invData.items

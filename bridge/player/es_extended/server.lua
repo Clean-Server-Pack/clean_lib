@@ -124,7 +124,6 @@ return {
     assert(ply, 'Player does not exist')
     local account_exists = ply.getAccount(acc)
     if not account_exists then return false, 'no_account' end
-    print('funds insuficeint', not force or (account_exists.money < count))
     if not force or (account_exists.money < count) then return false, 'insufficient_funds' end
     ply.removeAccountMoney(acc,count)
     return true 

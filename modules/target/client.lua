@@ -16,18 +16,11 @@ local parse_options = function(opts)
 end
 
 
-local created_zones = {}
-
 lib.target = {
   box = function(id,data)
-
     assert(data.pos, 'Missing position')
     assert(data.height, 'Missing height')
     assert(data.options, 'Missing options')
-    -- assert(data.length, 'Missing length')
-    -- assert(data.width, 'Missing width')
-    -- assert(data.distance, 'Missing distance')
-
     data.options = parse_options(data.options)
     if settings.target == 'qb-target' or settings.target == 'qtarget' then 
       exports[settings.target]:AddBoxZone(id, vector3(data.pos.x, data.pos.y, data.pos.z), (data.length or 1.0), (data.width or 1.0), {
@@ -41,18 +34,18 @@ lib.target = {
         distance = (data.distance or 1.5), -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
     elseif settings.target == 'ox_target' then 
+
       local newTarget = exports[settings.target]:addBoxZone({
+        name   = id,
         coords = vector3(data.pos.x, data.pos.y, data.pos.z),
-        size = vector3((data.length or 1.0), (data.width or 1.0), (data.height or 1.0)),
+        size   = vector3((data.length or 1.0), (data.width or 1.0), (data.height or 1.0)),
         rotation = data.pos.w,
         debug = data.debug,
         options = data.options,
       })
-      created_zones[id] = newTarget
     end
   end,
-
-
+  
   polyzone = function(id,data)
     assert(data.polygon, 'Missing polygon')
     assert(data.height, 'Missing height')
@@ -81,8 +74,6 @@ lib.target = {
         options = parse_options(data.options),
         distance = data.distance or 1.5, -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
-
-      created_zones[name] = zone
       return name
     end
   end, 
@@ -93,7 +84,7 @@ lib.target = {
     if settings.target == "qb-target" or settings.target == "q-target" then
       exports[settings.target]:RemoveZone(id)
     elseif settings.target == "ox_target" then
-      exports[settings.target]:removeZone(tonumber(created_zones[id]))
+      exports[settings.target]:removeZone(id)
     end
   end,
 
@@ -193,5 +184,6 @@ lib.target = {
     end
   end,
 }
+
 
 return lib.target
