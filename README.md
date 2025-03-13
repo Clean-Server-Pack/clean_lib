@@ -91,12 +91,3 @@ setr dirk_groups:maxLogOffTime 5
 ```
 
 
-
-
-
-
-
-
-
-setr dirk_lib:showTextPosition bottom-center
-
