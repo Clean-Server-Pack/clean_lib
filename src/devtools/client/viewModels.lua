@@ -15,7 +15,10 @@ local viewModels = function()
         local objPos = GetEntityCoords(v)
         local dist = #(pos - objPos)
         if dist < 5.0 then 
-          table.insert(nearbyObjects, v)
+          local visible = IsEntityOnScreen(v) and not IsEntityOccluded(v) 
+          if visible then 
+            table.insert(nearbyObjects, v)
+          end 
         end 
       end 
 
