@@ -74,7 +74,7 @@ end
 
 
 function zone:is_inside(data)
-  local dist = #(data.pos - self.center_pos.xyz)
+  local dist = #(data.pos - (self.center_pos?.xyz or self.pos?.xyz or vector3(0, 0, 0)))
   local current_pos = data.pos 
 
   if self.type == 'circle2D' then 
