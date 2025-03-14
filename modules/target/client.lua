@@ -34,7 +34,9 @@ lib.target = {
         distance = (data.distance or 1.5), -- This is the distance for you to be at for the target to turn blue, this is in GTA units and has to be a float value
       })
     elseif settings.target == 'ox_target' then 
-
+      for k,v in pairs(data.options) do 
+        if not v.distance then v.distance = (data.distance or 1.5); end
+      end
       local newTarget = exports[settings.target]:addBoxZone({
         name   = id,
         coords = vector3(data.pos.x, data.pos.y, data.pos.z),

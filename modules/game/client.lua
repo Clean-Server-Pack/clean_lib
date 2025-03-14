@@ -1,4 +1,4 @@
-local time = lib.loadBridge('time', settings.time, 'client')
+local time = lib.loadBridge('time', lib.settings.time, 'client')
 
 lib.game = {
   syncTime = function(state)
@@ -6,3 +6,5 @@ lib.game = {
     return time.syncTime(state)  
   end,
 }
+
+return lib.game
