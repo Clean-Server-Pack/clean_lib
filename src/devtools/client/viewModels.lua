@@ -26,7 +26,8 @@ local viewModels = function()
       for k,v in pairs(nearbyObjects) do 
         local objPos = GetEntityCoords(v)
         local ent_model = GetEntityModel(v)
-        lib.drawText3D(objPos.x, objPos.y, objPos.z, 1.0, 1.0, ('%s'):format(modelNames[ent_model] or ent_model or 'Unknown Model'))
+        local ent_health = GetEntityHealth(v)
+        lib.drawText3D(objPos.x, objPos.y, objPos.z, 1.0, 1.0, ('%s\n%s'):format(modelNames[ent_model] or ent_model or 'Unknown Model', ent_health or 'Unknown Health'), 255, 255, 255, 255)  
       end
 
       Wait(wait_time)
@@ -49,3 +50,5 @@ DevTool.register('viewModels', {
   icon = 'eye',
   action = toggleViewModels
 })  
+
+
