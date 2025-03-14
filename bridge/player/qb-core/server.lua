@@ -68,6 +68,33 @@ return {
     ply.Functions.SetJobDuty(duty)
   end,
 
+  setPlayerData = function(src, _key, data)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    ply.Functions.SetPlayerData(_key, data)
+  end,
+
+  getPlayerData = function(src, _key)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    if _key then
+      return ply.PlayerData[_key]
+    end
+    return ply.PlayerData
+  end,
+
+  setMetadata = function(src, _key, data)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    ply.Functions.SetMetaData(_key, data)
+  end,
+
+  getMetadata = function(src, _key)
+    local ply = lib.player.get(src)
+    if not ply then return end
+    return ply.Functions.GetMetaData(_key)
+  end,
+
   jail = function()
 
   end, 
